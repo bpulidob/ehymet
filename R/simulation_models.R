@@ -185,6 +185,7 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
 #'
 #' @return A plot
 #' @export
+#' @importFrom dplyr "%>%"
 #'
 #' @examples
 #' dat1 <- sim_model_ex1()
@@ -192,8 +193,17 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
 #' plt_fun(dat1, true_labels)
 plt_fun <- function(data, true_labels){
 
-  if (!(length(dim(data)) == 2))
-    stop("This function can be only used with 2-dimensional datasets.")
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("package 'ggplot2' is required for this functionality", call. = FALSE)
+  }
+
+  if (!requireNamespace("tidyr", quietly = TRUE)) {
+    stop("package 'tidyr' is required for this functionality", call. = FALSE)
+  }
+
+  if (!(length(dim(data)) == 2)) {
+    stop("This function can be only used with 2-dimensional datasets.", call. = FALSE)
+  }
 
   df <-  dplyr::as_tibble(data)
   t_interval <- seq(0, 1, length = ncol(data))
@@ -204,7 +214,7 @@ plt_fun <- function(data, true_labels){
     dplyr::mutate(variable=as.numeric(variable))
   pa <- df_long %>% ggplot2::ggplot(ggplot2::aes(x=variable, y=values,group=id, color=factor(Order)))
 
-  plt<- pa +
+  plt <- pa +
     ggplot2::geom_line(linewidth=0.1)+
     ggplot2::scale_color_brewer(palette = "Set1")+
     # scale_color_manual(values=c("#CC6600","#3399FF")) +

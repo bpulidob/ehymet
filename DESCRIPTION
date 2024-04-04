@@ -16,11 +16,6 @@ Description: Implements a method for transforming a functional dataset in one or
   analysis for functional data in one or multiple dimension.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
 URL: https://github.com/bpulidob/ehymet
 BugReports: https://github.com/bpulidob/ehymet/issues
 Imports: 
@@ -28,6 +23,11 @@ Imports:
     kernlab,
     SwarmSVM,
     dplyr,
-    MASS,
+    MASS
+Suggests: 
+    testthat (>= 3.0.0),
     ggplot2,
     tidyr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Config/testthat/edition: 3
