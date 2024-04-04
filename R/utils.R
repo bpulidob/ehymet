@@ -61,14 +61,14 @@ funspline <- function(curves, t, nbasis, norder, ...){
   return(res)
 }
 
-#' Transforn metrics results from clustering functions in cluster.R to a dataframe
+#' Transform metrics results from clustering functions in cluster.R to a dataframe
 #'
 #' @param res list containing clustering partition and metric for different
 #' combinations
 #' @param tl_null a bool to indicate weather metrics other than time ane or not
 #' available
 #'
-#' @returnDataframe
+#' @return Dataframe
 #' @noRd
 #'
 result_to_table <- function(res, tl_null){
