@@ -13,8 +13,8 @@
 #' @return A list containing clustering results and execution time.
 #' @noRd
 #'
-clustInd_hierarch_aux <- function(ind_data, vars, method ="single",
-                                  dist ="euclidean", n_cluster = 2,
+clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
+                                  dist = "euclidean", n_cluster = 2,
                                   true_labels=NULL){
 
   # Check if input is a data frame
@@ -95,26 +95,25 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.")
+    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
   if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a list.")
+    stop("Input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.")
+  if(!is.null(name_vars) && !length(vars_list) == length(name_vars)){
+    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
   }
 
   # Check if indices, methods and distances lists are provided
-  if ( !is.character(method_list) ||
+  if (!is.character(method_list) ||
       !is.character(dist_list) || length(vars_list) == 0 ||
       length(method_list) == 0 || length(dist_list) == 0) {
-    stop("Invalid 'method_list' or 'dist_list'. Both must be non-empty
-         character vectors.")
+    stop("Invalid 'method_list' or 'dist_list'. Both must be non-empty character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", 1:length(vars_list))
+  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
   names(vars_list) <- name_vars
 
   # Generate all the possible combinations of indices, methods and distances
@@ -127,7 +126,7 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
 
   result <- parallel::mclapply(1:n_comb, function(i) {
     vars <- vars_list[[parameter_combinations$vars[i]]]
-    met <- parameter_combinations$method[i]
+    met  <- parameter_combinations$method[i]
     dist <- parameter_combinations$distance[i]
 
     clustInd_hierarch_aux(ind_data, vars, met, dist, n_cluster, true_labels)
@@ -141,8 +140,11 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
 
   names(result) <- result_name
 
-  if(colapse) result <- list("list" = result,
-                             "metrics" = result_to_table(result, colapse))
+  if (colapse) {
+    result <- list("list" = result,
+                   "metrics" = result_to_table(result, colapse))
+  }
+
 
   return(result)
 }
@@ -262,30 +264,30 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
 #' clustInd_kmeans(data_ind, list(vars1, vars2))
 clustInd_kmeans <- function(ind_data, vars_list, name_vars = NULL,
-                            dist_list =  c("euclidean", "mahalanobis"),
+                            dist_list = c("euclidean", "mahalanobis"),
                             n_cluster = 2, true_labels = NULL, colapse = FALSE,
-                            num_cores=1) {
+                            num_cores = 1) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.")
+    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
   if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a list.")
+    stop("Input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.")
+  if(!is.null(name_vars) && !length(vars_list) == length(name_vars)){
+    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
   }
 
   # Check if indices, methods and distances lists are provided
-  if (length(vars_list) == 0 ||  length(dist_list) == 0) {
+  if (length(vars_list) == 0 || length(dist_list) == 0) {
     stop("Invalid 'vars_list' or 'dist_list'. Both must be non-empty
-         character vectors.")
+         character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", 1:length(vars_list))
+  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
 
   names(vars_list) <- name_vars
 
@@ -312,8 +314,10 @@ clustInd_kmeans <- function(ind_data, vars_list, name_vars = NULL,
 
   names(result) <- result_name
 
-  if(colapse) result <- list("list" = result,
-                             "metrics" = result_to_table(result, colapse))
+  if (colapse) {
+    result <- list("list" = result,
+                   "metrics" = result_to_table(result, colapse))
+  }
 
   return(result)
 }
@@ -397,30 +401,29 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' clustInd_kkmeans(data_ind, list(vars1, vars2))
 clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
                              kernel_list = c("rbfdot", "polydot"),
-                             n_cluster=2, true_labels = NULL, colapse = FALSE,
-                             num_cores=1, ...) {
+                             n_cluster = 2, true_labels = NULL, colapse = FALSE,
+                             num_cores = 1, ...) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.")
+    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
   if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a list.")
+    stop("Input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.")
+  if(!is.null(name_vars) && !(length(vars_list) == length(name_vars))){
+    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
   }
 
   # Check if indices, and kernel lists are provided
-  if (!is.character(kernel_list) || length(vars_list) == 0 ||
-       length(kernel_list) == 0) {
+  if (!is.character(kernel_list) || length(vars_list) == 0 ||length(kernel_list) == 0) {
     stop("Invalid 'kernel_list' or 'vars_list'. Both must be non-empty
-         character vectors.")
+         character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", 1:length(vars_list))
+  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
   names(vars_list) <- name_vars
 
   # Generate all the possible combinations of indices, methods and distances
@@ -446,8 +449,10 @@ clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
 
   names(result) <- result_name
 
-  if(colapse) result <- list("list" = result,
-                             "metrics" = result_to_table(result, colapse))
+  if (colapse) {
+    result <- list("list" = result,
+                   "metrics" = result_to_table(result, colapse))
+  }
 
   return(result)
 }
@@ -533,29 +538,29 @@ clustInd_svc_aux <- function(ind_data, vars, method = "kmeans", n_cluster = 2,
 clustInd_svc <- function(ind_data, vars_list, name_vars = NULL,
                          method_list = c("kmeans", "kernkmeans"),
                          n_cluster = 2, true_labels = NULL, colapse = FALSE,
-                         num_cores=1, ...) {
+                         num_cores = 1, ...) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.")
+    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a data frame.")
+  if (!is.list(vars_list)) {
+    stop("Input 'vars_list' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.")
+  if (!is.null(name_vars) & !length(vars_list) == length(name_vars)){
+    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
   }
 
   # Check if indices, methods and distances lists are provided
   if ( !is.character(method_list) ||  length(vars_list) == 0 ||
        length(method_list) == 0) {
     stop("Invalid 'method_list' or 'vars_list'. Both must be non-empty
-         character vectors.")
+         character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", 1:length(vars_list))
+  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
   names(vars_list) <- name_vars
 
   # Generate all the possible combinations of indices, methods and distances
@@ -604,12 +609,12 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.")
+    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
   # Check if variables exist in the data frame
   if (!all(vars %in% names(ind_data))) {
-    stop("Invalid variable names.")
+    stop("Invalid variable names.", call. = FALSE)
   }
 
   t0 <- Sys.time()
@@ -664,26 +669,26 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 clustInd_spc <- function(ind_data, vars_list, name_vars = NULL,
                          kernel_list = c("rbfdot", "polydot"),
                          n_cluster = 2, true_labels = NULL, colapse = FALSE,
-                         num_cores=1, ...) {
+                         num_cores = 1, ...) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.")
+    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
   if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a data frame.")
+    stop("Input 'vars_list' must be a data frame.", call. = FALSE)
   }
 
   if(!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.")
+    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
   }
 
   # Check if indices, methods and distances lists are provided
   if (!is.character(kernel_list) || length(vars_list) == 0 ||
       length(kernel_list) == 0) {
     stop("Invalid 'kernel_list' or 'vars_list'. Both must be non-empty
-         character vectors.")
+         character vectors.", call. = FALSE)
   }
 
   if(is.null(name_vars)) name_vars <- paste0("vars", 1:length(vars_list))
