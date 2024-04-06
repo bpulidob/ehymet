@@ -15,15 +15,15 @@
 #' elements in \code{vars_list}.
 #' @param nbasis Number of basis for the B-splines
 #' @param norder Order of the B-splines
-#' @param indices Names ofthe indices that need to be generated. They should be
-#' one or more between EI, HI, MEI, MHI. Depending on the dimension on the data
+#' @param indices Names of the indices that need to be generated. They should be
+#' one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
 #' they are calculated for one or multiple dimension
-#' @param l_method_hierarch List of clustering methods for hierarchical
+#' @param l_method_hierarch \code{list} of clustering methods for hierarchical
 #' clustering
-#' @param l_dist_hierarch List of distances for hierarchical clustering
-#' @param l_dist_kmeans List of distances for kmeans clustering
-#' @param l_kernel List of kernels
-#' @param l_method_svc List of clustering methods for support vector clustering
+#' @param l_dist_hierarch \code{list} of distances for hierarchical clustering
+#' @param l_dist_kmeans \code{list} of distances for kmeans clustering
+#' @param l_kernel \code{list} of kernels
+#' @param l_method_svc \code{list} of clustering methods for support vector clustering
 #' @param n_clusters Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
@@ -46,14 +46,19 @@
 #' EHyClus(data, t, varsl)
 EHyClus <- function(curves, t, vars_list, name_vars = NULL, nbasis = 30,
                     norder = 4, indices = c("EI", "HI", "MEI", "MHI"),
-                    l_method_hierarch = c("single","complete","average",
-                                          "centroid","ward.D2"),
+                    l_method_hierarch = c("single", "complete", "average",
+                                          "centroid", "ward.D2"),
                     l_dist_hierarch = c("euclidean", "manhattan"),
                     l_dist_kmeans =  c("euclidean", "mahalanobis"),
                     l_kernel = c("rbfdot", "polydot"),
                     l_method_svc = c("kmeans", "kernkmeans"),
                     n_clusters = 2, true_labels = NULL, colapse = FALSE,
                     num_cores = 1, ...){
+
+  # vars_list TIENE QUE SER LIST !!!!!
+  if (!is.list(vars_list)) {
+    stop("input 'vars_list' must be a list.", call. = FALSE)
+  }
 
   # Constants definition
   INDICES         <- c("EI", "HI", "MEI", "MHI")
@@ -63,23 +68,12 @@ EHyClus <- function(curves, t, vars_list, name_vars = NULL, nbasis = 30,
   KERNEL          <- c("rbfdot", "polydot")
   METHOD_SVC      <- c("kmeans", "kernkmeans")
 
-  if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a list.", call. = FALSE)
-  }
-
-  check_ehyclus_parameter(indices, INDICES, "indices")
-  check_ehyclus_parameter(l_method_hierarch, METHOD_HIERARCH, "l_method_hierarch")
-  check_ehyclus_parameter(l_dist_hierarch, DIST_HIERARCH, "l_dist_hierarch")
-  check_ehyclus_parameter(l_dist_kmeans, DIST_KMEANS, "l_dist_kmeans")
-  check_ehyclus_parameter(l_kernel, KERNEL, "l_kernel")
-  check_ehyclus_parameter(l_method_svc, METHOD_SVC, "l_method_svc")
-
-  # Check indices names
-  if(!all(indices %in% c("EI", "HI", "MEI", "MHI"))){
-    stop("Indices should be one or more of the following: EI, HI, MEI, MHI")
-  }
-
-  # vars_list TIENE QUE SER LIST !!!!!
+  check_list_parameter(indices, INDICES, "indices")
+  check_list_parameter(l_method_hierarch, METHOD_HIERARCH, "l_method_hierarch")
+  check_list_parameter(l_dist_hierarch, DIST_HIERARCH, "l_dist_hierarch")
+  check_list_parameter(l_dist_kmeans, DIST_KMEANS, "l_dist_kmeans")
+  check_list_parameter(l_kernel, KERNEL, "l_kernel")
+  check_list_parameter(l_method_svc, METHOD_SVC, "l_method_svc")
 
   # Generate the dataset with the indexes
   ind_curves <- ind(curves, t, nbasis, norder, indices)
@@ -122,29 +116,9 @@ EHyClus <- function(curves, t, vars_list, name_vars = NULL, nbasis = 30,
     metrics <- rbind(cl_hierarch$metrics, cl_kmeans$metrics, cl_kkmeans$metrics,
                      cl_svc$metrics, cl_spc$metrics)
     result <- list("cluster" = cluster, "metrics" = metrics)
-
   } else {
     result <- list("cluster" = cluster)
   }
 
-
   return(result)
-}
-
-
-#' @noRd
-check_ehyclus_parameter <- function(argument, parameter_values, parameter_name) {
-  if (length(argument) == 0) {
-    stop("Parameter '", parameter_name, "' should have at least one element.", call. = FALSE)
-  }
-
-  if (any(duplicated(argument))) {
-    stop("Duplicated argument in '", parameter_name,"'.", call. = FALSE)
-  }
-
-  indices <- pmatch(argument, parameter_values)
-  if (any(is.na(indices))) {
-    stop("Invalid argument in '", parameter_name, "': ", paste(argument[is.na(indices)], collapse = ", "), ".",
-         call. = FALSE)
-  }
 }
