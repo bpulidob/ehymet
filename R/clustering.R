@@ -95,11 +95,11 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
-    stop("Input 'ind_data' must be a data frame.", call. = FALSE)
+    stop("input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
   if(!is.list(vars_list)) {
-    stop("Input 'vars_list' must be a list.", call. = FALSE)
+    stop("input 'vars_list' must be a list.", call. = FALSE)
   }
 
   if(!is.null(name_vars) && !length(vars_list) == length(name_vars)){
@@ -110,7 +110,7 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
   if (!is.character(method_list) ||
       !is.character(dist_list) || length(vars_list) == 0 ||
       length(method_list) == 0 || length(dist_list) == 0) {
-    stop("Invalid 'method_list' or 'dist_list'. Both must be non-empty character vectors.", call. = FALSE)
+    stop("invalid 'method_list' or 'dist_list'. Both must be non-empty character vectors.", call. = FALSE)
   }
 
   if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
@@ -418,7 +418,7 @@ clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
   }
 
   # Check if indices, and kernel lists are provided
-  if (!is.character(kernel_list) || length(vars_list) == 0 ||length(kernel_list) == 0) {
+  if (!is.character(kernel_list) || length(vars_list) == 0 || length(kernel_list) == 0) {
     stop("Invalid 'kernel_list' or 'vars_list'. Both must be non-empty
          character vectors.", call. = FALSE)
   }
