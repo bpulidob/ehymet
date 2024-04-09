@@ -31,10 +31,10 @@ test_that("the 'n_clusters' parameter is working as expected", {
   t <- data$t
   vars_list <- data$vars_list
 
-  res <- EHyClus(curves, t, vars_list, n_clusters = 4)
+  res <- EHyClus(curves, t, vars_list, n_clusters = 3)
   expect_equal(
-    max(res$cluster$hierarch_single_euclidean_dtaEIdtaMEI$cluster),
-    4
+    max(res$cluster[[1]]$cluster),
+    3
   )
 })
 

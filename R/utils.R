@@ -110,3 +110,14 @@ check_list_parameter <- function(argument, parameter_values, parameter_name) {
          call. = FALSE)
   }
 }
+
+#' Generate the name for the results of the clustering methods
+#' @noRd
+get_result_names <- function(method_name, parameter_combinations, vars_list) {
+  paste(method_name, parameter_combinations[[2]],
+        rep(sapply(vars_list, function(x) paste0(x, collapse = "")),
+            times = nrow(parameter_combinations) / length(vars_list)
+            ),
+        sep = "_"
+  )
+}
