@@ -140,6 +140,8 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
   #
   # names(result) <- result_name
 
+  result_name <- get_result_name("hierarch", parameter_combinations, vars_list)
+
   if (colapse) {
     result <- list("list" = result,
                    "metrics" = result_to_table(result, colapse))
@@ -314,6 +316,8 @@ clustInd_kmeans <- function(ind_data, vars_list, name_vars = NULL,
   #
   # names(result) <- result_name
 
+  result_name <- get_result_name("kmeans", parameter_combinations, vars_list)
+
   if (colapse) {
     result <- list("list" = result,
                    "metrics" = result_to_table(result, colapse))
@@ -448,6 +452,8 @@ clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
   # })
   #
   # names(result) <- result_name
+
+  result_name <- get_result_name("kkmeans", parameter_combinations, vars_list)
 
   if (colapse) {
     result <- list("list" = result,
@@ -586,6 +592,8 @@ clustInd_svc <- function(ind_data, vars_list, name_vars = NULL,
   #
   # names(result) <- result_name
 
+  result_name <- get_result_name("svc", parameter_combinations, vars_list)
+
   if(colapse) result <- list("list" = result,
                              "metrics" = result_to_table(result, colapse))
 
@@ -716,6 +724,8 @@ clustInd_spc <- function(ind_data, vars_list, name_vars = NULL,
   # })
   #
   # names(result) <- result_name
+
+  result_name <- get_result_name("spc", parameter_combinations, vars_list)
 
   if(colapse) result <- list("list" = result,
                              "metrics" = result_to_table(result, colapse))
