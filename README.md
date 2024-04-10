@@ -27,10 +27,10 @@ or multiple dimension.
 
 ## Installation
 
-You can install the development version of ehymet from
-[GitHub](https://github.com/) with:
+You can install the development version of **ehymet** using the
+[remotes](https://cran.r-project.org/web/packages/remotes/index.html) package:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("bpulidob/ehymet")
+```r
+# install.packages("remotes")
+remotes::install_github("bpulidob/ehymet")
 ```
