@@ -76,12 +76,15 @@ EI.default <- function(curves, ...) {
 #' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), ncol = 3, nrow = 4)
 #' HI(x)
 #'
+#' y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
+#' dim = c(3,4,2))
+#' HI(y)
 HI <- function(curves, ...) {
   UseMethod("HI")
 }
 
 #' @export
-HI.matrix <- function(curves){
+HI.matrix <- function(curves, ...) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
 
@@ -90,6 +93,29 @@ HI.matrix <- function(curves){
       sum(x<=y)==l_curves)))/n_curves
 
   return(index)
+}
+
+#' @export
+HI.array <- function(curves, ...) {
+  if (length(dim(curves)) != 3) {
+    stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
+  }
+
+  n_curves <- dim(curves)[1]
+  l_curves <- dim(curves)[2]
+  d_curves <- dim(curves)[3]
+
+  index <- colSums(Reduce('*',lapply(1:d_curves, function(k)
+    sapply(1:n_curves, function(j)
+      colSums(sapply(1:n_curves, function(i)
+        curves[i,,k] <= curves[j,,k]))==l_curves))))
+
+  return(index/n_curves)
+}
+
+#' @export
+HI.default <- function(curves, ...) {
+  stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
 }
 
 #' Modified Epigraph Index (MEI) for a univariate functional dataset.
