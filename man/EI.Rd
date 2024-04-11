@@ -4,12 +4,14 @@
 \alias{EI}
 \title{Epigraph Index (EI) for a univariate functional dataset.}
 \usage{
-EI(curves)
+EI(curves, ...)
 }
 \arguments{
 \item{curves}{A \code{matrix} where each row represents a curve, and each column
 represents values along the curve or an \code{array} with dimension \eqn{n \times p \times k} with
 \eqn{n} curves, \eqn{p} values along the curve, and \eqn{k} dimensions.}
+
+\item{...}{Ignored.}
 }
 \value{
 Return a numeric vector containing the EI for each curve.

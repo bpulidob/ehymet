@@ -7,6 +7,8 @@
 #' represents values along the curve or an \code{array} with dimension \eqn{n \times p \times k} with
 #' \eqn{n} curves, \eqn{p} values along the curve, and \eqn{k} dimensions.
 #'
+#' @param ... Ignored.
+#'
 #' @return Return a numeric vector containing the EI for each curve.
 #'
 #' @examples
@@ -18,12 +20,12 @@
 #' EI(y)
 #'
 #' @export
-EI <- function(curves) {
+EI <- function(curves, ...) {
   UseMethod("EI")
 }
 
 #' @export
-EI.matrix <- function(curves){
+EI.matrix <- function(curves, ...) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
 
@@ -35,8 +37,8 @@ EI.matrix <- function(curves){
 }
 
 #' @export
-EI.default <- function(curves) {
-  if (length(dim(curves)) != 3 || is.null(dim(curves))) {
+EI.array <- function(curves, ...) {
+  if (length(dim(curves)) != 3) {
     stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
   }
 
@@ -52,6 +54,11 @@ EI.default <- function(curves) {
   return(1 - index/n_curves)
 }
 
+#' @export
+EI.default <- function(curves, ...) {
+  stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
+}
+
 #' Hypograph Index (HI) for a univariate functional dataset.
 #'
 #' The Hypograph Index of a curve x is the proportion of curves in the sample
@@ -60,19 +67,29 @@ EI.default <- function(curves) {
 #' @param curves A matrix where each row represents a curve, and each column
 #' represents values along the curve.
 #'
+#' @param ... Ignored.
+#'
 #' @return Return a numeric vector containing the HI for each curve
 #' @export
 #'
 #' @examples
 #' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), ncol = 3, nrow = 4)
 #' HI(x)
-HI <- function(curves){
+#'
+HI <- function(curves, ...) {
+  UseMethod("HI")
+}
+
+#' @export
+HI.matrix <- function(curves){
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
+
   index <- apply(curves,1, function(y)
     sum(apply(curves,1,function(x)
       sum(x<=y)==l_curves)))/n_curves
-  return (index)
+
+  return(index)
 }
 
 #' Modified Epigraph Index (MEI) for a univariate functional dataset.
@@ -89,7 +106,7 @@ HI <- function(curves){
 #' @examples
 #' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7),ncol = 3, nrow = 4)
 #' MEI(x)
-MEI <- function(curves){
+MEI <- function(curves) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
   rankm <- apply(curves, 2, function(y) (rank(y, ties.method = "min")))
