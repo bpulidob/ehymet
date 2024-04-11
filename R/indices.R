@@ -224,17 +224,16 @@ mulMHI <- function(curves) {
 ind <- function(curves, t, nbasis=25, norder=4,
                      indices = c("EI", "HI", "MEI", "MHI"), ...){
 
-  # Check the curves dimension
+  # define indices constant
+  INDICES <- c("EI", "HI", "MEI", "MHI")
   curves_dim <- length(dim(curves))
 
-  # Check indices names
-  if(!all(indices %in% c("EI", "HI", "MEI", "MHI"))){
-    stop("Indices should be one or more of the following: EI, HI, MEI, MHI")
+  # stop conditions
+  if (!(curves_dim %in% c(2, 3)) || is.null(curves_dim)) {
+    stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
   }
 
-  if(curves_dim == 2) indices2 <- indices
-  else if(curves_dim == 3) indices2 <- paste0("mul", indices)
-  else  stop("Invalid number of dimensions")
+  check_list_parameter(indices, INDICES, "indices")
 
   # Smoothed data and derivatives
   fun_data <- funspline(curves = curves, t = t, nbasis = nbasis,
@@ -245,14 +244,14 @@ ind <- function(curves, t, nbasis=25, norder=4,
 
   # Loop through the list of functions and apply them to the smoothed and
   # its first and second derivatives
-  for (i in 1:length(indices)) {
-    smooth_col <- paste0("dta", indices[i])
-    deriv_col <- paste0("ddta", indices[i])
-    deriv2_col <- paste0("d2dta", indices[i])
+  for (index in indices) {
+    smooth_col <- paste0("dta", index)
+    deriv_col  <- paste0("ddta", index)
+    deriv2_col <- paste0("d2dta", index)
 
-    smooth_result <- get(indices2[i])(fun_data$smooth)
-    deriv_result <- get(indices2[i])(fun_data$deriv)
-    deriv2_result <- get(indices2[i])(fun_data$deriv2)
+    smooth_result <- get(index)(fun_data$smooth)
+    deriv_result  <- get(index)(fun_data$deriv)
+    deriv2_result <- get(index)(fun_data$deriv2)
 
     ind_data <- cbind(ind_data,
                       stats::setNames(data.frame(smooth_result, deriv_result,
@@ -260,7 +259,7 @@ ind <- function(curves, t, nbasis=25, norder=4,
                                c(smooth_col, deriv_col, deriv2_col)))
   }
 
-  return(ind_data)
+  ind_data
 }
 
 
