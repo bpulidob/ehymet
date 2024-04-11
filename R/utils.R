@@ -113,11 +113,17 @@ check_list_parameter <- function(argument, parameter_values, parameter_name) {
 
 #' Generate the name for the results of the clustering methods
 #' @noRd
+#' Generate the name for the results of the clustering methods
+#' @noRd
 get_result_names <- function(method_name, parameter_combinations, vars_list) {
-  paste(method_name, parameter_combinations[[2]],
-        rep(sapply(vars_list, function(x) paste0(x, collapse = "")),
-            times = nrow(parameter_combinations) / length(vars_list)
-            ),
-        sep = "_"
-  )
+  args <- list(method_name)
+  for (combination in parameter_combinations[-1]) {
+    args <- append(args, list(combination))
+  }
+
+  args <- append(args, list(rep(sapply(vars_list, function(x) paste0(x, collapse = "")),
+                                times = nrow(parameter_combinations) / length(vars_list))
+  ))
+  args[["sep"]] <- "_"
+  do.call(paste, args)
 }
