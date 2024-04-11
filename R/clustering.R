@@ -132,15 +132,8 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
     clustInd_hierarch_aux(ind_data, vars, met, dist, n_cluster, true_labels)
 }, mc.cores = num_cores)
 
-  # result_name <- apply(parameter_combinations, 1, function(row) {
-  #   paste("hierarch", row["method"], row["distance"],
-  #         paste(get(as.character(row["vars"])), collapse = ""),
-  #         sep = "_")
-  # })
-  #
-  # names(result) <- result_name
-
-  result_name <- get_result_name("hierarch", parameter_combinations, vars_list)
+  result_name <- get_result_names("hierarch", parameter_combinations, vars_list)
+  names(result) <- result_name
 
   if (colapse) {
     result <- list("list" = result,
@@ -309,14 +302,8 @@ clustInd_kmeans <- function(ind_data, vars_list, name_vars = NULL,
                            n_cluster = n_cluster, true_labels = true_labels)
   }, mc.cores = num_cores)
 
-  # result_name <- apply(parameter_combinations, 1, function(row) {
-  #   paste("kmeans", row["distance"], paste(get(as.character(row["vars"])),
-  #                                          collapse = ""), sep = "_")
-  # })
-  #
-  # names(result) <- result_name
-
-  result_name <- get_result_name("kmeans", parameter_combinations, vars_list)
+  result_name <- get_result_names("kmeans", parameter_combinations, vars_list)
+  names(result) <- result_name
 
   if (colapse) {
     result <- list("list" = result,
@@ -445,15 +432,8 @@ clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
     clustInd_kkmeans_aux(ind_data, vars, kern, n_cluster, true_labels)
   }, mc.cores = num_cores)
 
-  # result_name <- apply(parameter_combinations, 1, function(row) {
-  #   paste("kkmeans", row["kernel"],
-  #         paste(get(as.character(row["vars"])), collapse = ""),
-  #         sep = "_")
-  # })
-  #
-  # names(result) <- result_name
-
-  result_name <- get_result_name("kkmeans", parameter_combinations, vars_list)
+  result_name <- get_result_names("kkmeans", parameter_combinations, vars_list)
+  names(result) <- result_name
 
   if (colapse) {
     result <- list("list" = result,
@@ -584,15 +564,8 @@ clustInd_svc <- function(ind_data, vars_list, name_vars = NULL,
     clustInd_svc_aux(ind_data, vars, met, n_cluster, true_labels)
   }, mc.cores = num_cores)
 
-  # result_name <- apply(parameter_combinations, 1, function(row) {
-  #   paste("svc", row["method"],
-  #         paste(get(as.character(row["vars"])), collapse = ""),
-  #         sep = "_")
-  # })
-  #
-  # names(result) <- result_name
-
-  result_name <- get_result_name("svc", parameter_combinations, vars_list)
+  result_name <- get_result_names("svc", parameter_combinations, vars_list)
+  names(result) <- result_name
 
   if(colapse) result <- list("list" = result,
                              "metrics" = result_to_table(result, colapse))
@@ -717,15 +690,8 @@ clustInd_spc <- function(ind_data, vars_list, name_vars = NULL,
     clustInd_spc_aux(ind_data, vars, kern, n_cluster, true_labels)
   }, mc.cores = num_cores)
 
-  # result_name <- apply(parameter_combinations, 1, function(row) {
-  #   paste("spc", row["kernel"],
-  #         paste(get(as.character(row["vars"])), collapse = ""),
-  #         sep = "_")
-  # })
-  #
-  # names(result) <- result_name
-
-  result_name <- get_result_name("spc", parameter_combinations, vars_list)
+  result_name <- get_result_names("spc", parameter_combinations, vars_list)
+  names(result) <- result_name
 
   if(colapse) result <- list("list" = result,
                              "metrics" = result_to_table(result, colapse))
