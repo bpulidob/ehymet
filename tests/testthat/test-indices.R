@@ -28,19 +28,23 @@ test_that("'HI' does not work for a string", {
   expect_error(HI("I will throw an error"))
 })
 
-test_that("MEI works", {
+test_that("'MEI' works for a matrix", {
   curves <- array(c(1,0,1,0,0,1,0,1), dim=c(2,4))
   expect_equal(MEI(curves), 1-c(0.75,0.75))
+})
+
+test_that("'MEI' works for a 3-dimensional array", {
+  curves <- array(c(1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1), dim=c(2,4,2))
+  expect_equal(MEI(curves), 1-c(0.75,0.75))
+})
+
+test_that("'MEI' does not work for a complex number", {
+  expect_error(MEI(1 + 2i))
 })
 
 test_that("MHI works", {
   curves <- array(c(1,0,1,0,0,1,0,1), dim=c(2,4))
   expect_equal(MHI(curves), c(0.75,0.75))
-})
-
-test_that("mulMEI works", {
-  curves <- array(c(1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1), dim=c(2,4,2))
-  expect_equal(mulMEI(curves), 1-c(0.75,0.75))
 })
 
 test_that("mulMHI works", {

@@ -4,14 +4,18 @@
 \alias{MEI}
 \title{Modified Epigraph Index (MEI) for a univariate functional dataset.}
 \usage{
-MEI(curves)
+MEI(curves, ...)
 }
 \arguments{
-\item{curves}{A matrix where each row represents a curve, and each column
-represents values along the curve.}
+\item{curves}{a \code{matrix} where each row represents a curve, and each column
+represents values along the curve or an \code{array} with dimension
+\eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
+\eqn{k} dimensions.}
+
+\item{...}{Ignored.}
 }
 \value{
-Return a numeric vector containing the MEI for each curve
+\code{numeric vector} containing the MEI for each curve.
 }
 \description{
 The Modified Epigraph Index of a curve x is one minus the proportion of
@@ -20,4 +24,8 @@ The Modified Epigraph Index of a curve x is one minus the proportion of
 \examples{
 x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7),ncol = 3, nrow = 4)
 MEI(x)
+y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
+dim = c(3,4,2))
+MEI(y)
+
 }
