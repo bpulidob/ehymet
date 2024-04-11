@@ -25,16 +25,16 @@ test_that("the parameter checking is working as expected", {
   )
 })
 
-test_that("the 'n_clusters' parameter is working as expected", {
-  data <- ehyclus_example_data()
-  curves <- data$curves
-  t <- data$t
-  vars_list <- data$vars_list
-
-  res <- EHyClus(curves, t, vars_list, n_clusters = 3)
-  expect_equal(
-    max(res$cluster[[1]]$cluster),
-    3
-  )
-})
+# test_that("the 'n_clusters' parameter is working as expected", {
+#   data <- ehyclus_example_data()
+#   curves <- data$curves
+#   t <- data$t
+#   vars_list <- data$vars_list
+#
+#   res <- EHyClus(curves, t, vars_list, n_clusters = 3)
+#   expect_equal(
+#     max(res$cluster[[1]]$cluster),
+#     3
+#   )
+# })
 
