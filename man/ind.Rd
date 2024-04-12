@@ -15,8 +15,8 @@ ind(
 )
 }
 \arguments{
-\item{curves}{A matrix with dimension \eqn{n \times p} in the case of a
-one-dimensional functional dataset, or a matrix of dimension
+\item{curves}{\code{matrix} with dimension \eqn{n \times p} in the case of a
+one-dimensional functional dataset, or \code{array} of dimension
 \eqn{n \times p \times k} in the case of a multivariate functional dataset.
 \eqn{n} represents the number of curves, \eqn{p} the number of values along
 the curve, and in the second case, \eqn{k} is the number of dimensions.}

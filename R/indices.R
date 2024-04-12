@@ -127,7 +127,7 @@ HI.default <- function(curves, ...) {
 #' The Modified Epigraph Index of a curve x is one minus the proportion of
 #' "time" the curves in the sample are above x
 #'
-#' @param curves a \code{matrix} where each row represents a curve, and each column
+#' @param curves \code{matrix} where each row represents a curve, and each column
 #' represents values along the curve or an \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
@@ -173,7 +173,7 @@ MEI.array <- function(curves, ...) {
       sapply(1:n_curves, function(i)
         curves[i,,k] >= curves[j,,k])))))
 
-  return (1 - index / (n_curves*l_curves))
+  return (1 - index / (n_curves * l_curves))
 }
 
 #' @export
@@ -186,36 +186,42 @@ MEI.default <- function(curves, ...) {
 #' The Modified Hypograph Index of a curve x is the proportion of "time"
 #' the curves in the sample are below x.
 #'
-#' @param curves A matrix where each row represents a curve, and each column
-#' represents values along the curve.
+#' @param curves \code{matrix} where each row represents a curve, and each column
+#' represents values along the curve or an \code{array} with dimension
+#' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
+#' \eqn{k} dimensions.
 #'
-#' @return Return a numeric vector containing the MHI for each curve
-#' @export
+#' @param ... Ignored.
+#'
+#' @return \code{numeric vector} containing the MHI for each curve.
 #'
 #' @examples
 #' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), ncol = 3, nrow = 4)
 #' MHI(x)
-MHI <- function(curves){
+#' y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
+#' dim = c(3,4,2))
+#' MHI(y)
+#'
+#' @export
+MHI <- function(curves, ...) {
+  UseMethod("MHI")
+}
+
+#' @export
+MHI.matrix <- function(curves, ...) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
   rankm <- apply(curves, 2, function(y) (rank(y, ties.method = "max")))
-  index <- rowSums(rankm)/(n_curves*l_curves)
+  index <- rowSums(rankm) / (n_curves * l_curves)
   return(index)
 }
 
-#' Modified hypograph Index (MHI) for a multivariate functional dataset.
-#'
-#' @param curves An array with dimension \eqn{n \times p \times k} with
-#' \eqn{n} curves, \eqn{p} values along the curve, and \eqn{k} dimensions.
-#'
-#' @return A numeric vector containing the MHI for each multivariate curve
 #' @export
-#'
-#' @examples
-#' x <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-#' dim = c(3,4,2))
-#' mulMHI(x)
-mulMHI <- function(curves) {
+MHI.array <- function(curves, ...) {
+  if (length(dim(curves)) != 3) {
+    stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
+  }
+
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
   d_curves <- dim(curves)[3]
@@ -225,14 +231,19 @@ mulMHI <- function(curves) {
       sapply(1:n_curves, function(i)
         curves[i,,k] <= curves[j,,k])))))
 
-  return (index/(n_curves*l_curves))
+  return (index / (n_curves * l_curves))
+}
+
+#' @export
+MHI.default <- function(curves, ...) {
+  stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
 }
 
 #' Create a dataset with indexes from a functional dataset in one or multiple
 #' dimensions
 #'
-#' @param curves A matrix with dimension \eqn{n \times p} in the case of a
-#' one-dimensional functional dataset, or a matrix of dimension
+#' @param curves \code{matrix} with dimension \eqn{n \times p} in the case of a
+#' one-dimensional functional dataset, or \code{array} of dimension
 #' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
 #' \eqn{n} represents the number of curves, \eqn{p} the number of values along
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
@@ -294,6 +305,4 @@ ind <- function(curves, t, nbasis=25, norder=4,
 
   ind_data
 }
-
-
 
