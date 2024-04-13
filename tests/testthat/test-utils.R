@@ -33,3 +33,25 @@ test_that("'funspline' works for multiple curves, multidimensional data", {
   expect_equal(dim(result$deriv),  c(2, length(t), 3))
   expect_equal(dim(result$deriv2), c(2, length(t), 3))
 })
+
+test_that("'funspline' works with non-uniform time sequence", {
+  # should it be working?
+  t <- c(seq(0, 0.5, length.out = 50), seq(0.6, 1, length.out = 50))
+  curves <- matrix(sin(2*pi*t), nrow = 1)
+  nbasis <- 10
+  norder <- 4
+  result <- funspline(curves, t, nbasis, norder)
+
+  expect_equal(dim(result$smooth), c(1, length(t)))
+  expect_equal(dim(result$deriv),  c(1, length(t)))
+  expect_equal(dim(result$deriv2), c(1, length(t)))
+})
+
+test_that("'funspline' throws an error with invalid input", {
+  t <- seq(0, 1, length.out = 100)
+  curves <- "invalid"
+  nbasis <- 10
+  norder <- 4
+
+  expect_error(funspline(curves, t, nbasis, norder))
+})
