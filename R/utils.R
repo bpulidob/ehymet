@@ -1,15 +1,16 @@
 #' Smooth data and calculate first and second derivatives
 #'
-#' @param curves A matrix where each row represents a curve, and each column
-#' represents values along the curve.
+#' @param curves \code{matrix} where each row represents a curve, and each column
+#' represents values along the curve or \code{array} with dimension
+#' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
+#' \eqn{k} dimensions.
 #' @param t Grid
 #' @param nbasis Number of basis for the B-splines
 #' @param norder Order of the B-splines
-#' @param ... Additional arguments (unused)
+#' @param ... Ignored.
 #'
 #' @return A list containing smoothed data, first and second derivatives
 #' @noRd
-#'
 funspline <- function(curves, t, nbasis, norder, ...){
   #Create B-spline basis
   basisobj <- fda::create.bspline.basis(rangeval = c(min(t), max(t)),
