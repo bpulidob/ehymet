@@ -9,12 +9,13 @@ clustering and spectral clustering}
 \usage{
 EHyClus(
   curves,
-  t,
   vars_list,
   nbasis = 30,
   norder = 4,
   clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
   indices = c("EI", "HI", "MEI", "MHI"),
+  grid_ll = 0,
+  grid_ul = 1,
   l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
   l_dist_hierarch = c("euclidean", "manhattan"),
   l_dist_kmeans = c("euclidean", "mahalanobis"),
@@ -33,8 +34,6 @@ The functional dataset can be one dimensional (\eqn{n \times p}) where n is the 
 curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
 represents the number of dimensions in the data}
 
-\item{t}{Grid}
-
 \item{vars_list}{\code{list} containing one or more combinations of indexes in
 \code{ind_data}. If it is non-named, the names of the variables are set to
 vars1, ..., varsk, where k is the number of elements in \code{vars_list}.}
@@ -49,6 +48,10 @@ clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc"
 \item{indices}{Names of the indices that need to be generated. They should be
 one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
 they are calculated for one or multiple dimension}
+
+\item{grid_ll}{lower limit of the grid.}
+
+\item{grid_ul}{upper limit of the grid.}
 
 \item{l_method_hierarch}{\code{list} of clustering methods for hierarchical
 clustering}
@@ -73,7 +76,7 @@ F-measure, RI and Time, and if it is False, only Time.}
 \item{num_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution.}
 
-\item{...}{Additional arguments (unused)}
+\item{...}{Additional arguments (unused).}
 }
 \value{
 A list containing the clustering partition for each method and indexes
@@ -90,6 +93,6 @@ clustering and spectral clustering
 vars1 <- c("dtaEI", "dtaMEI"); vars2 <- c("dtaHI", "dtaMHI")
 varsl <- list(vars1, vars2)
 data <- ehymet::sim_model_ex1()
-t <- seq(0, 1, length = 30)
-EHyClus(data, t, varsl)
+EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
+
 }

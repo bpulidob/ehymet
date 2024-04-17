@@ -7,7 +7,8 @@ dimensions}
 \usage{
 ind(
   curves,
-  t,
+  grid_ll = 0,
+  grid_ul = 1,
   nbasis = 25,
   norder = 4,
   indices = c("EI", "HI", "MEI", "MHI"),
@@ -21,7 +22,9 @@ one-dimensional functional dataset, or \code{array} of dimension
 \eqn{n} represents the number of curves, \eqn{p} the number of values along
 the curve, and in the second case, \eqn{k} is the number of dimensions.}
 
-\item{t}{Grid}
+\item{grid_ll}{lower limit of the grid.}
+
+\item{grid_ul}{upper limit of the grid.}
 
 \item{nbasis}{Number of basis for the B-splines}
 
@@ -43,8 +46,8 @@ dimensions
 \examples{
 x1 <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
 dim = c(3,4,2))
-ind(x1, t = seq(0,1,length=4), nbasis = 4)
+ind(x1, nbasis = 4)
 
 x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
-ind(x2, t = seq(0,1,length=4), nbasis = 4)
+ind(x2, nbasis = 4)
 }

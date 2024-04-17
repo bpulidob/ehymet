@@ -247,7 +247,8 @@ MHI.default <- function(curves, ...) {
 #' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
 #' \eqn{n} represents the number of curves, \eqn{p} the number of values along
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
-#' @param t Grid
+#' @param grid_ll lower limit of the grid.
+#' @param grid_ul upper limit of the grid.
 #' @param nbasis Number of basis for the B-splines
 #' @param norder Order of the B-splines
 #' @param indices Set of indices to be applied to the dataset. They should be
@@ -261,11 +262,11 @@ MHI.default <- function(curves, ...) {
 #' @examples
 #' x1 <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
 #' dim = c(3,4,2))
-#' ind(x1, t = seq(0,1,length=4), nbasis = 4)
+#' ind(x1, nbasis = 4)
 #'
 #' x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
-#' ind(x2, t = seq(0,1,length=4), nbasis = 4)
-ind <- function(curves, t, nbasis=25, norder=4,
+#' ind(x2, nbasis = 4)
+ind <- function(curves, grid_ll = 0, grid_ul = 1, nbasis=25, norder=4,
                      indices = c("EI", "HI", "MEI", "MHI"), ...){
 
   # define indices constant
@@ -280,7 +281,8 @@ ind <- function(curves, t, nbasis=25, norder=4,
   check_list_parameter(indices, INDICES, "indices")
 
   # Smoothed data and derivatives
-  fun_data <- funspline(curves = curves, t = t, nbasis = nbasis,
+  fun_data <- funspline(curves = curves, grid_ll = grid_ll,
+                        grid_ul = grid_ul, nbasis = nbasis,
                         norder = norder, ...)
 
   # Initialize an empty data frame to store the results

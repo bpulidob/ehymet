@@ -7,7 +7,8 @@
 #' The functional dataset can be one dimensional (\eqn{n \times p}) where n is the number of
 #' curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
 #' represents the number of dimensions in the data
-#' @param t Grid
+#' @param grid_ll lower limit of the grid.
+#' @param grid_ul upper limit of the grid.
 #' @param vars_list \code{list} containing one or more combinations of indexes in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
@@ -32,21 +33,25 @@
 #' F-measure, RI and Time, and if it is False, only Time.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
-#' @param ... Additional arguments (unused)
+#' @param ... Additional arguments (unused).
 #'
 #' @return A list containing the clustering partition for each method and indexes
 #' combination and a data frame containing the time elapsed for obtaining a
 #' clustering partition of the indexes dataset for each methodology
-#' @export
+#'
 #' @examples
 #' vars1 <- c("dtaEI", "dtaMEI"); vars2 <- c("dtaHI", "dtaMHI")
 #' varsl <- list(vars1, vars2)
 #' data <- ehymet::sim_model_ex1()
-#' t <- seq(0, 1, length = 30)
-#' EHyClus(data, t, varsl)
-EHyClus <- function(curves, t, vars_list, nbasis = 30,
+#' EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
+#'
+#' @export
+EHyClus <- function(curves,
+                    vars_list, nbasis = 30,
                     norder = 4, clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
                     indices = c("EI", "HI", "MEI", "MHI"),
+                    grid_ll = 0,
+                    grid_ul = 1,
                     l_method_hierarch = c("single", "complete", "average",
                                           "centroid", "ward.D2"),
                     l_dist_hierarch = c("euclidean", "manhattan"),
@@ -79,7 +84,6 @@ EHyClus <- function(curves, t, vars_list, nbasis = 30,
   METHOD_SVC         <- c("kmeans", "kernkmeans")
   CLUSTERING_METHODS <- names(default_clustering_methods)
 
-
   check_list_parameter(clustering_methods, CLUSTERING_METHODS, "clustering_method")
   check_list_parameter(indices, INDICES, "indices")
   check_list_parameter(l_method_hierarch, METHOD_HIERARCH, "l_method_hierarch")
@@ -89,17 +93,17 @@ EHyClus <- function(curves, t, vars_list, nbasis = 30,
   check_list_parameter(l_method_svc, METHOD_SVC, "l_method_svc")
 
   # Generate the dataset with the indexes
-  ind_curves <- ind(curves, t, nbasis, norder, indices)
+  ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
 
   # common arguments for all the clustering methods that are implemented
   # in the package
   common_clustering_arguments <- list(
-    ind_data    = ind_curves,
-    vars_list   = vars_list,
-    n_cluster   = n_clusters,
-    true_labels = true_labels,
-    colapse     = colapse,
-    num_cores   = num_cores
+    "ind_data"    = ind_curves,
+    "vars_list"   = vars_list,
+    "n_cluster"   = n_clusters,
+    "true_labels" = true_labels,
+    "colapse"     = colapse,
+    "num_cores"   = num_cores
   )
 
   cluster <- vector(mode = "list", length = length(clustering_methods))
@@ -118,7 +122,7 @@ EHyClus <- function(curves, t, vars_list, nbasis = 30,
 
   if (colapse) {
     metrics <- do.call(rbind, sapply(cluster, "[[", "metrics"))
-    result <- list("cluster" = cluster, "metrics" = metrics)
+    result  <- list("cluster" = cluster, "metrics" = metrics)
   } else {
     result <- list("cluster" = cluster)
   }

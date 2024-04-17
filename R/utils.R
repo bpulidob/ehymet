@@ -4,29 +4,31 @@
 #' represents values along the curve or \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
-#' @param t Grid
+#' @param grid_ll lower limit of the grid.
+#' @param grid_ul upper limit of the grid.
 #' @param nbasis Number of basis for the B-splines
 #' @param norder Order of the B-splines
 #' @param ... Ignored.
 #'
 #' @return A list containing smoothed data, first and second derivatives
 #' @noRd
-funspline <- function(curves, t, nbasis, norder, ...){
+funspline <- function(curves, nbasis, norder, grid_ll = 0, grid_ul = 1, ...) {
   #Create B-spline basis
-  basisobj <- fda::create.bspline.basis(rangeval = c(min(t), max(t)),
+  basisobj <- fda::create.bspline.basis(rangeval = c(grid_ll, grid_ul),
                                         nbasis = nbasis, norder = norder, ...)
 
   curves_dim <- length(dim(curves))
+  grid <- seq(from = grid_ll, to = grid_ul, length.out = dim(curves)[2])
 
   if(curves_dim == 2){
 
     # Smooth data using B-spline basis
-    ys <-  fda::smooth.basis(argvals = t, y = t(curves), fdParobj = basisobj)
+    ys <-  fda::smooth.basis(argvals = grid, y = t(curves), fdParobj = basisobj)
 
     # Evaluate smoothed data and derivatives
-    smooth <- t(fda::eval.fd(t,ys$fd,0)) # smoothed data
-    deriv <- t(fda::eval.fd(t,ys$fd,1)) # first derivatives
-    deriv2 <- t(fda::eval.fd(t,ys$fd,2)) # second derivatives
+    smooth <- t(fda::eval.fd(grid ,ys$fd,0)) # smoothed data
+    deriv <- t(fda::eval.fd(grid ,ys$fd,1)) # first derivatives
+    deriv2 <- t(fda::eval.fd(grid ,ys$fd,2)) # second derivatives
   } else if(curves_dim == 3){
     n_curves <- dim(curves)[1]
     l_curves <- dim(curves)[2]
@@ -39,15 +41,15 @@ funspline <- function(curves, t, nbasis, norder, ...){
 
     for(d in 1:dim(curves)[3]){
       # Smooth data using B-spline basis
-      ys <-  fda::smooth.basis(argvals = t, y = t(curves[,,d]),
+      ys <-  fda::smooth.basis(argvals = grid, y = t(curves[,,d]),
                                fdParobj = basisobj)
 
       # Evaluate smoothed data and derivatives
-      smooth[,,d] <- t(fda::eval.fd(t,ys$fd,0)) # smoothed data
-      deriv[,,d] <- t(fda::eval.fd(t,ys$fd,1)) # first derivatives
-      deriv2[,,d] <- t(fda::eval.fd(t,ys$fd,2)) # second derivatives
+      smooth[,,d] <- t(fda::eval.fd(grid ,ys$fd,0)) # smoothed data
+      deriv[,,d] <- t(fda::eval.fd(grid ,ys$fd,1)) # first derivatives
+      deriv2[,,d] <- t(fda::eval.fd(grid ,ys$fd,2)) # second derivatives
     }
-  } else{
+  } else {
     stop("Invalid number of dimensions")
   }
 

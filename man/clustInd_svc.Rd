@@ -51,6 +51,6 @@ and distance
 vars1 <- c("dtaEI", "dtaMEI")
 vars2 <- c("dtaHI", "dtaMHI")
 data <- ehymet::sim_model_ex1()
-data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
+data_ind <- ehymet::ind(data)
 clustInd_svc(data_ind, list(vars1, vars2))
 }
