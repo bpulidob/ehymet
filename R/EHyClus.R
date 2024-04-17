@@ -8,11 +8,11 @@
 #' curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
 #' represents the number of dimensions in the data
 #' @param t Grid
-#' @param vars_list List containing one or more combinations of indexes in
-#' \code{ind_data}
-#' @param name_vars A vector with names for \code{vars_list}. NULL by default
-#' in which case names are set to vars1, ..., varsk, where k is the number of
-#' elements in \code{vars_list}.
+#' @param vars_list \code{list} containing one or more combinations of indexes in
+#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
+#' @param clustering_methods character vector specifying at least one of the following
+#' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc".
 #' @param nbasis Number of basis for the B-splines
 #' @param norder Order of the B-splines
 #' @param indices Names of the indices that need to be generated. They should be
@@ -44,8 +44,9 @@
 #' data <- ehymet::sim_model_ex1()
 #' t <- seq(0, 1, length = 30)
 #' EHyClus(data, t, varsl)
-EHyClus <- function(curves, t, vars_list, name_vars = NULL, nbasis = 30,
-                    norder = 4, indices = c("EI", "HI", "MEI", "MHI"),
+EHyClus <- function(curves, t, vars_list, nbasis = 30,
+                    norder = 4, clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
+                    indices = c("EI", "HI", "MEI", "MHI"),
                     l_method_hierarch = c("single", "complete", "average",
                                           "centroid", "ward.D2"),
                     l_dist_hierarch = c("euclidean", "manhattan"),
@@ -53,21 +54,33 @@ EHyClus <- function(curves, t, vars_list, name_vars = NULL, nbasis = 30,
                     l_kernel = c("rbfdot", "polydot"),
                     l_method_svc = c("kmeans", "kernkmeans"),
                     n_clusters = 2, true_labels = NULL, colapse = FALSE,
-                    num_cores = 1, ...){
+                    num_cores = 1, ...) {
 
   # vars_list TIENE QUE SER LIST !!!!!
   if (!is.list(vars_list)) {
     stop("input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  # Constants definition
-  INDICES         <- c("EI", "HI", "MEI", "MHI")
-  METHOD_HIERARCH <- c("single", "complete", "average", "centroid", "ward.D2")
-  DIST_HIERARCH   <- c("euclidean", "manhattan")
-  DIST_KMEANS     <- c("euclidean", "mahalanobis")
-  KERNEL          <- c("rbfdot", "polydot")
-  METHOD_SVC      <- c("kmeans", "kernkmeans")
+  # list that maps each clustering method to its corresponding function
+  default_clustering_methods <- list(
+    "hierarch" = clustInd_hierarch,
+    "kmeans"   = clustInd_kmeans,
+    "kkmeans"  = clustInd_kkmeans,
+    "svc"      = clustInd_svc,
+    "spc"      = clustInd_spc
+  )
 
+  # Constants definition
+  INDICES            <- c("EI", "HI", "MEI", "MHI")
+  METHOD_HIERARCH    <- c("single", "complete", "average", "centroid", "ward.D2")
+  DIST_HIERARCH      <- c("euclidean", "manhattan")
+  DIST_KMEANS        <- c("euclidean", "mahalanobis")
+  KERNEL             <- c("rbfdot", "polydot")
+  METHOD_SVC         <- c("kmeans", "kernkmeans")
+  CLUSTERING_METHODS <- names(default_clustering_methods)
+
+
+  check_list_parameter(clustering_methods, CLUSTERING_METHODS, "clustering_method")
   check_list_parameter(indices, INDICES, "indices")
   check_list_parameter(l_method_hierarch, METHOD_HIERARCH, "l_method_hierarch")
   check_list_parameter(l_dist_hierarch, DIST_HIERARCH, "l_dist_hierarch")
@@ -78,43 +91,33 @@ EHyClus <- function(curves, t, vars_list, name_vars = NULL, nbasis = 30,
   # Generate the dataset with the indexes
   ind_curves <- ind(curves, t, nbasis, norder, indices)
 
-  # Hierarchical clustering
-  cl_hierarch <- clustInd_hierarch(ind_data = ind_curves, vars_list = vars_list,
-                                   name_vars = name_vars,
-                                   method_list = l_method_hierarch,
-                                   dist_list = l_dist_hierarch,
-                                   n_cluster = n_clusters, true_labels = true_labels,
-                                   colapse = colapse, num_cores = num_cores)
+  # common arguments for all the clustering methods that are implemented
+  # in the package
+  common_clustering_arguments <- list(
+    ind_data    = ind_curves,
+    vars_list   = vars_list,
+    n_cluster   = n_clusters,
+    true_labels = true_labels,
+    colapse     = colapse,
+    num_cores   = num_cores
+  )
 
-  # kmeans
-  cl_kmeans <- clustInd_kmeans(ind_data = ind_curves, vars_list = vars_list,
-                               dist_list = l_dist_kmeans, n_cluster = n_clusters,
-                               true_labels = true_labels, colapse = colapse,
-                               num_cores = num_cores)
+  cluster <- list()
+  for (method in clustering_methods) {
+    method_args <- switch(method,
+      "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_list = l_dist_hierarch)),
+      "kmeans"   = append(common_clustering_arguments, list(dist_list = l_dist_kmeans)),
+      "kkmeans"  = append(common_clustering_arguments, list(kernel_list = l_kernel)),
+      "svc"      = append(common_clustering_arguments, list(method_list = l_method_svc)),
+      "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
+    )
 
-  # kernel kmeans
-  cl_kkmeans <- clustInd_kkmeans(ind_data = ind_curves, vars_list = vars_list,
-                                 kernel_list = l_kernel, n_cluster = n_clusters,
-                                 true_labels = true_labels, colapse = colapse,
-                                 num_cores = num_cores)
+    cluster[[method]] <- do.call(default_clustering_methods[[method]], method_args)
+  }
 
-  # support vector clustering
-  cl_svc <- clustInd_svc(ind_data = ind_curves, vars_list = vars_list,
-                         method_list = l_method_svc, n_cluster = n_clusters,
-                         true_labels = true_labels, colapse = colapse,
-                         num_cores = num_cores)
-
-  # spectral clustering
-  cl_spc <- clustInd_spc(ind_data = ind_curves, vars_list = vars_list,
-                         kernel_list = l_kernel, n_cluster = n_clusters,
-                         true_labels = true_labels, colapse = colapse,
-                         num_cores = num_cores)
-
-  cluster <- c(cl_hierarch, cl_kmeans, cl_kkmeans, cl_svc, cl_spc)
 
   if (colapse) {
-    metrics <- rbind(cl_hierarch$metrics, cl_kmeans$metrics, cl_kkmeans$metrics,
-                     cl_svc$metrics, cl_spc$metrics)
+    metrics <- do.call(rbind, sapply(cluster, "[[", "metrics"))
     result <- list("cluster" = cluster, "metrics" = metrics)
   } else {
     result <- list("cluster" = cluster)

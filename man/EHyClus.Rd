@@ -11,9 +11,9 @@ EHyClus(
   curves,
   t,
   vars_list,
-  name_vars = NULL,
   nbasis = 30,
   norder = 4,
+  clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
   indices = c("EI", "HI", "MEI", "MHI"),
   l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
   l_dist_hierarch = c("euclidean", "manhattan"),
@@ -35,16 +35,16 @@ represents the number of dimensions in the data}
 
 \item{t}{Grid}
 
-\item{vars_list}{List containing one or more combinations of indexes in
-\code{ind_data}}
-
-\item{name_vars}{A vector with names for \code{vars_list}. NULL by default
-in which case names are set to vars1, ..., varsk, where k is the number of
-elements in \code{vars_list}.}
+\item{vars_list}{\code{list} containing one or more combinations of indexes in
+\code{ind_data}. If it is non-named, the names of the variables are set to
+vars1, ..., varsk, where k is the number of elements in \code{vars_list}.}
 
 \item{nbasis}{Number of basis for the B-splines}
 
 \item{norder}{Order of the B-splines}
+
+\item{clustering_methods}{character vector specifying at least one of the following
+clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc".}
 
 \item{indices}{Names of the indices that need to be generated. They should be
 one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
