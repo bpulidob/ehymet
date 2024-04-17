@@ -14,8 +14,8 @@
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc".
-#' @param nbasis Number of basis for the B-splines
-#' @param norder Order of the B-splines
+#' @param nbasis Number of basis for the B-splines.
+#' @param norder Order of the B-splines.
 #' @param indices Names of the indices that need to be generated. They should be
 #' one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
 #' they are calculated for one or multiple dimension
@@ -33,7 +33,7 @@
 #' F-measure, RI and Time, and if it is False, only Time.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
-#' @param ... Additional arguments (unused).
+#' @param ... Ignored.
 #'
 #' @return A list containing the clustering partition for each method and indexes
 #' combination and a data frame containing the time elapsed for obtaining a
@@ -46,20 +46,16 @@
 #' EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
 #'
 #' @export
-EHyClus <- function(curves,
-                    vars_list, nbasis = 30,
-                    norder = 4, clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
-                    indices = c("EI", "HI", "MEI", "MHI"),
-                    grid_ll = 0,
-                    grid_ul = 1,
-                    l_method_hierarch = c("single", "complete", "average",
-                                          "centroid", "ward.D2"),
-                    l_dist_hierarch = c("euclidean", "manhattan"),
-                    l_dist_kmeans =  c("euclidean", "mahalanobis"),
-                    l_kernel = c("rbfdot", "polydot"),
-                    l_method_svc = c("kmeans", "kernkmeans"),
-                    n_clusters = 2, true_labels = NULL, colapse = FALSE,
-                    num_cores = 1, ...) {
+EHyClus <- function(curves, vars_list, nbasis = 30,  n_clusters = 2, norder = 4,
+                    clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
+                    indices            = c("EI", "HI", "MEI", "MHI"),
+                    l_method_hierarch  = c("single", "complete", "average", "centroid", "ward.D2"),
+                    l_dist_hierarch    = c("euclidean", "manhattan"),
+                    l_dist_kmeans      = c("euclidean", "mahalanobis"),
+                    l_kernel           = c("rbfdot", "polydot"),
+                    l_method_svc       = c("kmeans", "kernkmeans"),
+                    grid_ll = 0, grid_ul = 1,
+                    true_labels = NULL, colapse = FALSE, num_cores = 1, ...) {
 
   # vars_list TIENE QUE SER LIST !!!!!
   if (!is.list(vars_list)) {
@@ -106,11 +102,11 @@ EHyClus <- function(curves,
     "num_cores"   = num_cores
   )
 
-  cluster <- vector(mode = "list", length = length(clustering_methods))
+  cluster <- list()
   for (method in clustering_methods) {
     method_args <- switch(method,
       "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_list = l_dist_hierarch)),
-      "kmeans"   = append(common_clustering_arguments, list(dist_list = l_dist_kmeans)),
+      "kmeans"   = append(common_clustering_arguments, list(dist_list   = l_dist_kmeans)),
       "kkmeans"  = append(common_clustering_arguments, list(kernel_list = l_kernel)),
       "svc"      = append(common_clustering_arguments, list(method_list = l_method_svc)),
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
@@ -119,7 +115,6 @@ EHyClus <- function(curves,
     cluster[[method]] <- do.call(default_clustering_methods[[method]], method_args)
   }
 
-
   if (colapse) {
     metrics <- do.call(rbind, sapply(cluster, "[[", "metrics"))
     result  <- list("cluster" = cluster, "metrics" = metrics)
@@ -127,5 +122,19 @@ EHyClus <- function(curves,
     result <- list("cluster" = cluster)
   }
 
-  return(result)
+  class(result) <- c("EHyClus", class(result))
+  attr(result, "n_clusters") <- n_clusters
+
+
+  result
 }
+
+print.EHyClus <- function(x, ...) {
+  cat("Clustering methods used:", paste(names(x$cluster), collapse = ", "), "\n")
+  cat("Number of clusters:", attr(x, "n_clusters"))
+  cat("More and more and more things.........\n")
+  cat("......................................")
+
+  invisible(x)
+}
+
