@@ -102,7 +102,7 @@ EHyClus <- function(curves, t, vars_list, nbasis = 30,
     num_cores   = num_cores
   )
 
-  cluster <- list()
+  cluster <- vector(mode = "list", length = length(clustering_methods))
   for (method in clustering_methods) {
     method_args <- switch(method,
       "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_list = l_dist_hierarch)),
