@@ -62,14 +62,12 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
 #' its first and second derivatives
-#' @param vars_list List containing one or more combinations of indexes in
-#' \code{ind_data}
-#' @param name_vars A vector with names for \code{vars_list}. NULL by default
-#' in which case names are set to vars1, ..., varsk, where k is the number of
-#' elements in \code{vars_list}.
-#' @param method_list List of clustering methods
-#' @param dist_list List of distance metrics
-#' @param n_cluster Number of clusters to create
+#' @param vars_list \code{list} containing one or more combinations of indexes in
+#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
+#' @param method_list \code{list} of clustering methods.
+#' @param dist_list \code{list} of distance metrics.
+#' @param n_cluster number of clusters to generate.
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
 #' @param colapse It is a boolean. If it is true a dataframe with metrics values
@@ -86,7 +84,7 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
 #' clustInd_hierarch(data_ind, list(vars1, vars2))
-clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
+clustInd_hierarch <- function(ind_data, vars_list,
                               method_list = c("single","complete","average",
                                               "centroid","ward.D2"),
                               dist_list = c("euclidean", "manhattan"),
@@ -102,10 +100,6 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
     stop("input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) && !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
-  }
-
   # Check if indices, methods and distances lists are provided
   if (!is.character(method_list) ||
       !is.character(dist_list) || length(vars_list) == 0 ||
@@ -113,8 +107,9 @@ clustInd_hierarch <- function(ind_data, vars_list, name_vars = NULL,
     stop("invalid 'method_list' or 'dist_list'. Both must be non-empty character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
-  names(vars_list) <- name_vars
+  if (is.null(names(vars_list))) {
+    names(vars_list) <- paste0("vars", seq_along(vars_list))
+  }
 
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(vars = names(vars_list),
@@ -233,11 +228,9 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
 #' its first and second derivatives
-#' @param vars_list List containing one or more combinations of indexes in
-#' \code{ind_data}
-#' @param name_vars A vector with names for \code{vars_list}. NULL by default
-#' in which case names are set to vars1, ..., varsk, where k is the number of
-#' elements in \code{vars_list}.
+#' @param vars_list \code{list} containing one or more combinations of indexes in
+#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
 #' @param dist_list List of distance metrics
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
@@ -258,7 +251,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
 #' clustInd_kmeans(data_ind, list(vars1, vars2))
-clustInd_kmeans <- function(ind_data, vars_list, name_vars = NULL,
+clustInd_kmeans <- function(ind_data, vars_list,
                             dist_list = c("euclidean", "mahalanobis"),
                             n_cluster = 2, true_labels = NULL, colapse = FALSE,
                             num_cores = 1) {
@@ -272,19 +265,15 @@ clustInd_kmeans <- function(ind_data, vars_list, name_vars = NULL,
     stop("Input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) && !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
-  }
-
   # Check if indices, methods and distances lists are provided
   if (length(vars_list) == 0 || length(dist_list) == 0) {
     stop("Invalid 'vars_list' or 'dist_list'. Both must be non-empty
          character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
-
-  names(vars_list) <- name_vars
+  if (is.null(names(vars_list))) {
+    names(vars_list) <- paste0("vars", seq_along(vars_list))
+  }
 
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(vars = names(vars_list),
@@ -366,11 +355,9 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
 #' its first and second derivatives
-#' @param vars_list List containing one or more combinations of indexes in
-#' \code{ind_data}
-#' @param name_vars A vector with names for \code{vars_list}. NULL by default
-#' in which case names are set to vars1, ..., varsk, where k is the number of
-#' elements in \code{vars_list}.
+#' @param vars_list \code{list} containing one or more combinations of indexes in
+#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
 #' @param kernel_list List of kernels
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
@@ -390,7 +377,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
 #' clustInd_kkmeans(data_ind, list(vars1, vars2))
-clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
+clustInd_kkmeans <- function(ind_data, vars_list,
                              kernel_list = c("rbfdot", "polydot"),
                              n_cluster = 2, true_labels = NULL, colapse = FALSE,
                              num_cores = 1, ...) {
@@ -404,18 +391,15 @@ clustInd_kkmeans <- function(ind_data, vars_list, name_vars = NULL,
     stop("Input 'vars_list' must be a list.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) && !(length(vars_list) == length(name_vars))){
-    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
-  }
-
   # Check if indices, and kernel lists are provided
   if (!is.character(kernel_list) || length(vars_list) == 0 || length(kernel_list) == 0) {
     stop("Invalid 'kernel_list' or 'vars_list'. Both must be non-empty
          character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
-  names(vars_list) <- name_vars
+  if (is.null(names(vars_list))) {
+    names(vars_list) <- paste0("vars", seq_along(vars_list))
+  }
 
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(vars = names(vars_list),
@@ -497,11 +481,9 @@ clustInd_svc_aux <- function(ind_data, vars, method = "kmeans", n_cluster = 2,
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
 #' its first and second derivatives
-#' @param vars_list List containing one or more combinations of indexes in
-#' \code{ind_data}
-#' @param name_vars A vector with names for \code{vars_list}. NULL by default
-#' in which case names are set to vars1, ..., varsk, where k is the number of
-#' elements in \code{vars_list}.
+#' @param vars_list \code{list} containing one or more combinations of indexes in
+#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
 #' @param method_list List of methods
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
@@ -521,7 +503,7 @@ clustInd_svc_aux <- function(ind_data, vars, method = "kmeans", n_cluster = 2,
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
 #' clustInd_svc(data_ind, list(vars1, vars2))
-clustInd_svc <- function(ind_data, vars_list, name_vars = NULL,
+clustInd_svc <- function(ind_data, vars_list,
                          method_list = c("kmeans", "kernkmeans"),
                          n_cluster = 2, true_labels = NULL, colapse = FALSE,
                          num_cores = 1, ...) {
@@ -535,10 +517,6 @@ clustInd_svc <- function(ind_data, vars_list, name_vars = NULL,
     stop("Input 'vars_list' must be a data frame.", call. = FALSE)
   }
 
-  if (!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
-  }
-
   # Check if indices, methods and distances lists are provided
   if ( !is.character(method_list) ||  length(vars_list) == 0 ||
        length(method_list) == 0) {
@@ -546,8 +524,9 @@ clustInd_svc <- function(ind_data, vars_list, name_vars = NULL,
          character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", seq_along(vars_list))
-  names(vars_list) <- name_vars
+  if (is.null(names(vars_list))) {
+    names(vars_list) <- paste0("vars", seq_along(vars_list))
+  }
 
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(vars = names(vars_list),
@@ -623,11 +602,9 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
 #' its first and second derivatives
-#' @param vars_list List containing one or more combinations of indexes in
-#' \code{ind_data}
-#' @param name_vars A vector with names for \code{vars_list}. NULL by default
-#' in which case names are set to vars1, ..., varsk, where k is the number of
-#' elements in \code{vars_list}.
+#' @param vars_list \code{list} containing one or more combinations of indexes in
+#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' vars1, ..., varsk, where k is the number of elements in \code{vars_list}.
 #' @param kernel_list List of kernels
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
@@ -647,7 +624,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- ehymet::ind(data, t=seq(0, 1, length = 30))
 #' clustInd_spc(data_ind, list(vars1, vars2))
-clustInd_spc <- function(ind_data, vars_list, name_vars = NULL,
+clustInd_spc <- function(ind_data, vars_list,
                          kernel_list = c("rbfdot", "polydot"),
                          n_cluster = 2, true_labels = NULL, colapse = FALSE,
                          num_cores = 1, ...) {
@@ -661,10 +638,6 @@ clustInd_spc <- function(ind_data, vars_list, name_vars = NULL,
     stop("Input 'vars_list' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.null(name_vars) & !length(vars_list) == length(name_vars)){
-    stop("'name_vars' and 'vars_list' should have the same length.", call. = FALSE)
-  }
-
   # Check if indices, methods and distances lists are provided
   if (!is.character(kernel_list) || length(vars_list) == 0 ||
       length(kernel_list) == 0) {
@@ -672,8 +645,9 @@ clustInd_spc <- function(ind_data, vars_list, name_vars = NULL,
          character vectors.", call. = FALSE)
   }
 
-  if(is.null(name_vars)) name_vars <- paste0("vars", 1:length(vars_list))
-  names(vars_list) <- name_vars
+  if (is.null(names(vars_list))) {
+    names(vars_list) <- paste0("vars", seq_along(vars_list))
+  }
 
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(vars = names(vars_list),

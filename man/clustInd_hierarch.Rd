@@ -8,7 +8,6 @@ method and distance}
 clustInd_hierarch(
   ind_data,
   vars_list,
-  name_vars = NULL,
   method_list = c("single", "complete", "average", "centroid", "ward.D2"),
   dist_list = c("euclidean", "manhattan"),
   n_cluster = 2,
@@ -21,18 +20,15 @@ clustInd_hierarch(
 \item{ind_data}{Dataframe containing indexes applied to the original data and
 its first and second derivatives}
 
-\item{vars_list}{List containing one or more combinations of indexes in
-\code{ind_data}}
+\item{vars_list}{\code{list} containing one or more combinations of indexes in
+\code{ind_data}. If it is non-named, the names of the variables are set to
+vars1, ..., varsk, where k is the number of elements in \code{vars_list}.}
 
-\item{name_vars}{A vector with names for \code{vars_list}. NULL by default
-in which case names are set to vars1, ..., varsk, where k is the number of
-elements in \code{vars_list}.}
+\item{method_list}{\code{list} of clustering methods.}
 
-\item{method_list}{List of clustering methods}
+\item{dist_list}{\code{list} of distance metrics.}
 
-\item{dist_list}{List of distance metrics}
-
-\item{n_cluster}{Number of clusters to create}
+\item{n_cluster}{number of clusters to generate.}
 
 \item{true_labels}{Vector of true labels for validation
 (if it is not known true_labels is set to NULL)}

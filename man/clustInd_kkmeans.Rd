@@ -8,7 +8,6 @@ and kernel}
 clustInd_kkmeans(
   ind_data,
   vars_list,
-  name_vars = NULL,
   kernel_list = c("rbfdot", "polydot"),
   n_cluster = 2,
   true_labels = NULL,
@@ -21,12 +20,9 @@ clustInd_kkmeans(
 \item{ind_data}{Dataframe containing indexes applied to the original data and
 its first and second derivatives}
 
-\item{vars_list}{List containing one or more combinations of indexes in
-\code{ind_data}}
-
-\item{name_vars}{A vector with names for \code{vars_list}. NULL by default
-in which case names are set to vars1, ..., varsk, where k is the number of
-elements in \code{vars_list}.}
+\item{vars_list}{\code{list} containing one or more combinations of indexes in
+\code{ind_data}. If it is non-named, the names of the variables are set to
+vars1, ..., varsk, where k is the number of elements in \code{vars_list}.}
 
 \item{kernel_list}{List of kernels}
 
