@@ -31,6 +31,8 @@
 #' @param colapse It is a boolean. If it is true a dataframe with metrics values
 #' is generated. If \code{true_labels} is True the dataframe contains Purity,
 #' F-measure, RI and Time, and if it is False, only Time.
+#' @param verbose If \code{TRUE}, the function will print logs for about the execution of
+#' some clustering methods. Defaults to \code{FALSE}.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @param ... Ignored.
@@ -55,7 +57,7 @@ EHyClus <- function(curves, vars_list, nbasis = 30,  n_clusters = 2, norder = 4,
                     l_kernel           = c("rbfdot", "polydot"),
                     l_method_svc       = c("kmeans", "kernkmeans"),
                     grid_ll = 0, grid_ul = 1,
-                    true_labels = NULL, colapse = FALSE, num_cores = 1, ...) {
+                    true_labels = NULL, colapse = FALSE, verbose = FALSE, num_cores = 1, ...) {
 
   # vars_list TIENE QUE SER LIST !!!!!
   if (!is.list(vars_list)) {
@@ -112,7 +114,11 @@ EHyClus <- function(curves, vars_list, nbasis = 30,  n_clusters = 2, norder = 4,
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
     )
 
-    cluster[[method]] <- do.call(default_clustering_methods[[method]], method_args)
+    cluster[[method]] <- if (verbose) {
+      do.call(default_clustering_methods[[method]], method_args)
+    } else {
+      suppressMessages(quiet(do.call(default_clustering_methods[[method]], method_args)))
+    }
   }
 
   if (colapse) {
@@ -124,7 +130,6 @@ EHyClus <- function(curves, vars_list, nbasis = 30,  n_clusters = 2, norder = 4,
 
   class(result) <- c("EHyClus", class(result))
   attr(result, "n_clusters") <- n_clusters
-
 
   result
 }

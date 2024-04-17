@@ -128,3 +128,10 @@ get_result_names <- function(method_name, parameter_combinations, vars_list) {
   args[["sep"]] <- "_"
   do.call(paste, args)
 }
+
+#' Suppress outputs from cat (by Hadley Wickham)
+quiet <- function(x) {
+  sink(tempfile())
+  on.exit(sink())
+  invisible(force(x))
+}
