@@ -7,7 +7,7 @@ and distance}
 \usage{
 clustInd_svc(
   ind_data,
-  vars_list,
+  vars_combinations,
   method_list = c("kmeans", "kernkmeans"),
   n_cluster = 2,
   true_labels = NULL,
@@ -20,9 +20,9 @@ clustInd_svc(
 \item{ind_data}{Dataframe containing indexes applied to the original data and
 its first and second derivatives}
 
-\item{vars_list}{\code{list} containing one or more combinations of indexes in
+\item{vars_combinations}{\code{list} containing one or more combinations of indexes in
 \code{ind_data}. If it is non-named, the names of the variables are set to
-vars1, ..., varsk, where k is the number of elements in \code{vars_list}.}
+vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.}
 
 \item{method_list}{List of methods}
 

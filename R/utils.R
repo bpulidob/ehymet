@@ -116,20 +116,21 @@ check_list_parameter <- function(argument, parameter_values, parameter_name) {
 
 #' Generate the name for the results of the clustering methods
 #' @noRd
-get_result_names <- function(method_name, parameter_combinations, vars_list) {
+get_result_names <- function(method_name, parameter_combinations, vars_combinations) {
   args <- list(method_name)
   for (combination in parameter_combinations[-1]) {
     args <- append(args, list(combination))
   }
 
-  args <- append(args, list(rep(sapply(vars_list, function(x) paste0(x, collapse = "")),
-                                times = nrow(parameter_combinations) / length(vars_list))
+  args <- append(args, list(rep(sapply(vars_combinations, function(x) paste0(x, collapse = "")),
+                                times = nrow(parameter_combinations) / length(vars_combinations))
   ))
   args[["sep"]] <- "_"
   do.call(paste, args)
 }
 
 #' Suppress outputs from cat (by Hadley Wickham)
+#' @noRd
 quiet <- function(x) {
   sink(tempfile())
   on.exit(sink())

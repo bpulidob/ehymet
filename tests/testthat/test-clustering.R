@@ -2,7 +2,7 @@ test_that("the 'get_result_names' function is working as expexted for 'clustInd_
   data <- sim_model_ex1()
   data_ind <- ind(data, grid_ll = 0, grid_ul = 1)
   res <- clustInd_hierarch(ind_data = data_ind,
-                           vars_list = list(c("dtaEI", "dtaMEI"), c("dtaMEI", "ddtaMEI", "d2dtaMEI")),
+                           vars_combinations = list(c("dtaEI", "dtaMEI"), c("dtaMEI", "ddtaMEI", "d2dtaMEI")),
                            method_list = c("single", "complete"))
   expected <- c(
     "hierarch_single_euclidean_dtaEIdtaMEI",
@@ -23,7 +23,7 @@ test_that("the 'get_result_names' function is working as expexted for 'clustInd_
   data <- sim_model_ex1()
   data_ind <- ind(data, grid_ll = 0, grid_ul = 1)
   res <- clustInd_kmeans(ind_data = data_ind,
-                         vars_list = list(c("dtaEI", "dtaMEI"), c("dtaMEI", "ddtaMEI", "d2dtaMEI")),
+                         vars_combinations = list(c("dtaEI", "dtaMEI"), c("dtaMEI", "ddtaMEI", "d2dtaMEI")),
                          dist_list = c("euclidean", "mahalanobis"))
   expected <- c(
     "kmeans_euclidean_dtaEIdtaMEI",

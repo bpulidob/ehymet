@@ -9,21 +9,22 @@ clustering and spectral clustering}
 \usage{
 EHyClus(
   curves,
-  vars_list,
+  vars_combinations,
   nbasis = 30,
+  n_clusters = 2,
   norder = 4,
   clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
   indices = c("EI", "HI", "MEI", "MHI"),
-  grid_ll = 0,
-  grid_ul = 1,
   l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
   l_dist_hierarch = c("euclidean", "manhattan"),
   l_dist_kmeans = c("euclidean", "mahalanobis"),
   l_kernel = c("rbfdot", "polydot"),
   l_method_svc = c("kmeans", "kernkmeans"),
-  n_clusters = 2,
+  grid_ll = 0,
+  grid_ul = 1,
   true_labels = NULL,
   colapse = FALSE,
+  verbose = FALSE,
   num_cores = 1,
   ...
 )
@@ -34,13 +35,15 @@ The functional dataset can be one dimensional (\eqn{n \times p}) where n is the 
 curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
 represents the number of dimensions in the data}
 
-\item{vars_list}{\code{list} containing one or more combinations of indexes in
+\item{vars_combinations}{\code{list} containing one or more combinations of indexes in
 \code{ind_data}. If it is non-named, the names of the variables are set to
-vars1, ..., varsk, where k is the number of elements in \code{vars_list}.}
+vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.}
 
-\item{nbasis}{Number of basis for the B-splines}
+\item{nbasis}{Number of basis for the B-splines.}
 
-\item{norder}{Order of the B-splines}
+\item{n_clusters}{Number of clusters to create}
+
+\item{norder}{Order of the B-splines.}
 
 \item{clustering_methods}{character vector specifying at least one of the following
 clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc".}
@@ -48,10 +51,6 @@ clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc"
 \item{indices}{Names of the indices that need to be generated. They should be
 one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
 they are calculated for one or multiple dimension}
-
-\item{grid_ll}{lower limit of the grid.}
-
-\item{grid_ul}{upper limit of the grid.}
 
 \item{l_method_hierarch}{\code{list} of clustering methods for hierarchical
 clustering}
@@ -64,7 +63,9 @@ clustering}
 
 \item{l_method_svc}{\code{list} of clustering methods for support vector clustering}
 
-\item{n_clusters}{Number of clusters to create}
+\item{grid_ll}{lower limit of the grid.}
+
+\item{grid_ul}{upper limit of the grid.}
 
 \item{true_labels}{Vector of true labels for validation
 (if it is not known true_labels is set to NULL)}
@@ -73,10 +74,13 @@ clustering}
 is generated. If \code{true_labels} is True the dataframe contains Purity,
 F-measure, RI and Time, and if it is False, only Time.}
 
+\item{verbose}{If \code{TRUE}, the function will print logs for about the execution of
+some clustering methods. Defaults to \code{FALSE}.}
+
 \item{num_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution.}
 
-\item{...}{Additional arguments (unused).}
+\item{...}{Ignored.}
 }
 \value{
 A list containing the clustering partition for each method and indexes
