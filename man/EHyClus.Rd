@@ -96,7 +96,7 @@ clustering and spectral clustering
 \examples{
 vars1 <- c("dtaEI", "dtaMEI"); vars2 <- c("dtaHI", "dtaMHI")
 varsl <- list(vars1, vars2)
-data <- ehymet::sim_model_ex1()
+data <- sim_model_ex1()
 EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
 
 }

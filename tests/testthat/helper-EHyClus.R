@@ -3,11 +3,9 @@ ehyclus_example_data <- function() {
   vars2 <- c("dtaHI", "dtaMHI")
   vars_combinations <- list(vars1, vars2)
   curves <- sim_model_ex1()
-  t <- seq(0, 1, length = 30)
 
   list(
     curves = curves,
-    t = t,
     vars_combinations = vars_combinations
   )
 }

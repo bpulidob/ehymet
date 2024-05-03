@@ -114,8 +114,8 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
 
     if (!all(vars_combinations[[index]] %in% names(ind_curves))) {
       vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
-      warning(paste0("Invalid variable name in 'vars_combinations' for index '", index,
-                     "'. Removing combination..."))
+      warning(paste0("Invalid variable name in 'vars_combinations' for index ", index,
+                     ". Removing combination..."))
 
       next
     }
@@ -125,7 +125,7 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
 
       warning(paste0("Combination of variables '",
                      paste0(vars_combinations[index], collapse = ", "),
-                     "' with index '", index, "' is singular or almost singular.\n",
+                     "' with index ", index, " is singular or almost singular.\n",
                      "Excluding it from any computation...")
               )
     }
