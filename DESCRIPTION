@@ -26,8 +26,7 @@ Imports:
   fda,
   kernlab,
   MASS,
-  stats,
-  SwarmSVM
+  stats
 Suggests: 
     ggplot2,
     testthat (>= 3.0.0),

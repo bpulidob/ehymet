@@ -13,7 +13,7 @@
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param clustering_methods character vector specifying at least one of the following
-#' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc".
+#' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".
 #' @param nbasis Number of basis for the B-splines.
 #' @param norder Order of the B-splines.
 #' @param indices Names of the indices that need to be generated. They should be
@@ -24,7 +24,6 @@
 #' @param l_dist_hierarch \code{list} of distances for hierarchical clustering
 #' @param l_dist_kmeans \code{list} of distances for kmeans clustering
 #' @param l_kernel \code{list} of kernels
-#' @param l_method_svc \code{list} of clustering methods for support vector clustering
 #' @param n_clusters Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
@@ -49,13 +48,12 @@
 #'
 #' @export
 EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, norder = 4,
-                    clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
+                    clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
                     indices            = c("EI", "HI", "MEI", "MHI"),
                     l_method_hierarch  = c("single", "complete", "average", "centroid", "ward.D2"),
                     l_dist_hierarch    = c("euclidean", "manhattan"),
                     l_dist_kmeans      = c("euclidean", "mahalanobis"),
                     l_kernel           = c("rbfdot", "polydot"),
-                    l_method_svc       = c("kmeans", "kernkmeans"),
                     grid_ll = 0, grid_ul = 1,
                     true_labels = NULL, colapse = FALSE, verbose = FALSE, num_cores = 1, ...) {
   # vars_combinations TIENE QUE SER LIST !!!!!
@@ -72,7 +70,6 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
     "hierarch" = clustInd_hierarch,
     "kmeans"   = clustInd_kmeans,
     "kkmeans"  = clustInd_kkmeans,
-    "svc"      = clustInd_svc,
     "spc"      = clustInd_spc
   )
 
@@ -91,41 +88,40 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
   check_list_parameter(l_dist_hierarch, DIST_HIERARCH, "l_dist_hierarch")
   check_list_parameter(l_dist_kmeans, DIST_KMEANS, "l_dist_kmeans")
   check_list_parameter(l_kernel, KERNEL, "l_kernel")
-  check_list_parameter(l_method_svc, METHOD_SVC, "l_method_svc")
 
   # Generate the dataset with the indexes
   ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
 
   vars_combinations_to_remove <- c()
-  for (i in seq_along(vars_combinations)) {
-    if (length(vars_combinations[[i]]) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      warning(paste0("Index '", i, "' of 'vars_combinations' is empty.",
+  for (index in seq_along(vars_combinations)) {
+    if (length(vars_combinations[[index]]) == 0) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
+      warning(paste0("Index '", index, "' of 'vars_combinations' is empty.",
                      "Removing it..."))
       next
     }
 
-    if (length(vars_combinations[[i]]) == 1) {
-      warning(paste0("Combination of varaibles '", vars_combinations[[i]],
-                     "' with index ", i, " is only one variable, which ",
+    if (length(vars_combinations[[index]]) == 1) {
+      warning(paste0("Combination of varaibles '", vars_combinations[[index]],
+                     "' with index ", index, " is only one variable, which ",
                      "does not have much sense in this context...")
               )
     }
 
-    if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      warning(paste0("Invalid variable name in 'vars_combinations' for index ", i,
+    if (!all(vars_combinations[[index]] %in% names(ind_curves))) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
+      warning(paste0("Invalid variable name in 'vars_combinations' for index ", index,
                      ". Removing combination..."))
 
       next
     }
 
-    if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
+    if (det(stats::var(ind_curves[,vars_combinations[[index]]])) == 0) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
 
       warning(paste0("Combination of variables '",
-                     paste0(vars_combinations[i], collapse = ", "),
-                     "' with index ", i, " is singular or almost singular.\n",
+                     paste0(vars_combinations[index], collapse = ", "),
+                     "' with index ", index, " is singular or almost singular.\n",
                      "Excluding it from any computation...")
               )
     }
@@ -157,7 +153,6 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
       "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_list = l_dist_hierarch)),
       "kmeans"   = append(common_clustering_arguments, list(dist_list   = l_dist_kmeans)),
       "kkmeans"  = append(common_clustering_arguments, list(kernel_list = l_kernel)),
-      "svc"      = append(common_clustering_arguments, list(method_list = l_method_svc)),
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
     )
 
@@ -181,13 +176,12 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
   result
 }
 
-#' @export
-print.EHyClus <- function(x, ...) {
-  cat("Clustering methods used:", paste(names(x$cluster), collapse = ", "), "\n")
-  cat("Number of clusters:", attr(x, "n_clusters"))
-  cat("More and more and more things.........\n")
-  cat("......................................")
-
-  invisible(x)
-}
+# print.EHyClus <- function(x, ...) {
+#   cat("Clustering methods used:", paste(names(x$cluster), collapse = ", "), "\n")
+#   cat("Number of clusters:", attr(x, "n_clusters"))
+#   cat("More and more and more things.........\n")
+#   cat("......................................")
+#
+#   invisible(x)
+# }
 

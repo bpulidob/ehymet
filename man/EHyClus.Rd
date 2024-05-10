@@ -13,13 +13,12 @@ EHyClus(
   nbasis = 30,
   n_clusters = 2,
   norder = 4,
-  clustering_methods = c("hierarch", "kmeans", "kkmeans", "svc", "spc"),
+  clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
   indices = c("EI", "HI", "MEI", "MHI"),
   l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
   l_dist_hierarch = c("euclidean", "manhattan"),
   l_dist_kmeans = c("euclidean", "mahalanobis"),
   l_kernel = c("rbfdot", "polydot"),
-  l_method_svc = c("kmeans", "kernkmeans"),
   grid_ll = 0,
   grid_ul = 1,
   true_labels = NULL,
@@ -46,7 +45,7 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 \item{norder}{Order of the B-splines.}
 
 \item{clustering_methods}{character vector specifying at least one of the following
-clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "svc", "spc".}
+clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".}
 
 \item{indices}{Names of the indices that need to be generated. They should be
 one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
@@ -60,8 +59,6 @@ clustering}
 \item{l_dist_kmeans}{\code{list} of distances for kmeans clustering}
 
 \item{l_kernel}{\code{list} of kernels}
-
-\item{l_method_svc}{\code{list} of clustering methods for support vector clustering}
 
 \item{grid_ll}{lower limit of the grid.}
 
