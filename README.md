@@ -1,6 +1,7 @@
 # ehymet
 
 <!-- badges: start -->
+[![Build\_Status](https://github.com/bpulidob/ehymet/actions/workflows/build.yml/badge.svg)](https://github.com/bpulidob/ehymet/actions/workflows/build.yml)
 [![DOI](https://img.shields.io/badge/doi-10.1007%2Fs11222--023--10213--7-informational.svg)](https://link.springer.com/article/10.1007/s11222-023-10213-7)
 [![DOI](https://img.shields.io/badge/doi-10.48550%2FarXiv.2307.16720-%23B31B1B.svg)](https://arxiv.org/abs/2307.16720)
 <!-- badges: end -->
