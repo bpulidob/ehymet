@@ -25,10 +25,10 @@ Imports:
   dplyr,
   fda,
   kernlab,
-  MASS,
   stats
 Suggests: 
     ggplot2,
+    MASS,
     testthat (>= 3.0.0),
     tidyr
 Roxygen: list(markdown = TRUE)

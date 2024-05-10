@@ -26,36 +26,44 @@
 #' }
 #'
 #' @param n Number of curves to generate for each of the two groups.
-#' Set to 50 by default
+#' Set to 50 by default.
 #' @param p Number of grid points of the curves.
 #' Curves are generated over the interval \eqn{[0, 1]}.
 #' Set to 30 grid point by default
 #' @param i_sim Integer set to \eqn{1, \ldots, 8}
 #' @param seed A seed to set for reproducibility. NULL by default in which case a seed is not set.
 #' @return data matrix of size \eqn{2n \times p}
-#' @export
 #'
 #' @examples
 #' sm1 <- sim_model_ex1()
 #' dim(sm1)
-
+#'
+#' @export
 sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 
-  if (!(i_sim %in% 1:8))
-    stop("Argument \"i_sim\" should be one between 1 and 8.")
+  if (!requireNamespace("MASS")) {
+    stop("package 'MASS' is required for this functionality", call. = FALSE)
+  }
 
-  # set seed
-  if(!is.null(seed)) set.seed(seed)
+  if (!(i_sim %in% 1:8)) {
+    stop("argument 'i_sum' shold have a value between 1 and 8", call. = FALSE)
+  }
+
+  # set seed if given
+  if(!is.null(seed)) {
+    old <- .Random.seed
+    on.exit({.Random.seed <<- old})
+  }
 
   t_interval <- seq(0, 1, length = p)
 
   S <- function(t) exp(-1/0.3 * abs(outer(t,t,"-")))
-  sigma <- 0.3 * (t_interval |> S())
+  sigma <- 0.3 * S(t_interval)
   # centered Gaussian process
   egauss <- MASS::mvrnorm(n ,rep(0, p), sigma)
 
   S2 <- function(t) exp(-1/0.2 * abs(outer(t,t,"-")))
-  sigma2 <- 0.5 * (t_interval |> S2())
+  sigma2 <- 0.5 * (t_interval)
   # centered Gaussian process
   hgauss <- MASS::mvrnorm(n ,rep(0, p), sigma2)
 
@@ -66,37 +74,28 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
   f2 <- (30 * t_interval * (1 - t_interval))
   matr2 <- matrix(rep(f2, each = n), nrow = n)
 
-  if(i_sim == 1){
-    dat2 <- dat1 + 0.5
-  } else if(i_sim == 2){
-    dat2 <- dat1 + 0.75
-  } else if(i_sim == 3){
-    dat2 <- dat1 + 1
-  } else if(i_sim == 4){
-    dat2 <- matr + 2*egauss
-  } else if(i_sim == 5){
-    dat2 <- matr + 0.25*egauss
-  } else if(i_sim == 6){
-    dat2 <- matr + hgauss
-  } else if(i_sim == 7){
-    dat2 <- matr2 + hgauss
-  } else{
-    dat2 <- matr2 + egauss
-  }
 
-  dat <- rbind(dat1, dat2)
+  dat2 <- switch(
+    i_sim,
+    dat1 + 0.5,           # 1
+    dat1 + 0.75,          # 2
+    dat1 + 1,             # 3
+    matr + 2 * egauss,    # 4
+    matr + 0.25 * egauss, # 5
+    matr + hgauss,        # 6
+    matr2 + hgauss,       # 7
+    matr2 + egauss        # 8
+  )
 
-  return(dat)
+  rbind(dat1, dat2)
 }
 
 
 #' Function for generating functional data in one or multiple dimension
 #'
-#' @param n Number of curves to generate for each of the two groups.
-#' Set to 50 by default
+#' @param n Number of curves to generate for each of the two groups. Set to 50 by default.
 #' @param p Number of grid points of the curves.
-#' Curves are generated over the interval \eqn{[0, 1]}.
-#' Set to 150 grid point by default
+#' Curves are generated over the interval \eqn{[0, 1]}. Set to 150 grid point by default.
 #' @param i_sim Integer set to \eqn{1, \ldots, 4}
 #' @param seed A seed to set for reproducibility.
 #' NULL by default in which case a seed is not set.
@@ -104,7 +103,6 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 #' @return data matrix of size \eqn{2n \times p} if \eqn{\code{i_sim} \in {1,2}}
 #' or an array of dimensions
 #' \eqn{2n \times p \times 2} if \eqn{\code{i_sim} \in {3, 4}}
-#' @export
 #'
 #' @examples
 #' sm1 <- sim_model_ex2()
@@ -113,14 +111,18 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 #' sm4 <- sim_model_ex2(i_sim=4)
 #' dim(sm4)
 #'
-#' @importFrom dplyr "%>%"
+#' @export
 sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
 
-  if (!(i_sim %in% 1:4))
-    stop("Argument \"i_sim\" should be between 1 and 4.")
+  if (!(i_sim %in% 1:4)) {
+    stop("argument 'i_sum' shold have a value between 1 and 8", call. = FALSE)
+  }
 
-  # set seed
-  if(!is.null(seed)) set.seed(seed)
+  # set seed if given
+  if(!is.null(seed)) {
+    old <- .Random.seed
+    on.exit({.Random.seed <<- old})
+  }
 
   t_interval <- seq(0, 1, length = p)
 
@@ -134,43 +136,37 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
 
   rho <- ifelse(1:K < 4, 1 / (1:K + 1), 1 / (1:K + 1)^2)
 
-  theta <- sapply(1:K, function(k) {
+  theta <- t(sapply(1:K, function(k) {
     if (k %% 2 == 0) sqrt(2) * sin(k * pi * t_interval)
     else if (k %% 2 != 0 && k != 1) sqrt(2) * cos((k - 1) * pi * t_interval)
     else rep(1, p)
-  }) %>% t()
+  }))
 
-  m <- sqrt(rho)*theta
+  m <- sqrt(rho) * theta
 
-  if(i_sim ==1){
-    E2 <- E1 + colSums(m[1:4,])
-  } else if(i_sim == 2){
-    E2 <- E1 + colSums(m[5:K,])
-  } else if(i_sim == 3){
-    E2 <- (t(E1) + colSums(m[1:4,])) |> t()
-  } else{
-    E2 <- (t(E1) + colSums(m[5:K,])) |> t()
-  }
+  E2 <- switch(i_sim,
+      E1 + colSums(m[1:4,]),       # 1
+      E1 + colSums(m[5:K,]),       # 2
+      t(t(E1) + colSums(m[1:4,])), # 3
+      t(t(E1) + colSums(m[5:K,]))  # 4
+  )
 
-  if(i_sim %in% c(1,2)){
-    z1 <- (matrix(stats::rnorm(n*K), K, n) * sqrt(rho)) |> t()
-    z2 <- (matrix(stats::rnorm(n*K), K, n) * sqrt(rho)) |> t()
+  if (i_sim %in% c(1, 2)) {
+    z1 <- t(matrix(stats::rnorm(n*K), K, n) * sqrt(rho))
+    z2 <- t(matrix(stats::rnorm(n*K), K, n) * sqrt(rho))
 
-    X1 <- (t(z1 %*% theta) + E1) |> t()
-    X2 <- (t(z2 %*% theta) + E2) |> t()
+    X1 <- t(t(z1 %*% theta) + E1)
+    X2 <- t(t(z2 %*% theta) + E2)
     X <- rbind(X1,X2)
-  } else{
-    z1 <- (array(stats::rnorm(n*K*2), dim =c(K, n, 2)) * sqrt(rho)) |>
-      aperm(perm = c(2,1,3))
-    z2 <- (array(stats::rnorm(n*K*2), dim =c(K, n, 2)) * sqrt(rho)) |>
-      aperm(perm = c(2,1,3))
+  } else {
+    z1 <- aperm(array(stats::rnorm(n*K*2), dim =c(K, n, 2)) * sqrt(rho),
+                perm = c(2, 1, 3))
+    z2 <- aperm(array(stats::rnorm(n*K*2), dim =c(K, n, 2)) * sqrt(rho),
+                perm = c(2, 1, 3))
 
-    X1 <- unlist(lapply(1:2, function(k) t(z1[ , , k] %*% theta) + E1[k, ])) |>
-      array(dim = c(p, n, 2)) |> aperm(perm = c(2,1,3))
-    X2 <- unlist(lapply(1:2, function(k) t(z2[ , , k] %*% theta) + E2[k, ])) |>
-      array(dim = c(p, n, 2)) |> aperm(perm = c(2,1,3))
-    X <- unlist(lapply(1:2, function(k) rbind(X1[ , , k], X2[ , , k]))) |>
-      array(dim = c(2*n, p, 2))
+    X1 <- aperm(array(unlist(lapply(1:2, function(k) t(z1[ , , k] %*% theta) + E1[k, ])), dim = c(p, n, 2)), perm = c(2, 1, 3))
+    X2 <- aperm(array(unlist(lapply(1:2, function(k) t(z2[ , , k] %*% theta) + E2[k, ])), dim = c(p, n, 2)), perm = c(2, 1, 3))
+    X <- array(unlist(lapply(1:2, function(k) rbind(X1[ , , k], X2[ , , k]))), dim = c(2 * n, p, 2))
   }
 
   return(X)
