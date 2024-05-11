@@ -8,7 +8,7 @@ sim_model_ex1(n = 50, p = 30, i_sim = 1, seed = NULL)
 }
 \arguments{
 \item{n}{Number of curves to generate for each of the two groups.
-Set to 50 by default}
+Set to 50 by default.}
 
 \item{p}{Number of grid points of the curves.
 Curves are generated over the interval \eqn{[0, 1]}.
@@ -50,4 +50,5 @@ Model 7 and 8 are obtained by a different mean function.
 \examples{
 sm1 <- sim_model_ex1()
 dim(sm1)
+
 }

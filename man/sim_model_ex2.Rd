@@ -7,12 +7,10 @@
 sim_model_ex2(n = 50, p = 150, i_sim = 1, seed = NULL)
 }
 \arguments{
-\item{n}{Number of curves to generate for each of the two groups.
-Set to 50 by default}
+\item{n}{Number of curves to generate for each of the two groups. Set to 50 by default.}
 
 \item{p}{Number of grid points of the curves.
-Curves are generated over the interval \eqn{[0, 1]}.
-Set to 150 grid point by default}
+Curves are generated over the interval \eqn{[0, 1]}. Set to 150 grid point by default.}
 
 \item{i_sim}{Integer set to \eqn{1, \ldots, 4}}
 

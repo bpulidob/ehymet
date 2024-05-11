@@ -46,7 +46,7 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
   }
 
   if (!(i_sim %in% 1:8)) {
-    stop("argument 'i_sum' shold have a value between 1 and 8", call. = FALSE)
+    stop("argument 'i_sim' shold have a value between 1 and 8", call. = FALSE)
   }
 
   # set seed if given
@@ -63,7 +63,7 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
   egauss <- MASS::mvrnorm(n ,rep(0, p), sigma)
 
   S2 <- function(t) exp(-1/0.2 * abs(outer(t,t,"-")))
-  sigma2 <- 0.5 * (t_interval)
+  sigma2 <- 0.5 * S2(t_interval)
   # centered Gaussian process
   hgauss <- MASS::mvrnorm(n ,rep(0, p), sigma2)
 
@@ -115,7 +115,7 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
 
   if (!(i_sim %in% 1:4)) {
-    stop("argument 'i_sum' shold have a value between 1 and 8", call. = FALSE)
+    stop("argument 'i_sim' shold have a value between 1 and 8", call. = FALSE)
   }
 
   # set seed if given

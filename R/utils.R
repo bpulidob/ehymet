@@ -4,10 +4,10 @@
 #' represents values along the curve or \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
-#' @param grid_ll lower limit of the grid.
-#' @param grid_ul upper limit of the grid.
 #' @param nbasis Number of basis for the B-splines
 #' @param norder Order of the B-splines
+#' @param grid_ll lower limit of the grid.
+#' @param grid_ul upper limit of the grid.
 #' @param ... Ignored.
 #'
 #' @return A list containing smoothed data, first and second derivatives
