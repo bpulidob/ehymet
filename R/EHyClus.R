@@ -93,35 +93,35 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
   ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
 
   vars_combinations_to_remove <- c()
-  for (index in seq_along(vars_combinations)) {
-    if (length(vars_combinations[[index]]) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
-      warning(paste0("Index '", index, "' of 'vars_combinations' is empty.",
+  for (i in seq_along(vars_combinations)) {
+    if (length(vars_combinations[[i]]) == 0) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
+      warning(paste0("Index '", i, "' of 'vars_combinations' is empty.",
                      "Removing it..."))
       next
     }
 
-    if (length(vars_combinations[[index]]) == 1) {
-      warning(paste0("Combination of varaibles '", vars_combinations[[index]],
-                     "' with index ", index, " is only one variable, which ",
+    if (length(vars_combinations[[i]]) == 1) {
+      warning(paste0("Combination of varaibles '", vars_combinations[[i]],
+                     "' with index ", i, " is only one variable, which ",
                      "does not have much sense in this context...")
               )
     }
 
-    if (!all(vars_combinations[[index]] %in% names(ind_curves))) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
-      warning(paste0("Invalid variable name in 'vars_combinations' for index ", index,
+    if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
+      warning(paste0("Invalid variable name in 'vars_combinations' for index ", i,
                      ". Removing combination..."))
 
       next
     }
 
-    if (det(stats::var(ind_curves[,vars_combinations[[index]]])) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, index)
+    if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
 
       warning(paste0("Combination of variables '",
-                     paste0(vars_combinations[index], collapse = ", "),
-                     "' with index ", index, " is singular or almost singular.\n",
+                     paste0(vars_combinations[i], collapse = ", "),
+                     "' with index ", i, " is singular or almost singular.\n",
                      "Excluding it from any computation...")
               )
     }

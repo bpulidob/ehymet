@@ -41,7 +41,7 @@
 #' @export
 sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 
-  if (!requireNamespace("MASS")) {
+  if (!requireNamespace("MASS", quietly = TRUE)) {
     stop("package 'MASS' is required for this functionality", call. = FALSE)
   }
 

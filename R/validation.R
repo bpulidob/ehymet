@@ -5,7 +5,6 @@
 #' @param clusters Number of clusters to create
 #'
 #' @return A table containing values for Purity, F-measure and RI
-#' @export
 #'
 #' @examples
 #' set.seed(1221)
@@ -16,25 +15,34 @@
 #' clus_kmeans <- ehymet::clustInd_kmeans(data_ind, list(vars1))
 #' cluskmeans_mahalanobis_dtaEIdtaMEI <- clus_kmeans$kmeans_mahalanobis_dtaEIdtaMEI$cluster
 #' valid(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
-valid <- function(true_labels, clusters){
-
-  if (is.integer(true_labels))
+#'
+#' @export
+valid <- function(true_labels, clusters) {
+  if (is.integer(true_labels)) {
     true_labels <- as.numeric(true_labels)
-  if (is.integer(clusters))
+  }
+
+  if (is.integer(clusters)) {
     clusters <- as.numeric(clusters)
-  if (!is.vector(true_labels) || !is.numeric(true_labels))
-    stop("true_labels should be a numeric vector")
-  if (!is.vector(clusters) || !is.numeric(clusters))
-    stop("clusters should be a numeric vector")
-  if (length(true_labels) != length(clusters))
-    stop("The length of the true_labels vector should be equal to
-         the length of the clusters vector")
+  }
+
+  if (!is.vector(true_labels) || !is.numeric(true_labels)) {
+    stop("'true_labels' should be a numeric vector", call. = FALSE)
+  }
+
+  if (!is.vector(clusters) || !is.numeric(clusters)) {
+    stop("clusters should be a numeric vector", call. = FALSE)
+  }
+
+  if (length(true_labels) != length(clusters)) {
+    stop("The length of the true_labels vector should be equal to the length of the clusters vector", call. = FALSE)
+  }
 
   tbl <- table(clusters, true_labels) # contingency table
   conv_df <- as.data.frame.matrix(tbl)
 
   # Purity
-  res_purity <- sum(apply(conv_df, 1, max))/length(true_labels)
+  res_purity <- sum(apply(conv_df, 1, max)) / length(true_labels)
 
   # True positives(tp), false positives(fp), true negatives(tn),
   # and false negatives(fn)
@@ -56,5 +64,5 @@ valid <- function(true_labels, clusters){
            round((tp + tn) / (tp + fp + fn + tn), 4))
   names(res) <- c("Purity", "Fmeasure", "RI")
 
-  return(as.table(res))
+  as.table(res)
 }
