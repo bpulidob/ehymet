@@ -100,6 +100,13 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
     stop("input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
+  # Check for correct vars combinations
+  vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
+
+  if (length(vars_combinations_to_remove)) {
+    vars_combinations <- vars_combinations[-vars_combinations_to_remove]
+  }
+
   # Check if indices, methods and distances lists are provided
   if (!is.character(method_list) ||
       !is.character(dist_list) || length(vars_combinations) == 0 ||
@@ -265,6 +272,13 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
+  # Check for correct vars combinations
+  vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
+
+  if (length(vars_combinations_to_remove)) {
+    vars_combinations <- vars_combinations[-vars_combinations_to_remove]
+  }
+
   # Check if indices, methods and distances lists are provided
   if (length(vars_combinations) == 0 || length(dist_list) == 0) {
     stop("Invalid 'vars_combinations' or 'dist_list'. Both must be non-empty
@@ -391,6 +405,13 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
+  # Check for correct vars combinations
+  vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
+
+  if (length(vars_combinations_to_remove)) {
+    vars_combinations <- vars_combinations[-vars_combinations_to_remove]
+  }
+
   # Check if indices, and kernel lists are provided
   if (!is.character(kernel_list) || length(vars_combinations) == 0 || length(kernel_list) == 0) {
     stop("Invalid 'kernel_list' or 'vars_combinations'. Both must be non-empty
@@ -511,6 +532,13 @@ clustInd_spc <- function(ind_data, vars_combinations,
 
   if(!is.list(vars_combinations)) {
     stop("Input 'vars_combinations' must be a data frame.", call. = FALSE)
+  }
+
+  # Check for correct vars combinations
+  vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
+
+  if (length(vars_combinations_to_remove)) {
+    vars_combinations <- vars_combinations[-vars_combinations_to_remove]
   }
 
   # Check if indices, methods and distances lists are provided

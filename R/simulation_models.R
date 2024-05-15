@@ -53,6 +53,7 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
   if(!is.null(seed)) {
     old <- .Random.seed
     on.exit({.Random.seed <<- old})
+    set.seed(seed)
   }
 
   t_interval <- seq(0, 1, length = p)
@@ -122,6 +123,7 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
   if(!is.null(seed)) {
     old <- .Random.seed
     on.exit({.Random.seed <<- old})
+    set.seed(seed)
   }
 
   t_interval <- seq(0, 1, length = p)

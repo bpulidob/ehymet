@@ -9,8 +9,10 @@
 #' represents the number of dimensions in the data
 #' @param grid_ll lower limit of the grid.
 #' @param grid_ul upper limit of the grid.
-#' @param vars_combinations \code{list} containing one or more combinations of indexes in
-#' \code{ind_data}. If it is non-named, the names of the variables are set to
+#' @param vars_combinations \code{list} containing one or more combinations of variables.
+#' Each element of the list should be an atomic \code{vector} of strings with the
+#' names of the variables. Combinations with non-valid variable names will be discarded.
+#' If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".
@@ -92,49 +94,12 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
   # Generate the dataset with the indexes
   ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
 
-  vars_combinations_to_remove <- c()
-  for (i in seq_along(vars_combinations)) {
-    if (length(vars_combinations[[i]]) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      warning(paste0("Index '", i, "' of 'vars_combinations' is empty.",
-                     "Removing it..."))
-      next
-    }
-
-    if (length(vars_combinations[[i]]) == 1) {
-      warning(paste0("Combination of varaibles '", vars_combinations[[i]],
-                     "' with index ", i, " is only one variable, which ",
-                     "does not have much sense in this context...")
-              )
-    }
-
-    if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      warning(paste0("Invalid variable name in 'vars_combinations' for index ", i,
-                     ". Removing combination..."))
-
-      next
-    }
-
-    if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-
-      warning(paste0("Combination of variables '",
-                     paste0(vars_combinations[i], collapse = ", "),
-                     "' with index ", i, " is singular or almost singular.\n",
-                     "Excluding it from any computation...")
-              )
-    }
-  }
-
-  if (length(vars_combinations_to_remove) == length(vars_combinations)) {
-    stop("none of the combinations provided in 'vars_combinations' is valid.", call. = FALSE)
-  }
+  # Check for correct vars combinations
+  vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_curves)
 
   if (length(vars_combinations_to_remove)) {
     vars_combinations <- vars_combinations[-vars_combinations_to_remove]
   }
-
 
   # common arguments for all the clustering methods that are implemented
   # in the package

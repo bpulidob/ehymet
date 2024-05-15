@@ -28,4 +28,5 @@ data_ind <- ehymet::ind(data)
 clus_kmeans <- ehymet::clustInd_kmeans(data_ind, list(vars1))
 cluskmeans_mahalanobis_dtaEIdtaMEI <- clus_kmeans$kmeans_mahalanobis_dtaEIdtaMEI$cluster
 valid(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
+
 }

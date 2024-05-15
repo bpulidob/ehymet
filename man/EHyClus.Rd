@@ -34,8 +34,10 @@ The functional dataset can be one dimensional (\eqn{n \times p}) where n is the 
 curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
 represents the number of dimensions in the data}
 
-\item{vars_combinations}{\code{list} containing one or more combinations of indexes in
-\code{ind_data}. If it is non-named, the names of the variables are set to
+\item{vars_combinations}{\code{list} containing one or more combinations of variables.
+Each element of the list should be an atomic \code{vector} of strings with the
+names of the variables. Combinations with non-valid variable names will be discarded.
+If it is non-named, the names of the variables are set to
 vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.}
 
 \item{nbasis}{Number of basis for the B-splines.}

@@ -78,12 +78,12 @@ result_to_table <- function(res, tl_null){
   if(tl_null){
       metrics_df <-
         data.frame(Time = sapply(1:len_res, function (i) res[[i]][[2]]))
-      row.names(metrics_df) <- name_res
+      # row.names(metrics_df) <- name_res
   } else{
     metrics_df <-
       data.frame(t(sapply(1:len_res, function (i) c(res[[i]][[2]],
                                                     "Time" = res[[i]][[3]]))))
-    row.names(metrics_df) <- name_res
+    # row.names(metrics_df) <- name_res
     }
   return(metrics_df)
 }
@@ -135,4 +135,57 @@ quiet <- function(x) {
   sink(tempfile())
   on.exit(sink())
   invisible(force(x))
+}
+
+
+#' Check all combinations of variables and found the non-valid ones
+#'
+#' @param vars_combinations \code{list} containing one or more combination of variables.
+#' @param ind_curves dataset with indices from a functional dataset in one or multiple
+#' dimensions.
+#'
+#' @return Atomic vector with the index of the non-valid combinations of variables.
+#'
+#' @noRd
+check_vars_combinations <- function(vars_combinations, ind_curves) {
+  vars_combinations_to_remove <- c()
+  for (i in seq_along(vars_combinations)) {
+    if (length(vars_combinations[[i]]) == 0) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
+      warning(paste0("Index '", i, "' of 'vars_combinations' is empty.",
+                     "Removing it..."))
+      next
+    }
+
+    if (length(vars_combinations[[i]]) == 1) {
+      warning(paste0("Combination of varaibles '", vars_combinations[[i]],
+                     "' with index ", i, " is only one variable, which ",
+                     "does not have much sense in this context...")
+      )
+    }
+
+    if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
+      warning(paste0("Invalid variable name in 'vars_combinations' for index ", i,
+                     ". Removing combination..."))
+
+      next
+    }
+
+    if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
+      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
+
+      warning(paste0("Combination of variables '",
+                     paste0(vars_combinations[i], collapse = ", "),
+                     "' with index ", i, " is singular or almost singular.\n",
+                     "Excluding it from any computation...")
+      )
+    }
+  }
+
+  if (length(vars_combinations_to_remove) == length(vars_combinations)) {
+    stop("none of the combinations provided in 'vars_combinations' is valid.", call. = FALSE)
+  }
+
+  vars_combinations_to_remove
 }

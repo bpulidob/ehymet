@@ -50,4 +50,5 @@ ind(x1, nbasis = 4)
 
 x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
 ind(x2, nbasis = 4)
+
 }
