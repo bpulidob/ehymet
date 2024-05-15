@@ -64,3 +64,17 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
 #   )
 # })
 
+test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus'", {
+  n <- 100
+  labels <- rep(c(1,2), each = n)
+
+  vars1  <- c("dtaMEI","ddtaMEI")
+  vars2  <- c("dtaMEI","d2dtaMEI")
+
+  curves <- sim_model_ex1(n = n)
+  res <- EHyClus(curves, list(vars1, vars2), true_labels = labels)
+
+  expect_equal(names(res), c("cluster", "metrics"))
+  expect_equal(dim(res$metrics), c(32, 4))
+})
+

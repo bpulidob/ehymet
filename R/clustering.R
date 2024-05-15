@@ -70,9 +70,6 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #' @param n_cluster number of clusters to generate.
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param colapse It is a boolean. If it is true a dataframe with metrics values
-#' is generated. If \code{true_labels} is True the dataframe contains Purity,
-#' F-measure, RI and Time, and if it is False, only Time.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @return A list containing hierarchical clustering results
@@ -88,7 +85,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
                               method_list = c("single","complete","average",
                                               "centroid","ward.D2"),
                               dist_list = c("euclidean", "manhattan"),
-                              n_cluster=2, true_labels = NULL, colapse = FALSE,
+                              n_cluster=2, true_labels = NULL,
                               num_cores=1) {
 
   # Check if input is a data frame
@@ -136,12 +133,6 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 
   result_name <- get_result_names("hierarch", parameter_combinations, vars_combinations)
   names(result) <- result_name
-
-  if (colapse) {
-    result <- list("list" = result,
-                   "metrics" = result_to_table(result, colapse))
-  }
-
 
   return(result)
 }
@@ -242,9 +233,6 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param colapse It is a boolean. If it is true a dataframe with metrics values
-#' is generated. If \code{true_labels} is True the dataframe contains Purity,
-#' F-measure, RI and Time, and if it is False, only Time.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @return A list containing hierarchical clustering results
@@ -260,7 +248,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' clustInd_kmeans(data_ind, list(vars1, vars2))
 clustInd_kmeans <- function(ind_data, vars_combinations,
                             dist_list = c("euclidean", "mahalanobis"),
-                            n_cluster = 2, true_labels = NULL, colapse = FALSE,
+                            n_cluster = 2, true_labels = NULL,
                             num_cores = 1) {
 
   # Check if input is a data frame
@@ -307,11 +295,6 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
 
   result_name <- get_result_names("kmeans", parameter_combinations, vars_combinations)
   names(result) <- result_name
-
-  if (colapse) {
-    result <- list("list" = result,
-                   "metrics" = result_to_table(result, colapse))
-  }
 
   return(result)
 }
@@ -376,9 +359,6 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param colapse It is a boolean. If it is true a dataframe with metrics values
-#' is generated. If \code{true_labels} is True the dataframe contains Purity,
-#' F-measure, RI and Time, and if it is False, only Time.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @param ... Additional arguments (unused)
@@ -393,7 +373,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' clustInd_kkmeans(data_ind, list(vars1, vars2))
 clustInd_kkmeans <- function(ind_data, vars_combinations,
                              kernel_list = c("rbfdot", "polydot"),
-                             n_cluster = 2, true_labels = NULL, colapse = FALSE,
+                             n_cluster = 2, true_labels = NULL,
                              num_cores = 1, ...) {
 
   # Check if input is a data frame
@@ -439,11 +419,6 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
 
   result_name <- get_result_names("kkmeans", parameter_combinations, vars_combinations)
   names(result) <- result_name
-
-  if (colapse) {
-    result <- list("list" = result,
-                   "metrics" = result_to_table(result, colapse))
-  }
 
   return(result)
 }
@@ -505,9 +480,6 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param colapse It is a boolean. If it is true a dataframe with metrics values
-#' is generated. If \code{true_labels} is True the dataframe contains Purity,
-#' F-measure, RI and Time, and if it is False, only Time.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @param ... Additional arguments (unused)
@@ -522,7 +494,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' clustInd_spc(data_ind, list(vars1, vars2))
 clustInd_spc <- function(ind_data, vars_combinations,
                          kernel_list = c("rbfdot", "polydot"),
-                         n_cluster = 2, true_labels = NULL, colapse = FALSE,
+                         n_cluster = 2, true_labels = NULL,
                          num_cores = 1, ...) {
 
   # Check if input is a data frame
@@ -569,9 +541,6 @@ clustInd_spc <- function(ind_data, vars_combinations,
 
   result_name <- get_result_names("spc", parameter_combinations, vars_combinations)
   names(result) <- result_name
-
-  if(colapse) result <- list("list" = result,
-                             "metrics" = result_to_table(result, colapse))
 
   return(result)
 }

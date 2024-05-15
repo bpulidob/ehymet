@@ -29,9 +29,6 @@
 #' @param n_clusters Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param colapse It is a boolean. If it is true a dataframe with metrics values
-#' is generated. If \code{true_labels} is True the dataframe contains Purity,
-#' F-measure, RI and Time, and if it is False, only Time.
 #' @param verbose If \code{TRUE}, the function will print logs for about the execution of
 #' some clustering methods. Defaults to \code{FALSE}.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,
@@ -57,7 +54,7 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
                     l_dist_kmeans      = c("euclidean", "mahalanobis"),
                     l_kernel           = c("rbfdot", "polydot"),
                     grid_ll = 0, grid_ul = 1,
-                    true_labels = NULL, colapse = FALSE, verbose = FALSE, num_cores = 1, ...) {
+                    true_labels = NULL, verbose = FALSE, num_cores = 1, ...) {
   # vars_combinations TIENE QUE SER LIST !!!!!
   if (!is.list(vars_combinations)) {
     stop("input 'vars_combinations' must be a list", call. = FALSE)
@@ -65,6 +62,10 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
 
   if (!length(vars_combinations)) {
     stop("input 'vars_combinations' is empty", call. = FALSE)
+  }
+
+  if (!is.null(true_labels) && length(true_labels) != dim(curves)[1]) {
+    stop("'true labels' should have the same length as the number of curves", call. = FALSE)
   }
 
   # list that maps each clustering method to its corresponding function
@@ -108,7 +109,6 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
     "vars_combinations" = vars_combinations,
     "n_cluster"         = n_clusters,
     "true_labels"       = true_labels,
-    "colapse"           = colapse,
     "num_cores"         = num_cores
   )
 
@@ -128,8 +128,19 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
     }
   }
 
-  if (colapse) {
-    metrics <- do.call(rbind, sapply(cluster, "[[", "metrics"))
+  if (!is.null(true_labels)) {
+    methods <- c()
+    metrics <- data.frame(Purity = numeric(0), Fmeasure = numeric(0), RI = numeric(0), Time = numeric(0))
+    for (clustering_method in names(cluster)) {
+      for (method in names(cluster[[clustering_method]])) {
+        methods <- c(methods, method)
+        metrics <- rbind(metrics,
+                         c(cluster[[clustering_method]][[method]][["valid"]], cluster[[clustering_method]][[method]][["time"]]))
+      }
+    }
+    names(metrics) <- c("Purity", "Fmeasure", "RI", "Time")
+    rownames(metrics) <- methods
+
     result  <- list("cluster" = cluster, "metrics" = metrics)
   } else {
     result <- list("cluster" = cluster)

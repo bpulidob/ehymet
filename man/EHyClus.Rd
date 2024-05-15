@@ -22,7 +22,6 @@ EHyClus(
   grid_ll = 0,
   grid_ul = 1,
   true_labels = NULL,
-  colapse = FALSE,
   verbose = FALSE,
   num_cores = 1,
   ...
@@ -68,10 +67,6 @@ clustering}
 
 \item{true_labels}{Vector of true labels for validation
 (if it is not known true_labels is set to NULL)}
-
-\item{colapse}{It is a boolean. If it is true a dataframe with metrics values
-is generated. If \code{true_labels} is True the dataframe contains Purity,
-F-measure, RI and Time, and if it is False, only Time.}
 
 \item{verbose}{If \code{TRUE}, the function will print logs for about the execution of
 some clustering methods. Defaults to \code{FALSE}.}

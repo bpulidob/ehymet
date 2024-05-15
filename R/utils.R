@@ -63,31 +63,6 @@ funspline <- function(curves, nbasis, norder, grid_ll = 0, grid_ul = 1, ...) {
   return(res)
 }
 
-#' Transform metrics results from clustering functions in cluster.R to a dataframe
-#'
-#' @param res list containing clustering partition and metric for different
-#' combinations
-#' @param tl_null a bool to indicate weather metrics other than time ane or not
-#' available
-#'
-#' @return Dataframe
-#' @noRd
-result_to_table <- function(res, tl_null){
-  name_res <- names(res)
-  len_res <- length(name_res)
-  if(tl_null){
-      metrics_df <-
-        data.frame(Time = sapply(1:len_res, function (i) res[[i]][[2]]))
-      # row.names(metrics_df) <- name_res
-  } else{
-    metrics_df <-
-      data.frame(t(sapply(1:len_res, function (i) c(res[[i]][[2]],
-                                                    "Time" = res[[i]][[3]]))))
-    # row.names(metrics_df) <- name_res
-    }
-  return(metrics_df)
-}
-
 #' Checks for list function arguments
 #'
 #' Checks that a list given as argument to a function is not empty,

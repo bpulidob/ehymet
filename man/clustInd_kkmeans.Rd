@@ -11,7 +11,6 @@ clustInd_kkmeans(
   kernel_list = c("rbfdot", "polydot"),
   n_cluster = 2,
   true_labels = NULL,
-  colapse = FALSE,
   num_cores = 1,
   ...
 )
@@ -30,10 +29,6 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 
 \item{true_labels}{Vector of true labels for validation
 (if it is not known true_labels is set to NULL)}
-
-\item{colapse}{It is a boolean. If it is true a dataframe with metrics values
-is generated. If \code{true_labels} is True the dataframe contains Purity,
-F-measure, RI and Time, and if it is False, only Time.}
 
 \item{num_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution.}
