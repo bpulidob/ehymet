@@ -124,11 +124,17 @@ quiet <- function(x) {
 #' @noRd
 check_vars_combinations <- function(vars_combinations, ind_curves) {
   vars_combinations_to_remove <- c()
+
+  vars_empty           <- c()
+  vars_invalid_name    <- c()
+  vars_almost_singular <- c()
+
+
   for (i in seq_along(vars_combinations)) {
     if (length(vars_combinations[[i]]) == 0) {
       vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      warning(paste0("Index '", i, "' of 'vars_combinations' is empty.",
-                     "Removing it..."))
+      vars_empty <- c(vars_empty, i)
+
       next
     }
 
@@ -141,21 +147,36 @@ check_vars_combinations <- function(vars_combinations, ind_curves) {
 
     if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
       vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      warning(paste0("Invalid variable name in 'vars_combinations' for index ", i,
-                     ". Removing combination..."))
+      vars_invalid_name <- c(vars_invalid_name, i)
 
       next
     }
 
     if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
       vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-
-      warning(paste0("Combination of variables '",
-                     paste0(vars_combinations[i], collapse = ", "),
-                     "' with index ", i, " is singular or almost singular.\n",
-                     "Excluding it from any computation...")
-      )
+      vars_almost_singular <- c(vars_almost_singular, i)
     }
+  }
+
+  if (length(vars_empty)) {
+    warning(paste0("Index/indices '", paste0(vars_empty, collapse = ", "), "' of 'vars_combinations' is/are empty.",
+                   "Removing them..."))
+  }
+
+  if (length(vars_invalid_name)) {
+    warning(paste0("Invalid variable name in 'vars_combinations' for index/indices ",
+                   paste0(vars_invalid_name, collapse = ", "),
+                   ". Removing them..."))
+  }
+
+  if (length(vars_almost_singular)) {
+    warning(paste0("Combination/s of variables with index/indices", paste0(vars_almost_singular, collapse = ", "),
+                   "is/are singular or almost singular. Removing them..."))
+  }
+
+  if (length(vars_combinations_to_remove)) {
+    warning(paste0("Combination/s of variable/s with index", paste0(vars_combinations_to_remove, collapse = ", "),
+                   "are not valid. Excluding them from any computation..."))
   }
 
   if (length(vars_combinations_to_remove) == length(vars_combinations)) {
