@@ -101,7 +101,31 @@ test_that("the 'get_best_vars_combinatios' is giving the expected results", {
   top_n <- 3
   best_combinatons <- get_best_vars_combinations(ind_curves = ind_curves, top_n = top_n)
 
-  expect_true(length(best_combinatons) == top_n)
+  expect_length(best_combinatons, top_n)
 
   expect_equal(best_combinatons, expected_best_combinations)
+})
+
+test_that("giving an integer number to 'vars_combinations' works", {
+  curves <- sim_model_ex1(seed = 42)
+
+  # By default, only one combination should be used
+  res <- EHyClus(curves)
+  expect_length(attr(res, "vars_combinations"), 1)
+
+  # Changing the 'vars_combinations' parameter should increase the number of combinations
+  res <- EHyClus(curves, vars_combinations = 2)
+  expect_length(attr(res, "vars_combinations"), 2)
+
+  indices <- c("EI", "MHI")
+  humongous_vars_combinations_number <- 9999999999
+  max_vars_combinations_number <- 2^6 - 6 - 1
+  res <- suppressWarnings(
+    EHyClus(curves,
+            vars_combinations = humongous_vars_combinations_number,
+            indices = indices
+    )
+  )
+
+  expect_true(length(attr(res, "vars_combinations")) <= max_vars_combinations_number)
 })

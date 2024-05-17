@@ -9,11 +9,15 @@
 #' represents the number of dimensions in the data
 #' @param grid_ll lower limit of the grid.
 #' @param grid_ul upper limit of the grid.
-#' @param vars_combinations \code{list} containing one or more combinations of variables.
-#' Each element of the list should be an atomic \code{vector} of strings with the
+#' @param vars_combinations \code{integer} or \code{list}.
+#' If \code{integer}, the method will automatically determine the best combinations
+#' of variables. As many combinations will be selected as the value of the variable.
+#' If \code{list},  each element of the list should be an atomic \code{vector} of strings with the
 #' names of the variables. Combinations with non-valid variable names will be discarded.
-#' If it is non-named, the names of the variables are set to
+#' If the list is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
+#' Default to an \code{integer} with value \code{1}, i.e. it only uses the theoretically
+#' best combination.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".
 #' @param nbasis Number of basis for the B-splines.
@@ -46,7 +50,7 @@
 #' EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
 #'
 #' @export
-EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, norder = 4,
+EHyClus <- function(curves, vars_combinations = 1, nbasis = 30,  n_clusters = 2, norder = 4,
                     clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
                     indices            = c("EI", "HI", "MEI", "MHI"),
                     l_method_hierarch  = c("single", "complete", "average", "centroid", "ward.D2"),
@@ -55,13 +59,13 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
                     l_kernel           = c("rbfdot", "polydot"),
                     grid_ll = 0, grid_ul = 1,
                     true_labels = NULL, verbose = FALSE, num_cores = 1, ...) {
-  # vars_combinations TIENE QUE SER LIST !!!!!
-  if (!is.list(vars_combinations)) {
-    stop("input 'vars_combinations' must be a list", call. = FALSE)
+
+  if (!is.list(vars_combinations) && !is.numeric(vars_combinations)) {
+    stop("input 'vars_combinations' must be a list or an integer number", call. = FALSE)
   }
 
-  if (!length(vars_combinations)) {
-    stop("input 'vars_combinations' is empty", call. = FALSE)
+  if (is.list(vars_combinations) && !length(vars_combinations)) {
+    stop("input 'vars_combinations' is an empty list", call. = FALSE)
   }
 
   if (!is.null(true_labels) && length(true_labels) != dim(curves)[1]) {
@@ -95,12 +99,23 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
   # Generate the dataset with the indexes
   ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
 
+  if (!is.list(vars_combinations)) {
+    max_n <- 2^length(ind_curves) - length(ind_curves) - 1 # power set - 1-variable combinations - empty set
+    if (vars_combinations > max_n) {
+      warning(paste0("The maximum number for 'vars_combinations' in this setting is ", max_n))
+      vars_combinations <- max_n
+    }
+
+    vars_combinations <- get_best_vars_combinations(ind_curves, vars_combinations)
+  }
+
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_curves)
 
   if (length(vars_combinations_to_remove)) {
     vars_combinations <- vars_combinations[-vars_combinations_to_remove]
   }
+
 
   # common arguments for all the clustering methods that are implemented
   # in the package
@@ -147,7 +162,9 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
   }
 
   class(result) <- c("EHyClus", class(result))
-  attr(result, "n_clusters") <- n_clusters
+
+  attr(result, "n_clusters")        <- n_clusters
+  attr(result, "vars_combinations") <- vars_combinations
 
   result
 }
@@ -173,7 +190,7 @@ EHyClus <- function(curves, vars_combinations, nbasis = 30,  n_clusters = 2, nor
 #' @noRd
 get_best_vars_combinations <- function(ind_curves, top_n) {
   if (top_n %% 1 != 0 || top_n < 1) {
-    stop("'top_n' must be an integer greater than 1", call. = FALSE)
+    stop("'vars_combinations' must be an integer greater than 1", call. = FALSE)
   }
 
   vars <- names(ind_curves)
