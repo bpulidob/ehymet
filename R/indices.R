@@ -268,7 +268,7 @@ MHI.default <- function(curves, ...) {
 #' ind(x2, nbasis = 4)
 #'
 #' @export
-ind <- function(curves, grid_ll = 0, grid_ul = 1, nbasis=25, norder=4,
+ind <- function(curves, grid_ll, grid_ul, nbasis = 30, norder = 4,
                      indices = c("EI", "HI", "MEI", "MHI"), ...){
 
   # define indices constant
