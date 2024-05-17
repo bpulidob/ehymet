@@ -25,7 +25,8 @@ Imports:
   dplyr,
   fda,
   kernlab,
-  stats
+  stats,
+  utils
 Suggests: 
     ggplot2,
     MASS,

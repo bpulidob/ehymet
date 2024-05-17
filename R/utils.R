@@ -11,6 +11,7 @@
 #' @param ... Ignored.
 #'
 #' @return A list containing smoothed data, first and second derivatives
+#'
 #' @noRd
 funspline <- function(curves, nbasis, norder, grid_ll = 0, grid_ul = 1, ...) {
   #Create B-spline basis
@@ -110,78 +111,4 @@ quiet <- function(x) {
   sink(tempfile())
   on.exit(sink())
   invisible(force(x))
-}
-
-
-#' Check all combinations of variables and found the non-valid ones
-#'
-#' @param vars_combinations \code{list} containing one or more combination of variables.
-#' @param ind_curves dataset with indices from a functional dataset in one or multiple
-#' dimensions.
-#'
-#' @return Atomic vector with the index of the non-valid combinations of variables.
-#'
-#' @noRd
-check_vars_combinations <- function(vars_combinations, ind_curves) {
-  vars_combinations_to_remove <- c()
-
-  vars_empty           <- c()
-  vars_invalid_name    <- c()
-  vars_almost_singular <- c()
-
-
-  for (i in seq_along(vars_combinations)) {
-    if (length(vars_combinations[[i]]) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      vars_empty <- c(vars_empty, i)
-
-      next
-    }
-
-    if (length(vars_combinations[[i]]) == 1) {
-      warning(paste0("Combination of varaibles '", vars_combinations[[i]],
-                     "' with index ", i, " is only one variable, which ",
-                     "does not have much sense in this context...")
-      )
-    }
-
-    if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      vars_invalid_name <- c(vars_invalid_name, i)
-
-      next
-    }
-
-    if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
-      vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
-      vars_almost_singular <- c(vars_almost_singular, i)
-    }
-  }
-
-  if (length(vars_empty)) {
-    warning(paste("Index/indices ", paste0(vars_empty, collapse = ", "), "of 'vars_combinations' is/are empty.",
-                   "Removing them..."))
-  }
-
-  if (length(vars_invalid_name)) {
-    warning(paste("Invalid variable name in 'vars_combinations' for index/indices ",
-                   paste0(vars_invalid_name, collapse = ", "),
-                   ". Removing them..."))
-  }
-
-  if (length(vars_almost_singular)) {
-    warning(paste("Combination/s of variables with index/indices", paste0(vars_almost_singular, collapse = ", "),
-                   "is/are singular or almost singular. Removing them..."))
-  }
-
-  if (length(vars_combinations_to_remove)) {
-    warning(paste("Combination/s of variable/s with index", paste0(vars_combinations_to_remove, collapse = ", "),
-                   "are not valid. Excluding them from any computation..."))
-  }
-
-  if (length(vars_combinations_to_remove) == length(vars_combinations)) {
-    stop("none of the combinations provided in 'vars_combinations' is valid.", call. = FALSE)
-  }
-
-  vars_combinations_to_remove
 }

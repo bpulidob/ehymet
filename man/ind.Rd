@@ -7,10 +7,10 @@ dimensions}
 \usage{
 ind(
   curves,
+  nbasis = 30,
+  norder = 4,
   grid_ll = 0,
   grid_ul = 1,
-  nbasis = 25,
-  norder = 4,
   indices = c("EI", "HI", "MEI", "MHI"),
   ...
 )
@@ -22,13 +22,13 @@ one-dimensional functional dataset, or \code{array} of dimension
 \eqn{n} represents the number of curves, \eqn{p} the number of values along
 the curve, and in the second case, \eqn{k} is the number of dimensions.}
 
-\item{grid_ll}{lower limit of the grid.}
+\item{nbasis}{Number of basis for the B-splines.}
 
-\item{grid_ul}{upper limit of the grid.}
+\item{norder}{Order of the B-splines.}
 
-\item{nbasis}{Number of basis for the B-splines}
+\item{grid_ll}{Lower limit of the grid.}
 
-\item{norder}{Order of the B-splines}
+\item{grid_ul}{Upper limit of the grid.}
 
 \item{indices}{Set of indices to be applied to the dataset. They should be
 any between EI, HI, MEI and MHI}

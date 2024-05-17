@@ -71,10 +71,37 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
   vars1  <- c("dtaMEI","ddtaMEI")
   vars2  <- c("dtaMEI","d2dtaMEI")
 
-  curves <- sim_model_ex1(n = n)
+  curves <- sim_model_ex2(n = n)
   res <- EHyClus(curves, list(vars1, vars2), true_labels = labels)
 
   expect_equal(names(res), c("cluster", "metrics"))
   expect_equal(dim(res$metrics), c(32, 4))
 })
 
+
+test_that("the 'get_best_vars_combinatios' is giving the expected results", {
+  curves  <- sim_model_ex1(seed = 33)
+  grid_ll <- 0
+  grid_ul <- 1
+  nbasis  <- 30
+  norder  <- 4
+  indices <- c("EI", "HI", "MEI", "MHI")
+
+  expected_best_combinations <- list(
+    c("dtaEI", "dtaMEI"),
+    c("dtaEI", "dtaMHI"),
+    c("dtaHI", "dtaMEI")
+  )
+
+  ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
+
+  expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = -2))
+  expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = 1.432534534))
+
+  top_n <- 3
+  best_combinatons <- get_best_vars_combinations(ind_curves = ind_curves, top_n = top_n)
+
+  expect_true(length(best_combinatons) == top_n)
+
+  expect_equal(best_combinatons, expected_best_combinations)
+})
