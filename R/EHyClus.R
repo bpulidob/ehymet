@@ -197,7 +197,7 @@ get_best_vars_combinations <- function(ind_curves, top_n) {
   all_vars_combinations <- do.call(c, lapply(2:length(vars), utils::combn, x = vars, simplify = FALSE))
   dets <- lapply(all_vars_combinations, function(combination) det(stats::cov(ind_curves[, combination])))
 
-  best_n <- sort(unlist(dets), index.return=TRUE, decreasing=TRUE)$ix[1:top_n]
+  best_n <- sort(unlist(dets), index.return = TRUE, decreasing = TRUE)$ix[1:top_n]
 
   all_vars_combinations[best_n]
 }

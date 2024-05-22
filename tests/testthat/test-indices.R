@@ -55,3 +55,22 @@ test_that("'MHI' works for a 3-dimensional array", {
 test_that("'MEI' does not work for a boolean", {
   expect_error(MEI(FALSE))
 })
+
+test_that("'generate_indices' works for a matrix", {
+  curves <- array(c(1,0,1,0,0,1,0,1), dim=c(2,4))
+
+  res <- generate_indices(curves, indices = c("EI", "MHI"))
+
+  expect_equal(dim(res), c(2,6))
+  expect_equal(res[2,1], 0.5)
+})
+
+test_that("'generate_indices' works for a 3-dimnensional array", {
+  curves <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
+                  dim = c(3,4,2))
+
+  res <- generate_indices(curves, indices = c("EI", "MHI"))
+
+  expect_equal(dim(res), c(3,6))
+  expect_equal(res[2,1], 0.666666666666666740681)
+})

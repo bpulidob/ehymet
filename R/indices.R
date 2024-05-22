@@ -309,3 +309,81 @@ ind <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_ul = 1,
   ind_data
 }
 
+
+#' Candidate for the new ind function
+#'
+#' Currently, nbasis and norder are unused
+#'
+#' @noRd
+generate_indices <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_ul = 1,
+                             indices = c("EI", "HI", "MEI", "MHI"), ...) {
+
+  # define indices constant
+  INDICES <- c("EI", "HI", "MEI", "MHI")
+  curves_dim <- length(dim(curves))
+
+  # stop conditions
+  if (!(curves_dim %in% c(2, 3)) || is.null(curves_dim)) {
+    stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
+  }
+
+  check_list_parameter(indices, INDICES, "indices")
+  grid <- seq(grid_ll, grid_ul, length.out = dim(curves)[2])
+
+  if (curves_dim == 2) {
+    # Smooth data using B-spline basis
+    ys <- tf::tfd(data = curves, arg = grid, evaluator = "tf_approx_spline")
+
+    # Evaluate smoothed data and derivatives
+    smooth <- as.matrix(ys) # smoothed data
+    deriv  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1)) # first derivatives
+    deriv2 <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2)) # second derivatives
+  } else {
+    n_curves <- dim(curves)[1]
+    l_curves <- dim(curves)[2]
+    d_curves <- dim(curves)[3]
+
+    # Initialize empty dataframes to store the results
+    smooth <- array(rep(NaN, n_curves*l_curves),       dim = c(n_curves, l_curves, d_curves))
+    deriv  <- array(rep(NaN, n_curves*(l_curves - 1)), dim = c(n_curves, l_curves - 1, d_curves))
+    deriv2 <- array(rep(NaN, n_curves*(l_curves - 2)), dim = c(n_curves, l_curves - 2, d_curves))
+
+    for (d in seq_len(dim(curves)[3])) {
+      # Smooth data using B-spline basis
+      ys <-  tf::tfd(data = curves[,,d], arg = grid, evaluator = "tf_approx_spline")
+
+      # Evaluate smoothed data and derivatives
+      smooth[,,d] <- as.matrix(ys) # smoothed data
+      deriv[,,d]  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1)) # first derivatives
+      deriv2[,,d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2)) # second derivatives
+    }
+  }
+
+  fun_data <- list(
+    "smooth" = smooth,
+    "deriv"  = deriv,
+    "deriv2" = deriv2
+  )
+
+  ind_data <- as.data.frame(matrix(NA, nrow = dim(fun_data$smooth)[1], ncol = 0))
+
+  # Loop through the list of functions and apply them to the smoothed and
+  # its first and second derivatives
+  for (index in indices) {
+    smooth_col <- paste0("dta",   index)
+    deriv_col  <- paste0("ddta",  index)
+    deriv2_col <- paste0("d2dta", index)
+
+    smooth_result <- get(index)(fun_data$smooth)
+    deriv_result  <- get(index)(fun_data$deriv)
+    deriv2_result <- get(index)(fun_data$deriv2)
+
+    ind_data <- cbind(ind_data,
+                      stats::setNames(
+                        data.frame(smooth_result, deriv_result,deriv2_result),
+                        c(smooth_col, deriv_col, deriv2_col))
+                      )
+  }
+
+  ind_data
+}
