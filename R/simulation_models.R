@@ -31,7 +31,6 @@
 #' Curves are generated over the interval \eqn{[0, 1]}.
 #' Set to 30 grid point by default
 #' @param i_sim Integer set to \eqn{1, \ldots, 8}
-#' @param seed A seed to set for reproducibility. NULL by default in which case a seed is not set.
 #' @return data matrix of size \eqn{2n \times p}
 #'
 #' @examples
@@ -39,20 +38,13 @@
 #' dim(sm1)
 #'
 #' @export
-sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
+sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1){
   if (!requireNamespace("MASS", quietly = TRUE)) {
     stop("package 'MASS' is required for this functionality", call. = FALSE)
   }
 
   if (!(i_sim %in% 1:8)) {
     stop("argument 'i_sim' shold have a value between 1 and 8", call. = FALSE)
-  }
-
-  # set seed if given
-  if(!is.null(seed)) {
-    old <- .Random.seed
-    on.exit({.Random.seed <<- old})
-    set.seed(seed)
   }
 
   t_interval <- seq(0, 1, length = p)
@@ -96,7 +88,6 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 #' @param p Number of grid points of the curves.
 #' Curves are generated over the interval \eqn{[0, 1]}. Set to 150 grid point by default.
 #' @param i_sim Integer set to \eqn{1, \ldots, 4}
-#' @param seed A seed to set for reproducibility.
 #' NULL by default in which case a seed is not set.
 #'
 #' @return data matrix of size \eqn{2n \times p} if \eqn{\code{i_sim} \in {1,2}}
@@ -111,16 +102,9 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 #' dim(sm4) # This should output (100, 150, 2) by default, since n = 50 and p = 150
 #'
 #' @export
-sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
+sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1){
   if (!(i_sim %in% 1:4)) {
     stop("argument 'i_sim' shold have a value between 1 and 8", call. = FALSE)
-  }
-
-  # set seed if given
-  if(!is.null(seed)) {
-    old <- .Random.seed
-    on.exit({.Random.seed <<- old})
-    set.seed(seed)
   }
 
   t_interval <- seq(0, 1, length = p)
@@ -185,7 +169,7 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
 #' data <- sim_model_ex1()
 #' true_labels <- c(rep(1,50), rep(2,50))
 #' plt_fun(data, true_labels)
-plt_fun <- function(data, true_labels){
+plt_fun <- function(data, true_labels) {
 
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop("package 'ggplot2' is required for this functionality", call. = FALSE)

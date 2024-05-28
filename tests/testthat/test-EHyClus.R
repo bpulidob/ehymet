@@ -1,4 +1,6 @@
 test_that("the parameter checking is working as expected", {
+  set.seed(42)
+
   data <- ehyclus_example_data()
   curves <- data$curves
   vars_combinations <- data$vars_combinations
@@ -25,6 +27,8 @@ test_that("the parameter checking is working as expected", {
 })
 
 test_that("the checking related to 'vars_combinations' is doing its work", {
+  set.seed(42)
+
   data <- ehyclus_example_data()
   curves <- data$curves
 
@@ -80,15 +84,17 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
 
 
 test_that("the 'get_best_vars_combinations' is giving the expected results", {
-  curves  <- sim_model_ex1(seed = 33)
+  set.seed(42)
+
+  curves  <- sim_model_ex1()
   grid_ll <- 0
   grid_ul <- 1
   nbasis  <- 30
   indices <- c("EI", "HI", "MEI", "MHI")
 
   expected_best_combinations <- list(
-    c("dtaEI", "dtaMEI"),
-    c("dtaEI", "dtaMHI")
+    c("dtaHI", "dtaMEI"),
+    c("dtaHI", "dtaMHI")
   )
 
   ind_curves <- generate_indices(curves, nbasis = nbasis, grid_ll = grid_ll, grid_ul = grid_ul, indices = indices)
@@ -105,7 +111,9 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
 })
 
 test_that("giving an integer number to 'vars_combinations' works", {
-  curves <- sim_model_ex1(seed = 42)
+  set.seed(33)
+
+  curves <- sim_model_ex1()
 
   # By default, only one combination should be used
   res <- EHyClus(curves, nbasis = 30)

@@ -4,7 +4,7 @@
 \alias{sim_model_ex1}
 \title{Function for generating functional data in one dimension}
 \usage{
-sim_model_ex1(n = 50, p = 30, i_sim = 1, seed = NULL)
+sim_model_ex1(n = 50, p = 30, i_sim = 1)
 }
 \arguments{
 \item{n}{Number of curves to generate for each of the two groups.
@@ -15,8 +15,6 @@ Curves are generated over the interval \eqn{[0, 1]}.
 Set to 30 grid point by default}
 
 \item{i_sim}{Integer set to \eqn{1, \ldots, 8}}
-
-\item{seed}{A seed to set for reproducibility. NULL by default in which case a seed is not set.}
 }
 \value{
 data matrix of size \eqn{2n \times p}
