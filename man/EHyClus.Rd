@@ -19,8 +19,7 @@ EHyClus(
   l_dist_hierarch = c("euclidean", "manhattan"),
   l_dist_kmeans = c("euclidean", "mahalanobis"),
   l_kernel = c("rbfdot", "polydot"),
-  grid_ll = 0,
-  grid_ul = 1,
+  grid,
   true_labels = NULL,
   verbose = FALSE,
   num_cores = 1,
@@ -43,8 +42,8 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 Default to an \code{integer} with value \code{1}, i.e. it only uses the theoretically
 best combination.}
 
-\item{k}{Number of basis functions for the B-splines. If , it will
-be automatically set.}
+\item{k}{Number of basis functions for the B-splines. If equals to 0, the number
+of basis functions will be automatically selected.}
 
 \item{n_clusters}{Number of clusters to create}
 
@@ -67,9 +66,8 @@ clustering}
 
 \item{l_kernel}{\code{list} of kernels}
 
-\item{grid_ll}{lower limit of the grid.}
-
-\item{grid_ul}{upper limit of the grid.}
+\item{grid}{Atomic vector of type numeric with two elements: the lower limit and the upper
+limit of the evaluation grid. If not provided, it will be selected automatically.}
 
 \item{true_labels}{Vector of true labels for validation
 (if it is not known true_labels is set to NULL)}
@@ -97,6 +95,6 @@ clustering and spectral clustering
 vars1 <- c("dtaEI", "dtaMEI"); vars2 <- c("dtaHI", "dtaMHI")
 varsl <- list(vars1, vars2)
 data <- sim_model_ex1()
-EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
+EHyClus(data, varsl)
 
 }

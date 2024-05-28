@@ -70,7 +70,7 @@ test_that("the 'n_clusters' parameter is working as expected", {
   curves <- data$curves
   vars_combinations <- data$vars_combinations
 
-  res <- EHyClus(curves, vars_combinations, n_clusters = 3)
+  res <- EHyClus(curves, vars_combinations = vars_combinations, n_clusters = 3)
   expect_equal(
     max(res$cluster[[1]][[1]]$cluster),
     3
@@ -85,7 +85,7 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
   vars2  <- c("dtaMEI","d2dtaMEI")
 
   curves <- sim_model_ex2(n = n)
-  res <- EHyClus(curves, list(vars1, vars2), true_labels = labels)
+  res <- EHyClus(curves, vars_combinations = list(vars1, vars2), true_labels = labels)
 
   expect_equal(names(res), c("cluster", "metrics"))
   expect_equal(dim(res$metrics), c(32, 4))
@@ -96,8 +96,7 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
   set.seed(42)
 
   curves  <- sim_model_ex1()
-  grid_ll <- 0
-  grid_ul <- 1
+  grid <- c(1, 2)
   k  <- 30
   indices <- c("EI", "HI", "MEI", "MHI")
 
@@ -106,7 +105,7 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
     c("dtaHI", "dtaMHI")
   )
 
-  ind_curves <- generate_indices(curves, k = k, grid_ll = grid_ll, grid_ul = grid_ul, indices = indices)
+  ind_curves <- generate_indices(curves, grid = grid, k = k, indices = indices)
 
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = -2))
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = 1.432534534))

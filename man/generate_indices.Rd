@@ -8,9 +8,8 @@ dimensions}
 generate_indices(
   curves,
   k,
+  grid,
   bs = "cr",
-  grid_ll = 0,
-  grid_ul = 1,
   indices = c("EI", "HI", "MEI", "MHI"),
   ...
 )
@@ -22,15 +21,14 @@ one-dimensional functional dataset, or \code{array} of dimension
 \eqn{n} represents the number of curves, \eqn{p} the number of values along
 the curve, and in the second case, \eqn{k} is the number of dimensions.}
 
-\item{k}{Number of basis functions for the B-splines. If not provided, it will
-be automatically set.}
+\item{k}{Number of basis functions for the B-splines. If equals to 0, the number
+of basis functions will be automatically selected.}
+
+\item{grid}{Atomic vector of type numeric with two elements: the lower limit and the upper
+limit of the evaluation grid. If not provided, it will be selected automatically.}
 
 \item{bs}{A two letter chatacter string indicating the (penalized) smoothing
 basis to use. See \code{\link{smooth.terms}}.}
-
-\item{grid_ll}{Lower limit of the grid.}
-
-\item{grid_ul}{Upper limit of the grid.}
 
 \item{indices}{Set of indices to be applied to the dataset. They should be
 any between EI, HI, MEI and MHI}

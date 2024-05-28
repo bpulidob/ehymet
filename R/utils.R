@@ -1,3 +1,84 @@
+#' Smooth the data and computes the first and second derivatives
+#'
+#' @param curves \code{matrix} with dimension \eqn{n \times p} in the case of a
+#' one-dimensional functional dataset, or \code{array} of dimension
+#' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
+#' \eqn{n} represents the number of curves, \eqn{p} the number of values along
+#' the curve, and in the second case, \eqn{k} is the number of dimensions.
+#' @param k Number of basis functions for the B-splines. If equals to 0, the number
+#' of basis functions will be automatically selected.
+#' @param bs A two letter chatacter string indicating the (penalized) smoothing
+#' basis to use. See \code{\link{smooth.terms}}.
+#' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
+#' limit of the evaluation grid. If not provided, it will be selected automatically.
+#'
+#' @return A list containing smoothed data, first and second derivatives
+#' @noRd
+funspline <- function(curves, k, bs = "cr", grid) {
+  curves_dim <- length(dim(curves))
+
+  tfb_params <- list(bs = bs)
+
+  if (!missing(k)) {
+    tfb_params[["k"]] <- k
+  }
+
+  if (!missing(grid)) {
+    grid <- seq(grid[1], grid[2], length.out = dim(curves)[2])
+    tfb_params[["arg"]] <- grid
+  }
+
+  if (curves_dim == 2) {
+    tfb_params[["data"]] <- curves
+
+    ys <- suppressMessages(do.call(tf::tfb, tfb_params))
+
+    # Evaluate smoothed data and derivatives
+    smooth <- as.matrix(ys) # smoothed data
+
+    if (!missing(grid)) {
+      deriv  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
+      deriv2 <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
+    } else {
+      deriv  <- as.matrix(tf::tf_derive(ys, order = 1))
+      deriv2 <- as.matrix(tf::tf_derive(ys, order = 2))
+    }
+
+  } else {
+    n_curves <- dim(curves)[1]
+    l_curves <- dim(curves)[2]
+    d_curves <- dim(curves)[3]
+
+    # Initialize empty dataframes to store the results
+    smooth <- array(rep(NaN, n_curves * l_curves),   dim = c(n_curves, l_curves, d_curves))
+    deriv  <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
+    deriv2 <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
+
+    for (d in seq_len(dim(curves)[3])) {
+      tfb_params[["data"]] <- curves[,,d]
+
+      # Smooth data using B-spline basis
+      ys <- suppressMessages(do.call(tf::tfb, tfb_params))
+
+      # Evaluate smoothed data and derivatives
+      smooth[,,d] <- as.matrix(ys) # smoothed data
+      if (!missing(grid)) {
+        deriv[,,d]  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
+        deriv2[,,d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
+      } else {
+        deriv[,,d]  <- as.matrix(tf::tf_derive(ys, order = 1))
+        deriv2[,,d] <- as.matrix(tf::tf_derive(ys, order = 2))
+      }
+    }
+  }
+
+  list(
+    "smooth" = smooth,
+    "deriv"  = deriv,
+    "deriv2" = deriv2
+  )
+}
+
 #' Checks for list function arguments
 #'
 #' Checks that a list given as argument to a function is not empty,

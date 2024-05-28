@@ -1,10 +1,10 @@
-#' Create a table containing three validation metrics: Purity, F-measure
+#' Create a table containing three validation metrics for clustering: Purity, F-measure
 #' and Rand Index (RI)
 #'
-#' @param true_labels Vector of true labels for validation
-#' @param clusters Number of clusters to create
+#' @param true_labels Atomic vector with the true labels of the data.
+#' @param clusters The clusters predicted by the clustering method.
 #'
-#' @return A table containing values for Purity, F-measure and RI
+#' @return A \code{table} containing values for Purity, F-measure and RI.
 #'
 #' @examples
 #' set.seed(1221)
@@ -14,10 +14,10 @@
 #' data_ind <- generate_indices(data)
 #' clus_kmeans <- ehymet::clustInd_kmeans(data_ind, list(vars1))
 #' cluskmeans_mahalanobis_dtaEIdtaMEI <- clus_kmeans$kmeans_mahalanobis_dtaEIdtaMEI$cluster
-#' valid(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
+#' clustering_validation(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
 #'
 #' @export
-valid <- function(true_labels, clusters) {
+clustering_validation <- function(true_labels, clusters) {
   if (is.integer(true_labels)) {
     true_labels <- as.numeric(true_labels)
   }
@@ -31,11 +31,11 @@ valid <- function(true_labels, clusters) {
   }
 
   if (!is.vector(clusters) || !is.numeric(clusters)) {
-    stop("clusters should be a numeric vector", call. = FALSE)
+    stop("'clusters' should be a numeric vector", call. = FALSE)
   }
 
   if (length(true_labels) != length(clusters)) {
-    stop("The length of the true_labels vector should be equal to the length of the clusters vector", call. = FALSE)
+    stop("the length of the 'true_labels' vector should be equal to the length of the clusters vector", call. = FALSE)
   }
 
   tbl <- table(clusters, true_labels) # contingency table

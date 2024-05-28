@@ -7,8 +7,6 @@
 #' The functional dataset can be one dimensional (\eqn{n \times p}) where n is the number of
 #' curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
 #' represents the number of dimensions in the data
-#' @param grid_ll lower limit of the grid.
-#' @param grid_ul upper limit of the grid.
 #' @param vars_combinations \code{integer} or \code{list}.
 #' If \code{integer}, the method will automatically determine the best combinations
 #' of variables. As many combinations will be selected as the value of the variable.
@@ -20,8 +18,8 @@
 #' best combination.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".
-#' @param k Number of basis functions for the B-splines. If , it will
-#' be automatically set.
+#' @param k Number of basis functions for the B-splines. If equals to 0, the number
+#' of basis functions will be automatically selected.
 #' @param bs A two letter chatacter string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
 #' @param indices Names of the indices that need to be generated. They should be
@@ -32,6 +30,8 @@
 #' @param l_dist_hierarch \code{list} of distances for hierarchical clustering
 #' @param l_dist_kmeans \code{list} of distances for kmeans clustering
 #' @param l_kernel \code{list} of kernels
+#' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
+#' limit of the evaluation grid. If not provided, it will be selected automatically.
 #' @param n_clusters Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
@@ -49,7 +49,7 @@
 #' vars1 <- c("dtaEI", "dtaMEI"); vars2 <- c("dtaHI", "dtaMHI")
 #' varsl <- list(vars1, vars2)
 #' data <- sim_model_ex1()
-#' EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
+#' EHyClus(data, varsl)
 #'
 #' @export
 EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = "cr",
@@ -59,7 +59,7 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
                     l_dist_hierarch    = c("euclidean", "manhattan"),
                     l_dist_kmeans      = c("euclidean", "mahalanobis"),
                     l_kernel           = c("rbfdot", "polydot"),
-                    grid_ll = 0, grid_ul = 1,
+                    grid,
                     true_labels = NULL, verbose = FALSE, num_cores = 1, ...) {
 
   if (!is.list(vars_combinations) && !is.numeric(vars_combinations)) {
@@ -76,6 +76,16 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
 
   if (!is.numeric(k) || k %% 1 != 0) {
     stop("'k' should be an integer number", call. = FALSE)
+  }
+
+  if (!missing(grid)) {
+    if (length(grid) != 2 && !is.numeric(grid)) {
+      stop("'grid' should be a numeric atomic vector with two elements", call. = FALSE)
+    } else if (diff(grid) <= 0) {
+      stop("the second element of 'grid' should be greater than the first one", call. = FALSE)
+    } else if (grid[1] < 1) {
+      stop("the first element of 'grid' should be equal or greater than one", call. = FALSE)
+    }
   }
 
   # list that maps each clustering method to its corresponding function
@@ -103,11 +113,23 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   check_list_parameter(l_kernel, KERNEL, "l_kernel")
 
   # Generate the dataset with the indexes
+
+  generate_indices_parameters <- list(
+    curves  = curves,
+    k       = k,
+    bs      = bs,
+    indices = indices
+  )
+
   if (k) {
-    ind_curves <- generate_indices(curves, k, grid_ll = grid_ll, grid_ul = grid_ul, bs = bs, indices = indices)
-  } else {
-    ind_curves <- generate_indices(curves, grid_ll = grid_ll, grid_ul = grid_ul, bs = bs, indices = indices)
+    generate_indices_parameters[["k"]] <- k
   }
+
+  if (!missing(grid)) {
+    generate_indices_parameters[["grid"]] <- grid
+  }
+
+  ind_curves <- do.call(generate_indices, generate_indices_parameters)
 
   if (!is.list(vars_combinations)) {
     max_n <- 2^length(ind_curves) - length(ind_curves) - 1 # power set - 1-variable combinations - empty set
@@ -178,16 +200,6 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
 
   result
 }
-
-# print.EHyClus <- function(x, ...) {
-#   cat("Clustering methods used:", paste(names(x$cluster), collapse = ", "), "\n")
-#   cat("Number of clusters:", attr(x, "n_clusters"))
-#   cat("More and more and more things.........\n")
-#   cat("......................................")
-#
-#   invisible(x)
-# }
-
 
 #' Search for the best combinations of variables
 #'

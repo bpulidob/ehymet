@@ -247,12 +247,12 @@ MHI.default <- function(curves, ...) {
 #' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
 #' \eqn{n} represents the number of curves, \eqn{p} the number of values along
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
-#' @param k Number of basis functions for the B-splines. If not provided, it will
-#' be automatically set.
+#' @param k Number of basis functions for the B-splines. If equals to 0, the number
+#' of basis functions will be automatically selected.
 #' @param bs A two letter chatacter string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
-#' @param grid_ll Lower limit of the grid.
-#' @param grid_ul Upper limit of the grid.
+#' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
+#' limit of the evaluation grid. If not provided, it will be selected automatically.
 #' @param indices Set of indices to be applied to the dataset. They should be
 #' any between EI, HI, MEI and MHI
 #' @param ... Additional arguments (unused)
@@ -270,9 +270,8 @@ MHI.default <- function(curves, ...) {
 #' generate_indices(x2, k = 4)
 #'
 #' @export
-generate_indices <- function(curves, k, bs = "cr", grid_ll = 0, grid_ul = 1,
+generate_indices <- function(curves, k, grid, bs = "cr",
                              indices = c("EI", "HI", "MEI", "MHI"), ...) {
-
   # define indices constant
   INDICES <- c("EI", "HI", "MEI", "MHI")
   curves_dim <- length(dim(curves))
@@ -283,56 +282,21 @@ generate_indices <- function(curves, k, bs = "cr", grid_ll = 0, grid_ul = 1,
   }
 
   check_list_parameter(indices, INDICES, "indices")
-  grid <- seq(grid_ll, grid_ul, length.out = dim(curves)[2])
 
-  tfb_params <- list(
-    arg  = grid,
-    bs   = bs
+  funspline_parameters <- list(
+    curves  = curves,
+    bs      = bs
   )
 
   if (!missing(k)) {
-    tfb_params[["k"]] <- k
+    funspline_parameters[["k"]] <- k
   }
 
-  if (curves_dim == 2) {
-    tfb_params[["data"]] <- curves
-
-    ys <- suppressMessages(do.call(tf::tfb, tfb_params))
-
-    # Evaluate smoothed data and derivatives
-    smooth <- as.matrix(ys) # smoothed data
-    deriv  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1)) # first derivatives
-    deriv2 <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2)) # second derivatives
-  } else {
-    n_curves <- dim(curves)[1]
-    l_curves <- dim(curves)[2]
-    d_curves <- dim(curves)[3]
-
-    # Initialize empty dataframes to store the results
-    smooth <- array(rep(NaN, n_curves * l_curves),       dim = c(n_curves, l_curves, d_curves))
-    deriv  <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
-    deriv2 <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
-
-    for (d in seq_len(dim(curves)[3])) {
-      tfb_params[["data"]] <- curves[,,d]
-
-      # Smooth data using B-spline basis
-      ys <- suppressMessages(do.call(tf::tfb, tfb_params))
-
-      # Evaluate smoothed data and derivatives
-      smooth[,,d] <- as.matrix(ys) # smoothed data
-      deriv[,,d]  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1)) # first derivatives
-      deriv2[,,d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2)) # second derivatives
-    }
+  if (!missing(grid)) {
+    funspline_parameters[["grid"]] <- grid
   }
 
-  fun_data <- list(
-    "smooth" = smooth,
-    "deriv"  = deriv,
-    "deriv2" = deriv2
-  )
-
-  # end of the old funspline
+  fun_data <- do.call(funspline, funspline_parameters)
 
   ind_data <- as.data.frame(matrix(NA, nrow = dim(fun_data$smooth)[1], ncol = 0))
 
@@ -351,7 +315,7 @@ generate_indices <- function(curves, k, bs = "cr", grid_ll = 0, grid_ul = 1,
                       stats::setNames(
                         data.frame(smooth_result, deriv_result,deriv2_result),
                         c(smooth_col, deriv_col, deriv2_col))
-                      )
+    )
   }
 
   ind_data

@@ -50,7 +50,7 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(et))
   } else {
-    valid <- valid(true_labels, clus)
+    valid <- clustering_validation(true_labels, clus)
     res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(et))
   }
 
@@ -215,7 +215,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(t))
   } else {
-    valid <- valid(true_labels, clus)
+    valid <- clustering_validation(true_labels, clus)
     res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(t))
   }
   return(res)
@@ -341,7 +341,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(t))
   } else {
-    valid <- valid(true_labels, clus)
+    valid <- clustering_validation(true_labels, clus)
     res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(t))
   }
   return(res)
@@ -462,7 +462,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(t))
   } else {
-    valid <- valid(true_labels, clus)
+    valid <- clustering_validation(true_labels, clus)
     res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(t))
   }
   return(res)
