@@ -247,8 +247,10 @@ MHI.default <- function(curves, ...) {
 #' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
 #' \eqn{n} represents the number of curves, \eqn{p} the number of values along
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
-#' @param nbasis Number of basis for the B-splines.
-#' @param norder Order of the B-splines.
+#' @param nbasis Number of basis for the B-splines. If not provided, it will
+#' be automatically set.
+#' @param bs A two letter chatacter string indicating the (penalized) smoothing
+#' basis to use. See \code{\link{smooth.terms}}.
 #' @param grid_ll Lower limit of the grid.
 #' @param grid_ul Upper limit of the grid.
 #' @param indices Set of indices to be applied to the dataset. They should be
@@ -262,60 +264,13 @@ MHI.default <- function(curves, ...) {
 #' @examples
 #' x1 <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
 #' dim = c(3,4,2))
-#' ind(x1, nbasis = 4)
+#' generate_indices(x1, nbasis = 4)
 #'
 #' x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
-#' ind(x2, nbasis = 4)
+#' generate_indices(x2, nbasis = 4)
 #'
 #' @export
-ind <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_ul = 1,
-                     indices = c("EI", "HI", "MEI", "MHI"), ...) {
-  # define indices constant
-  INDICES <- c("EI", "HI", "MEI", "MHI")
-  curves_dim <- length(dim(curves))
-
-  # stop conditions
-  if (!(curves_dim %in% c(2, 3)) || is.null(curves_dim)) {
-    stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
-  }
-
-  check_list_parameter(indices, INDICES, "indices")
-
-  # Smoothed data and derivatives
-  fun_data <- funspline(curves = curves, nbasis = nbasis,
-                        norder = norder, grid_ll = grid_ll,
-                        grid_ul = grid_ul, ...)
-
-  # Initialize an empty data frame to store the results
-  ind_data <- as.data.frame(matrix(NA, nrow = nrow(fun_data$smooth), ncol = 0))
-
-  # Loop through the list of functions and apply them to the smoothed and
-  # its first and second derivatives
-  for (index in indices) {
-    smooth_col <- paste0("dta", index)
-    deriv_col  <- paste0("ddta", index)
-    deriv2_col <- paste0("d2dta", index)
-
-    smooth_result <- get(index)(fun_data$smooth)
-    deriv_result  <- get(index)(fun_data$deriv)
-    deriv2_result <- get(index)(fun_data$deriv2)
-
-    ind_data <- cbind(ind_data,
-                      stats::setNames(data.frame(smooth_result, deriv_result,
-                                                 deriv2_result),
-                               c(smooth_col, deriv_col, deriv2_col)))
-  }
-
-  ind_data
-}
-
-
-#' Candidate for the new ind function
-#'
-#' Currently, nbasis and norder are unused
-#'
-#' @noRd
-generate_indices <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_ul = 1,
+generate_indices <- function(curves, nbasis, bs = "cr", grid_ll = 0, grid_ul = 1,
                              indices = c("EI", "HI", "MEI", "MHI"), ...) {
 
   # define indices constant
@@ -330,9 +285,19 @@ generate_indices <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_
   check_list_parameter(indices, INDICES, "indices")
   grid <- seq(grid_ll, grid_ul, length.out = dim(curves)[2])
 
+  tfb_params <- list(
+    arg  = grid,
+    bs   = bs
+  )
+
+  if (!missing(nbasis)) {
+    tfb_params[["k"]] <- nbasis
+  }
+
   if (curves_dim == 2) {
-    # Smooth data using B-spline basis
-    ys <- tf::tfd(data = curves, arg = grid, evaluator = "tf_approx_spline")
+    tfb_params[["data"]] <- curves
+
+    ys <- suppressMessages(do.call(tf::tfb, tfb_params))
 
     # Evaluate smoothed data and derivatives
     smooth <- as.matrix(ys) # smoothed data
@@ -344,13 +309,15 @@ generate_indices <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_
     d_curves <- dim(curves)[3]
 
     # Initialize empty dataframes to store the results
-    smooth <- array(rep(NaN, n_curves*l_curves),       dim = c(n_curves, l_curves, d_curves))
-    deriv  <- array(rep(NaN, n_curves*(l_curves - 1)), dim = c(n_curves, l_curves - 1, d_curves))
-    deriv2 <- array(rep(NaN, n_curves*(l_curves - 2)), dim = c(n_curves, l_curves - 2, d_curves))
+    smooth <- array(rep(NaN, n_curves * l_curves),       dim = c(n_curves, l_curves, d_curves))
+    deriv  <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
+    deriv2 <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
 
     for (d in seq_len(dim(curves)[3])) {
+      tfb_params[["data"]] <- curves[,,d]
+
       # Smooth data using B-spline basis
-      ys <-  tf::tfd(data = curves[,,d], arg = grid, evaluator = "tf_approx_spline")
+      ys <- suppressMessages(do.call(tf::tfb, tfb_params))
 
       # Evaluate smoothed data and derivatives
       smooth[,,d] <- as.matrix(ys) # smoothed data
@@ -364,6 +331,8 @@ generate_indices <- function(curves, nbasis = 30, norder = 4, grid_ll = 0, grid_
     "deriv"  = deriv,
     "deriv2" = deriv2
   )
+
+  # end of the old funspline
 
   ind_data <- as.data.frame(matrix(NA, nrow = dim(fun_data$smooth)[1], ncol = 0))
 

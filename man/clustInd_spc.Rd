@@ -46,6 +46,6 @@ and kernels
 vars1 <- c("dtaEI", "dtaMEI")
 vars2 <- c("dtaHI", "dtaMHI")
 data <- ehymet::sim_model_ex1()
-data_ind <- ehymet::ind(data)
+data_ind <- generate_indices(data)
 clustInd_spc(data_ind, list(vars1, vars2))
 }

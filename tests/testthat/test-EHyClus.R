@@ -79,21 +79,20 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
 })
 
 
-test_that("the 'get_best_vars_combinatios' is giving the expected results", {
+test_that("the 'get_best_vars_combinations' is giving the expected results", {
   curves  <- sim_model_ex1(seed = 33)
   grid_ll <- 0
   grid_ul <- 1
   nbasis  <- 30
-  norder  <- 4
   indices <- c("EI", "HI", "MEI", "MHI")
 
   expected_best_combinations <- list(
     c("dtaEI", "dtaMEI"),
     c("dtaEI", "dtaMHI"),
-    c("dtaHI", "dtaMEI")
+    c("dtaMEI", "ddtaMHI")
   )
 
-  ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
+  ind_curves <- generate_indices(curves, nbasis = nbasis, grid_ll = grid_ll, grid_ul = grid_ul, indices = indices)
 
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = -2))
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = 1.432534534))

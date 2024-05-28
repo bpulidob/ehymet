@@ -7,9 +7,10 @@
 plt_fun(data, true_labels)
 }
 \arguments{
-\item{data}{data matrix of size \eqn{n \times p}}
+\item{data}{2-dimensional data matrix where rows are the curves and columns
+are the points}
 
-\item{true_labels}{array containing the true groups in which the data should
+\item{true_labels}{Atomic vector containing the true groups in which the data should
 be classified}
 }
 \value{
@@ -19,7 +20,7 @@ A plot
 Function for generating plots of one dimensional functional datasets
 }
 \examples{
-dat1 <- sim_model_ex1()
+data <- sim_model_ex1()
 true_labels <- c(rep(1,50), rep(2,50))
-plt_fun(dat1, true_labels)
+plt_fun(data, true_labels)
 }

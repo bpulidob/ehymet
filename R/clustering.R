@@ -79,7 +79,7 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
-#' data_ind <- ehymet::ind(data)
+#' data_ind <- generate_indices(data)
 #' clustInd_hierarch(data_ind, list(vars1, vars2))
 clustInd_hierarch <- function(ind_data, vars_combinations,
                               method_list = c("single","complete","average",
@@ -244,7 +244,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
-#' data_ind <- ehymet::ind(data)
+#' data_ind <- generate_indices(data)
 #' clustInd_kmeans(data_ind, list(vars1, vars2))
 clustInd_kmeans <- function(ind_data, vars_combinations,
                             dist_list = c("euclidean", "mahalanobis"),
@@ -369,7 +369,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
-#' data_ind <- ehymet::ind(data)
+#' data_ind <- generate_indices(data)
 #' clustInd_kkmeans(data_ind, list(vars1, vars2))
 clustInd_kkmeans <- function(ind_data, vars_combinations,
                              kernel_list = c("rbfdot", "polydot"),
@@ -490,7 +490,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
-#' data_ind <- ehymet::ind(data)
+#' data_ind <- generate_indices(data)
 #' clustInd_spc(data_ind, list(vars1, vars2))
 clustInd_spc <- function(ind_data, vars_combinations,
                          kernel_list = c("rbfdot", "polydot"),

@@ -20,8 +20,10 @@
 #' best combination.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".
-#' @param nbasis Number of basis for the B-splines.
-#' @param norder Order of the B-splines.
+#' @param nbasis Number of basis for the B-splines. If not provided, it will
+#' be automatically set.
+#' @param bs A two letter chatacter string indicating the (penalized) smoothing
+#' basis to use. See \code{\link{smooth.terms}}.
 #' @param indices Names of the indices that need to be generated. They should be
 #' one or more between 'EI', 'HI', 'MEI' and 'MHI'. Depending on the dimension on the data
 #' they are calculated for one or multiple dimension
@@ -50,7 +52,7 @@
 #' EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
 #'
 #' @export
-EHyClus <- function(curves, vars_combinations = 1, nbasis = 30,  n_clusters = 2, norder = 4,
+EHyClus <- function(curves, vars_combinations = 1, nbasis,  n_clusters = 2, bs = "cr",
                     clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
                     indices            = c("EI", "HI", "MEI", "MHI"),
                     l_method_hierarch  = c("single", "complete", "average", "centroid", "ward.D2"),
@@ -97,7 +99,11 @@ EHyClus <- function(curves, vars_combinations = 1, nbasis = 30,  n_clusters = 2,
   check_list_parameter(l_kernel, KERNEL, "l_kernel")
 
   # Generate the dataset with the indexes
-  ind_curves <- ind(curves, grid_ll = grid_ll, grid_ul = grid_ul, nbasis, norder, indices)
+  if (!missing(nbasis)) {
+    ind_curves <- generate_indices(curves, nbasis, grid_ll = grid_ll, grid_ul = grid_ul, bs = bs, indices = indices)
+  } else {
+    ind_curves <- generate_indices(curves, grid_ll = grid_ll, grid_ul = grid_ul, bs = bs, indices = indices)
+  }
 
   if (!is.list(vars_combinations)) {
     max_n <- 2^length(ind_curves) - length(ind_curves) - 1 # power set - 1-variable combinations - empty set
@@ -156,7 +162,7 @@ EHyClus <- function(curves, vars_combinations = 1, nbasis = 30,  n_clusters = 2,
     names(metrics) <- c("Purity", "Fmeasure", "RI", "Time")
     rownames(metrics) <- methods
 
-    result  <- list("cluster" = cluster, "metrics" = metrics)
+    result <- list("cluster" = cluster, "metrics" = metrics)
   } else {
     result <- list("cluster" = cluster)
   }

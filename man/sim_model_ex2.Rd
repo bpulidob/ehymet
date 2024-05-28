@@ -27,9 +27,9 @@ Function for generating functional data in one or multiple dimension
 }
 \examples{
 sm1 <- sim_model_ex2()
-dim(sm1)
+dim(sm1) # This should output (100, 150) by default, since n = 50 and p = 150
 
-sm4 <- sim_model_ex2(i_sim=4)
-dim(sm4)
+sm4 <- sim_model_ex2(i_sim = 4)
+dim(sm4) # This should output (100, 150, 2) by default, since n = 50 and p = 150
 
 }

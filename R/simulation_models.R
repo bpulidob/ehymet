@@ -40,7 +40,6 @@
 #'
 #' @export
 sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
-
   if (!requireNamespace("MASS", quietly = TRUE)) {
     stop("package 'MASS' is required for this functionality", call. = FALSE)
   }
@@ -75,7 +74,6 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
   f2 <- (30 * t_interval * (1 - t_interval))
   matr2 <- matrix(rep(f2, each = n), nrow = n)
 
-
   dat2 <- switch(
     i_sim,
     dat1 + 0.5,           # 1
@@ -107,14 +105,13 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1, seed = NULL){
 #'
 #' @examples
 #' sm1 <- sim_model_ex2()
-#' dim(sm1)
+#' dim(sm1) # This should output (100, 150) by default, since n = 50 and p = 150
 #'
-#' sm4 <- sim_model_ex2(i_sim=4)
-#' dim(sm4)
+#' sm4 <- sim_model_ex2(i_sim = 4)
+#' dim(sm4) # This should output (100, 150, 2) by default, since n = 50 and p = 150
 #'
 #' @export
 sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
-
   if (!(i_sim %in% 1:4)) {
     stop("argument 'i_sim' shold have a value between 1 and 8", call. = FALSE)
   }
@@ -134,7 +131,6 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
   } else{
     E1 <- rbind(t_interval * (1 - t_interval), 4*t_interval^2 * (1 - t_interval))
   }
-
 
   rho <- ifelse(1:K < 4, 1 / (1:K + 1), 1 / (1:K + 1)^2)
 
@@ -171,24 +167,24 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1, seed = NULL){
     X <- array(unlist(lapply(1:2, function(k) rbind(X1[ , , k], X2[ , , k]))), dim = c(2 * n, p, 2))
   }
 
-  return(X)
+  X
 }
 
 
 #' Function for generating plots of one dimensional functional datasets
 #'
-#' @param data data matrix of size \eqn{n \times p}
-#' @param true_labels array containing the true groups in which the data should
+#' @param data 2-dimensional data matrix where rows are the curves and columns
+#' are the points
+#' @param true_labels Atomic vector containing the true groups in which the data should
 #' be classified
 #'
 #' @return A plot
 #' @export
-#' @importFrom dplyr "%>%"
 #'
 #' @examples
-#' dat1 <- sim_model_ex1()
+#' data <- sim_model_ex1()
 #' true_labels <- c(rep(1,50), rep(2,50))
-#' plt_fun(dat1, true_labels)
+#' plt_fun(data, true_labels)
 plt_fun <- function(data, true_labels){
 
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
@@ -200,26 +196,31 @@ plt_fun <- function(data, true_labels){
   }
 
   if (!(length(dim(data)) == 2)) {
-    stop("This function can be only used with 2-dimensional datasets.", call. = FALSE)
+    stop("this function can be only used with 2-dimensional datasets.", call. = FALSE)
   }
 
-  df <-  dplyr::as_tibble(data)
+  if (nrow(data) != length(true_labels)) {
+    stop("'true_labels' should have the same length as rows (curves) in the data")
+  }
+
+  df <-  dplyr::as_tibble(data, .name_repair = "minimal")
   t_interval <- seq(0, 1, length = ncol(data))
   names(df) <- as.character(t_interval)
-  df$id <- 1:nrow(data)
+  df$id <- seq_along(nrow(data))
   df$Order <- true_labels
-  df_long<- df %>% tidyr::pivot_longer(-c(id, Order), names_to="variable", values_to="values") %>%
+  df_long <- df |>
+    tidyr::pivot_longer(-c(id, Order), names_to = "variable", values_to = "values") |>
     dplyr::mutate(variable=as.numeric(variable))
-  pa <- df_long %>% ggplot2::ggplot(ggplot2::aes(x=variable, y=values,group=id, color=factor(Order)))
+  pa <- df_long |>
+    ggplot2::ggplot(ggplot2::aes(x = variable, y = values, group = id, color = factor(Order)))
 
-  plt <- pa +
-    ggplot2::geom_line(linewidth=0.1)+
-    ggplot2::scale_color_brewer(palette = "Set1")+
+  pa +
+    ggplot2::geom_line(linewidth = 0.1) +
+    ggplot2::scale_color_brewer(palette = "Set1") +
     # scale_color_manual(values=c("#CC6600","#3399FF")) +
     # ggtitle("MEI. First dimension")+
-    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))+
+    ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
     ggplot2::ylab("") + ggplot2::xlab("") +
     ggplot2::theme(legend.position = "none")
-  return(plt)
 }
 

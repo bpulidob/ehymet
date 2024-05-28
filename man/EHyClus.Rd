@@ -10,9 +10,9 @@ clustering and spectral clustering}
 EHyClus(
   curves,
   vars_combinations = 1,
-  nbasis = 30,
+  nbasis,
   n_clusters = 2,
-  norder = 4,
+  bs = "cr",
   clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
   indices = c("EI", "HI", "MEI", "MHI"),
   l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
@@ -43,11 +43,13 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 Default to an \code{integer} with value \code{1}, i.e. it only uses the theoretically
 best combination.}
 
-\item{nbasis}{Number of basis for the B-splines.}
+\item{nbasis}{Number of basis for the B-splines. If not provided, it will
+be automatically set.}
 
 \item{n_clusters}{Number of clusters to create}
 
-\item{norder}{Order of the B-splines.}
+\item{bs}{A two letter chatacter string indicating the (penalized) smoothing
+basis to use. See \code{\link{smooth.terms}}.}
 
 \item{clustering_methods}{character vector specifying at least one of the following
 clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".}
