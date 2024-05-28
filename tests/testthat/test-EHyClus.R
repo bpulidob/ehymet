@@ -66,7 +66,7 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
 test_that("the 'n_clusters' parameter is working as expected", {
   set.seed(42)
 
-  data <- ehyclus_example_data()
+  data <- ehyclus_example_data(n = 10)
   curves <- data$curves
   vars_combinations <- data$vars_combinations
 
