@@ -63,17 +63,19 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
 
 })
 
-# test_that("the 'n_clusters' parameter is working as expected", {
-#   data <- ehyclus_example_data()
-#   curves <- data$curves
-#   vars_combinations <- data$vars_combinations
-#
-#   res <- EHyClus(curves, vars_combinations, n_clusters = 3)
-#   expect_equal(
-#     max(res$cluster[[1]][[1]]$cluster),
-#     3
-#   )
-# })
+test_that("the 'n_clusters' parameter is working as expected", {
+  set.seed(42)
+
+  data <- ehyclus_example_data()
+  curves <- data$curves
+  vars_combinations <- data$vars_combinations
+
+  res <- EHyClus(curves, vars_combinations, n_clusters = 3)
+  expect_equal(
+    max(res$cluster[[1]][[1]]$cluster),
+    3
+  )
+})
 
 test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus'", {
   n <- 100
