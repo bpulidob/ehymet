@@ -40,15 +40,15 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
 
   # Both the case with wrong names and with a singular (or almost singular)
   # matrix should throw an error
-  expect_error(EHyClus(curves = curves, vars_combinations = vars_wrong_name))
-  expect_error(EHyClus(curves = curves, vars_combinations = vars_singular))
+  expect_error(EHyClus(curves = curves, nbasis = 10, vars_combinations = vars_wrong_name))
+  expect_error(EHyClus(curves = curves, nbasis = 10, vars_combinations = vars_singular))
 
   # Also, an empty list should throw an error
-  expect_error(EHyClus(curves = curves, vars_combinations = list()))
+  expect_error(EHyClus(curves = curves, nbasis = 10, vars_combinations = list()))
 
   # As one of the vars combinations is correct but there is also one incorrect,
   # this should work but a warning is expected
-  expect_warning(EHyClus(curves = curves, vars_combinations = vars_wrong_and_correct))
+  expect_warning(EHyClus(curves = curves, nbasis = 10, vars_combinations = vars_wrong_and_correct))
 
 })
 
