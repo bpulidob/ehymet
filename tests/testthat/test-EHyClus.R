@@ -44,15 +44,22 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
 
   # Both the case with wrong names and with a singular (or almost singular)
   # matrix should throw an error
-  expect_error(EHyClus(curves = curves, nbasis = 10, vars_combinations = vars_wrong_name))
-  expect_error(EHyClus(curves = curves, nbasis = 10, vars_combinations = vars_singular))
+  expect_error(
+    suppressWarnings(EHyClus(curves = curves, k = 10, vars_combinations = vars_wrong_name))
+  )
+
+  expect_error(
+    suppressWarnings(EHyClus(curves = curves, k = 10, vars_combinations = vars_singular))
+  )
 
   # Also, an empty list should throw an error
-  expect_error(EHyClus(curves = curves, nbasis = 10, vars_combinations = list()))
+  expect_error(
+    suppressWarnings(EHyClus(curves = curves, k = 10, vars_combinations = list()))
+  )
 
   # As one of the vars combinations is correct but there is also one incorrect,
   # this should work but a warning is expected
-  expect_warning(EHyClus(curves = curves, nbasis = 10, vars_combinations = vars_wrong_and_correct))
+  expect_warning(EHyClus(curves = curves, k = 10, vars_combinations = vars_wrong_and_correct))
 
 })
 
@@ -89,7 +96,7 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
   curves  <- sim_model_ex1()
   grid_ll <- 0
   grid_ul <- 1
-  nbasis  <- 30
+  k  <- 30
   indices <- c("EI", "HI", "MEI", "MHI")
 
   expected_best_combinations <- list(
@@ -97,7 +104,7 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
     c("dtaHI", "dtaMHI")
   )
 
-  ind_curves <- generate_indices(curves, nbasis = nbasis, grid_ll = grid_ll, grid_ul = grid_ul, indices = indices)
+  ind_curves <- generate_indices(curves, k = k, grid_ll = grid_ll, grid_ul = grid_ul, indices = indices)
 
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = -2))
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = 1.432534534))
@@ -116,11 +123,11 @@ test_that("giving an integer number to 'vars_combinations' works", {
   curves <- sim_model_ex1()
 
   # By default, only one combination should be used
-  res <- EHyClus(curves, nbasis = 30)
+  res <- EHyClus(curves, k = 30)
   expect_length(attr(res, "vars_combinations"), 1)
 
   # Changing the 'vars_combinations' parameter should increase the number of combinations
-  res <- EHyClus(curves, vars_combinations = 2, nbasis = 30)
+  res <- EHyClus(curves, vars_combinations = 2, k = 30)
   expect_length(attr(res, "vars_combinations"), 2)
 
   indices <- c("EI", "MHI")

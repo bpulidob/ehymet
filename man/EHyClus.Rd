@@ -10,7 +10,7 @@ clustering and spectral clustering}
 EHyClus(
   curves,
   vars_combinations = 1,
-  nbasis = 30,
+  k = 30,
   n_clusters = 2,
   bs = "cr",
   clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
@@ -43,7 +43,7 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 Default to an \code{integer} with value \code{1}, i.e. it only uses the theoretically
 best combination.}
 
-\item{nbasis}{Number of basis for the B-splines. If , it will
+\item{k}{Number of basis functions for the B-splines. If , it will
 be automatically set.}
 
 \item{n_clusters}{Number of clusters to create}

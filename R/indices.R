@@ -247,7 +247,7 @@ MHI.default <- function(curves, ...) {
 #' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
 #' \eqn{n} represents the number of curves, \eqn{p} the number of values along
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
-#' @param nbasis Number of basis for the B-splines. If not provided, it will
+#' @param k Number of basis functions for the B-splines. If not provided, it will
 #' be automatically set.
 #' @param bs A two letter chatacter string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
@@ -264,13 +264,13 @@ MHI.default <- function(curves, ...) {
 #' @examples
 #' x1 <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
 #' dim = c(3,4,2))
-#' generate_indices(x1, nbasis = 4)
+#' generate_indices(x1, k = 4)
 #'
 #' x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
-#' generate_indices(x2, nbasis = 4)
+#' generate_indices(x2, k = 4)
 #'
 #' @export
-generate_indices <- function(curves, nbasis, bs = "cr", grid_ll = 0, grid_ul = 1,
+generate_indices <- function(curves, k, bs = "cr", grid_ll = 0, grid_ul = 1,
                              indices = c("EI", "HI", "MEI", "MHI"), ...) {
 
   # define indices constant
@@ -290,8 +290,8 @@ generate_indices <- function(curves, nbasis, bs = "cr", grid_ll = 0, grid_ul = 1
     bs   = bs
   )
 
-  if (!missing(nbasis)) {
-    tfb_params[["k"]] <- nbasis
+  if (!missing(k)) {
+    tfb_params[["k"]] <- k
   }
 
   if (curves_dim == 2) {
