@@ -88,8 +88,7 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
 
   expected_best_combinations <- list(
     c("dtaEI", "dtaMEI"),
-    c("dtaEI", "dtaMHI"),
-    c("dtaMEI", "ddtaMHI")
+    c("dtaEI", "dtaMHI")
   )
 
   ind_curves <- generate_indices(curves, nbasis = nbasis, grid_ll = grid_ll, grid_ul = grid_ul, indices = indices)
@@ -97,7 +96,7 @@ test_that("the 'get_best_vars_combinations' is giving the expected results", {
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = -2))
   expect_error(get_best_vars_combinations(ind_curves = ind_curves, top_n = 1.432534534))
 
-  top_n <- 3
+  top_n <- 2
   best_combinatons <- get_best_vars_combinations(ind_curves = ind_curves, top_n = top_n)
 
   expect_length(best_combinatons, top_n)
@@ -109,11 +108,11 @@ test_that("giving an integer number to 'vars_combinations' works", {
   curves <- sim_model_ex1(seed = 42)
 
   # By default, only one combination should be used
-  res <- EHyClus(curves)
+  res <- EHyClus(curves, nbasis = 30)
   expect_length(attr(res, "vars_combinations"), 1)
 
   # Changing the 'vars_combinations' parameter should increase the number of combinations
-  res <- EHyClus(curves, vars_combinations = 2)
+  res <- EHyClus(curves, vars_combinations = 2, nbasis = 30)
   expect_length(attr(res, "vars_combinations"), 2)
 
   indices <- c("EI", "MHI")

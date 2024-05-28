@@ -20,7 +20,7 @@
 #' best combination.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans", "spc".
-#' @param nbasis Number of basis for the B-splines. If not provided, it will
+#' @param nbasis Number of basis for the B-splines. If , it will
 #' be automatically set.
 #' @param bs A two letter chatacter string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
@@ -52,7 +52,7 @@
 #' EHyClus(data, varsl, grid_ll = 0, grid_ul = 1)
 #'
 #' @export
-EHyClus <- function(curves, vars_combinations = 1, nbasis,  n_clusters = 2, bs = "cr",
+EHyClus <- function(curves, vars_combinations = 1, nbasis = 30, n_clusters = 2, bs = "cr",
                     clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
                     indices            = c("EI", "HI", "MEI", "MHI"),
                     l_method_hierarch  = c("single", "complete", "average", "centroid", "ward.D2"),
@@ -72,6 +72,10 @@ EHyClus <- function(curves, vars_combinations = 1, nbasis,  n_clusters = 2, bs =
 
   if (!is.null(true_labels) && length(true_labels) != dim(curves)[1]) {
     stop("'true labels' should have the same length as the number of curves", call. = FALSE)
+  }
+
+  if (!is.numeric(nbasis) || nbasis %% 1 != 0) {
+    stop("'nbasis' should be an integer number", call. = FALSE)
   }
 
   # list that maps each clustering method to its corresponding function
@@ -99,7 +103,7 @@ EHyClus <- function(curves, vars_combinations = 1, nbasis,  n_clusters = 2, bs =
   check_list_parameter(l_kernel, KERNEL, "l_kernel")
 
   # Generate the dataset with the indexes
-  if (!missing(nbasis)) {
+  if (nbasis) {
     ind_curves <- generate_indices(curves, nbasis, grid_ll = grid_ll, grid_ul = grid_ul, bs = bs, indices = indices)
   } else {
     ind_curves <- generate_indices(curves, grid_ll = grid_ll, grid_ul = grid_ul, bs = bs, indices = indices)
