@@ -102,7 +102,7 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1){
 #' dim(sm4) # This should output (100, 150, 2) by default, since n = 50 and p = 150
 #'
 #' @export
-sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1){
+sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1) {
   if (!(i_sim %in% 1:4)) {
     stop("argument 'i_sim' shold have a value between 1 and 8", call. = FALSE)
   }

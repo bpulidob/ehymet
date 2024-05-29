@@ -33,8 +33,7 @@
 #' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
 #' limit of the evaluation grid. If not provided, it will be selected automatically.
 #' @param n_clusters Number of clusters to create
-#' @param true_labels Vector of true labels for validation
-#' (if it is not known true_labels is set to NULL)
+#' @param true_labels Numeric vector of true labels for validation.
 #' @param verbose If \code{TRUE}, the function will print logs for about the execution of
 #' some clustering methods. Defaults to \code{FALSE}.
 #' @param num_cores Number of cores to do parallel computation. 1 by default,

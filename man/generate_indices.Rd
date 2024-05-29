@@ -8,8 +8,8 @@ dimensions}
 generate_indices(
   curves,
   k,
-  grid,
   bs = "cr",
+  grid,
   indices = c("EI", "HI", "MEI", "MHI"),
   ...
 )
@@ -24,11 +24,11 @@ the curve, and in the second case, \eqn{k} is the number of dimensions.}
 \item{k}{Number of basis functions for the B-splines. If equals to 0, the number
 of basis functions will be automatically selected.}
 
-\item{grid}{Atomic vector of type numeric with two elements: the lower limit and the upper
-limit of the evaluation grid. If not provided, it will be selected automatically.}
-
 \item{bs}{A two letter chatacter string indicating the (penalized) smoothing
 basis to use. See \code{\link{smooth.terms}}.}
+
+\item{grid}{Atomic vector of type numeric with two elements: the lower limit and the upper
+limit of the evaluation grid. If not provided, it will be selected automatically.}
 
 \item{indices}{Set of indices to be applied to the dataset. They should be
 any between EI, HI, MEI and MHI}

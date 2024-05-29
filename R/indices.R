@@ -270,7 +270,7 @@ MHI.default <- function(curves, ...) {
 #' generate_indices(x2, k = 4)
 #'
 #' @export
-generate_indices <- function(curves, k, grid, bs = "cr",
+generate_indices <- function(curves, k, bs = "cr", grid,
                              indices = c("EI", "HI", "MEI", "MHI"), ...) {
   # define indices constant
   INDICES <- c("EI", "HI", "MEI", "MHI")

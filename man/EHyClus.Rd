@@ -69,8 +69,7 @@ clustering}
 \item{grid}{Atomic vector of type numeric with two elements: the lower limit and the upper
 limit of the evaluation grid. If not provided, it will be selected automatically.}
 
-\item{true_labels}{Vector of true labels for validation
-(if it is not known true_labels is set to NULL)}
+\item{true_labels}{Numeric vector of true labels for validation.}
 
 \item{verbose}{If \code{TRUE}, the function will print logs for about the execution of
 some clustering methods. Defaults to \code{FALSE}.}

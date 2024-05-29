@@ -1,0 +1,349 @@
+---
+title: "Introduction to ehymet"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to ehymet}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 78
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  fig.path = "includes/ehymet-01-"
+)
+```
+
+```{r setup}
+set.seed(42)
+
+library(ehymet)
+```
+
+# ehymet package goal {#sec-goal}
+
+The ehymet (**E**pigraph-**Hy**pograph based **met**hods -- Methodologies for
+functional data based on the epigraph and hypograph indexes) package define
+the **epigraph**, the **hypograph** and their modified versions for functional
+datasets in one or multiple dimensions. These indexes allow to transform a
+functional dataset into a multivariate one, where usual clustering techniques
+can be applied.
+
+More information about the theory behind these indices can found in the
+following papers:
+
+-   Belén Pulido, Alba M. Franco-Pereira, Rosa E. Lillo (2023). “A fast
+    epigraph and hypograph-based approach for clustering functional data.”
+    *Statistics and Computing*, **33**, 36. doi:
+    [10.1007/s11222-023-10213-7](https://doi.org/10.1007/s11222-023-10213-7)
+
+-   Belén Pulido, Alba M. Franco-Pereira, Rosa E. Lillo (2023). “The epigraph
+    and the hypograph indexes as useful tools for clustering multivariate
+    functional data.” doi:
+    [10.48550/arXiv.2307.16720](https://doi.org/10.48550/arXiv.2307.16720)
+
+# Simulations introduced in the package
+
+The package introduces two functions to simulate functional data.
+
+Therse functions are useful for simulating functional data to test statistical
+methods or to understand the behavior of different models under controlled
+conditions. Also, each function can use different models to introduce
+variations, providing a range of scenarios for simulation studies.
+
+## Example 1
+
+The first dataset generator function is `sim_model_ex1`. Here’s a breakdown of
+how it works and what it does:
+
+### Parameters:
+
+-   **n**: The number of curves to generate **for each group**. By default,
+    this is set to 50, thus, a total of 100 curves.
+-   **p**: The number of grid points at which the curves are evaluated over
+    the interval $[0, 1]$. The default is 30 grid points.
+-   **i_sim**: An integer between 1 and 8 that specifies which model to use
+    for generating **the second set of curves**.
+-   **seed**: A seed for random number generation to ensure reproducibility.
+    If not provided, the randomness is not fixed.
+
+### Function breakdown:
+
+1.  **Interval and Covariance Matrix**: The interval $[0, 1]$ is divided into
+    `p` equidistant points. Then, a covariance matrix is created using an
+    exponential decay function. This matrix is used to generate Gaussian noise
+    for the curves. The covariance between two points $t_i$ and $t_j$ is
+    $0.3 \exp(-\frac{|t_i - t_j|}{0.3})$.
+2.  **Mean Function and Gaussian Processes**: The first group of curves is
+    generated using the mean function $E_1(t) = 30t^{3/2}(1-t)$ plus the
+    Gaussian noise. Then, the function `mvrnorm` from the `MASS` package
+    generates these noise terms.
+3.  **Different Models**: The second group of curves is generated based on one
+    of the eight specified models:
+    -   **Model 1**: Adds a constant $0.5$ to the first group of curves.
+    -   **Model 2**: Adds a constant $0.75$ to the first group of curves.
+    -   **Model 3**: Adds a constant $1$ to the first group of curves.
+    -   **Model 4**: Uses the same mean function as the first group but
+        multiplies the Gaussian noise by $2$.
+    -   **Model 5**: Uses the same mean function as the first group but
+        multiplies the Gaussian noise by $0.25$.
+    -   **Model 6**: Adds another Gaussian process with a different covariance
+        structure ($0.5 \exp(-\frac{|t_i - t_j|}{0.2})$) to the first group's
+        mean function.
+    -   **Model 7**: Uses a different mean function $30t(1-t)^2$ plus the
+        second Gaussian process.
+    -   **Model 8**: Uses the different mean function $30t(1-t)^2$ plus the
+        original Gaussian noise.
+
+### Output:
+
+The function returns a data matrix of size $2n \times p$, where the first $n$
+rows are the curves from the first group, and the next $n$ rows are the curves
+from the second group according to the specified model.
+
+### Usage
+
+To simulate the curves, we can simply do the following:
+
+```{r}
+n <- 5
+curves <- sim_model_ex1(n = n, i_sim = 1)
+dim(curves)
+```
+
+We can see that 10 curves have been generated (5 for each group) with 30
+points each.
+
+Also, we can plot them. To do so, we are going to load external packages. This
+is just an example of how to plot the curves, but the end user can do it the
+way they want.
+
+```{r plot-sim-1-1}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(ggsci)
+library(cowplot)
+
+plot_curves <- function(curves, title = "", subtitle = "") {
+  data <- as.data.frame(curves) |> 
+    mutate(curve_id = row_number())
+  n <- dim(curves)[1] / 2
+
+  data_long <- data |>
+    pivot_longer(
+      cols = -curve_id,
+      names_to = "point",
+      values_to = "value"
+    ) %>% 
+    mutate(
+      point = as.numeric(sub("V", "", point)),
+      group = if_else(curve_id %in% 1:n, 1, 2)
+    )
+  
+  ggplot(data_long, aes(x = point, y = value, group = curve_id, color = as.factor(group))) +
+    geom_line() +
+    labs(
+      title    = title,
+      subtitle = subtitle,
+      color    = "Group",
+      x        = "",
+      y        = ""
+    ) +
+    scale_color_jco() +
+    theme_half_open() +
+    theme(legend.position = "none")
+}
+
+plot_curves(curves, title = "Example 1", subtitle = "i_sim = 1")
+```
+
+And, for example, the plot for `i_sim = 7` is the following:
+
+```{r plot-sim-1-7, echo=FALSE}
+n <- 5
+curves <- sim_model_ex1(n = n, i_sim = 7)
+plot_curves(curves, title = "Example 1", subtitle = "i_sim = 7")
+```
+
+Clear differences can be seen between both plots. We leave it up to the end
+user to experiment as they see fit with the simulations.
+
+## Example 2
+
+The second dataset generator function is `sim_model_ex2`. It allows for both
+one-dimensional and multi-dimensional data generation. Here’s a breakdown of
+how it works and what it does:
+
+### Parameters:
+
+-   **n**: The number of curves to generate **for each group**. By default,
+    this is set to 50, thus, a total of 100 curves.
+-   **p**: The number of grid points at which the curves are evaluated over
+    the interval $[0, 1]$. The default is 30 grid points.
+-   **i_sim**: An integer between 1 and 4. 1 and 2 for one-dimensional data
+    and 3 and 4 for multi-dimensional data.
+-   **seed**: A seed for random number generation to ensure reproducibility.
+    If not provided, the randomness is not fixed.
+
+### Functionality:
+
+1.  **Interval and Mean Functions**: The interval $[0, 1]$ is divided into `p`
+    equidistant points.Depending on the value of `i_sim`, different mean
+    functions $E_1$ are defined: - For `i_sim` 1 and 2: $E_1(t) = t(1 - t)$. -
+    For `i_sim` 3 and 4: $E_1$ includes two components: $t(1 - t)$ and
+    $4t^2(1 - t)$.
+
+2.  **Covariance Structure**: A sequence of decay factors, $\rho$, is defined,
+    with larger values for smaller indices and smaller values for larger
+    indices. Then, basis functions, $\theta$, are generated using sine and
+    cosine functions.
+
+3.  **Data Generation**: Based on `i_sim`, the mean function $E_2$ for the
+    second group is generated by adding sums of basis functions weighted by
+    $\rho$ to $E_1$.
+
+    -   For `i_sim` 1 and 2 (one-dimensional data): Random variables are
+        generated and multiplied by the square root of $\rho$ to create the
+        noise components. Then, curves $X_1$ and $X_2$ are created by adding
+        the noise components to the mean functions $E_1$ and $E_2$,
+        respectively. The return value is the data matrix $X$ which is formed
+        by stacking $X_1$ and $X_2$.
+    -   For `i_sim` 3 and 4 (multi-dimensional data): Random variables are
+        generated for each dimension and multiplied by the square root of
+        $\rho$ to create the noise components. Then, curves $X_1$ and $X_2$
+        are created for each dimension by adding the noise components to the
+        mean functions. Finally, the data array $X$ is formed by stacking
+        $X_1$ and $X_2$ along the third dimension.
+
+### Output:
+
+The function returns: - `i_sim` is 1 or 2: A data matrix of size
+$2n \times p$. - `i_sim` is 3 or 4: An array of dimensions
+$2n \times p \times 2$.
+
+### Usage
+
+For this simulation, we would like to point out that we can simulate
+multidimensional data with `i_sim = 3` or `i_sim = 4`.
+
+```{r}
+n <- 5
+curves <- sim_model_ex2(n = n, i_sim = 3)
+dim(curves)
+```
+
+As can be seen, now we don't have a matrix but a 3-dimensional array. We are
+going to plot the first dimension:
+
+```{r plot-sim-2-3-1dimension, echo=FALSE}
+plot_curves(curves[,,1], title = "Example 2", subtitle = "i_sim = 3; first dimension")
+```
+
+And now the second dimension:
+
+```{r plot-sim-2-3-2dimension, echo=FALSE}
+plot_curves(curves[,,2], title = "Example 2", subtitle = "i_sim = 3; second dimension")
+```
+
+# Indices computation
+
+As mentioned above, [the main contribution of the package](#sec-goal) is the
+implementation of the epigraph and the hypograph index, both in one and
+multiple dimensions. The function to generate the indices is
+`generate_indices` and It can compute:
+
+-   **Epigraph Index** (EI)
+-   **Hypograph Index** (HI)
+-   **Modified Epigraph Index** (MEI)
+-   **Modified Hypograph Index** (MHI)
+
+The `indices` parameter can be specified to calculate a subset of the total
+indices, but by default it calculates all of them.
+
+To try the indices, let's generate multidimensional data with `sim_model_ex2`:
+
+```{r}
+curves <- sim_model_ex2(i_sim = 3)
+dim(curves)
+```
+
+And now compute the indices for the multidimensional data:
+
+```{r}
+indices_mult <- generate_indices(curves)
+```
+
+We can check that all the indices are computed for each curve and for its
+first and second derivative:
+
+```{r}
+names(indices_mult)
+```
+
+We can also take a quick look to the generated indices:
+
+```{r}
+head(indices_mult, 3)
+```
+
+Now, for the sake of comparison, let's see what happens if we calculate the
+indices separately for each dimension and check the first few rows:
+
+```{r}
+indices_dim1 <- generate_indices(curves[,,1])
+indices_dim2 <- generate_indices(curves[,,2])
+```
+
+```{r}
+head(indices_dim1, 3)
+```
+
+```{r}
+head(indices_dim2, 3)
+```
+
+One difference that is readily apparent is, for example, for “dtaMHI”. Let's take a look at it:
+
+```{r}
+head(data.frame(
+  dim1 = unname(indices_dim1["dtaMHI"]),
+  dim2 = unname(indices_dim2["dtaMHI"]),
+  mult = unname(indices_mult["dtaMHI"])
+), 5)
+```
+
+Let's plot MHI vs MEI for both the original curves and the first derivatives:
+
+```{r plot-MHIvsMEI-original-curves, echo=FALSE}
+datos_ind_MEIMHI <- indices_mult[,c('dtaMEI','dtaMHI')]
+datos_ind_MEIMHI["Cluster"] <- c(rep("1", n),rep("2", n))
+
+ggplot(datos_ind_MEIMHI, aes(x = dtaMEI, y = dtaMHI, color = factor(Cluster)))+
+  geom_point() +
+  scale_color_jco() +
+  theme_half_open() +
+  ggtitle("Original curves") +
+  ylab("MHI") + xlab("MEI") +
+  theme(legend.position="none")
+```
+
+
+```{r plot-MHIvsMEI-first-derivatives, echo=FALSE}
+datos_ind_dMEIMHI <- indices_mult[,c('ddtaMEI','ddtaMHI')]
+datos_ind_dMEIMHI["Cluster"] <- c(rep("1", n), rep("2", n))
+
+ggplot(datos_ind_dMEIMHI, aes(x = ddtaMEI, y=ddtaMHI, color=factor(Cluster)))+
+  geom_point() +
+  scale_color_jco() +
+  theme_half_open() +
+  ggtitle("First derivatives") +
+  ylab("MHI") + xlab("MEI") +
+  theme(legend.position="none")
+```
+
+

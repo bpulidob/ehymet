@@ -1,0 +1,166 @@
+---
+title: "Clustering through epigraph and hypograph indices"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Clustering through epigraph and hypograph indices}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+editor_options: 
+  markdown: 
+    wrap: 78
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment  = "#>",
+  fig.path = "includes/ehymet-02-"
+)
+```
+
+```{r setup}
+set.seed(42)
+
+library(ehymet)
+```
+
+# The EHyClus function
+
+One of the main utilities of the epigraph and the hypograph index is to be
+able to use classical clustering methods with them. is to be able to use
+classical clustering methods with them. In the package, the function that
+allows us to perform this process is `EHyClus`.
+
+The EHyClus function is designed for clustering multivariate datasets that
+contain curves, where the input data can be one-dimensional (n x p) or
+multi-dimensional (n x p x q). The function constructs a dataset using the
+different indices discussed on the first vignette such as the epigraph,
+hypograph, and their modified versions, and then applies various clustering
+algorithms to this dataset.
+
+The function can automatically determine the best combinations of variables
+for clustering (any number can be selected but the default is one) or use
+specified combinations provided by the user.
+
+It supports multiple clustering methods: **hierarchical clustering**
+("hierarch"), **k-means** ("kmeans"), **kernel k-means** ("kkmeans"), and
+**spectral clustering** ("spc"). Also, it allows customization of hierarchical
+clustering methods, distance metrics, and kernels using parameters like
+`l_dist_hierarch`.
+
+For smoothing, it uses B-splines with a specified or automatically selected
+number of basis functions.
+
+To check the quality of the results, if true labels are provided, the function
+can validate the clustering results and compute performance metrics such as
+purity, F-measure, and Rand Index (RI). Also, it records the time taken for
+each clustering method, in case you want to measure it in case of wanting to
+know the tradeoff between results and execution time
+
+## Parameters
+
+All the parameters and its functionality can be found on the function
+documentation, but arguably the most important ones are:
+
+-   **curves**: The dataset containing the curves to be clustered.
+-   **vars_combinations**: Determines the combinations of variables to use.
+    Can be an integer for automatic selection or a list of specific
+    combinations.
+-   **clustering_methods**: A vector specifying which clustering methods to
+    apply.
+-   **k**: Number of basis functions for B-splines.
+-   **bs**: Type of penalized smoothing basis to use.
+-   **indices**: Indices to generate for clustering.
+
+## Example of usage and validation
+
+In this subsection, we are going to display how to validate the results of the
+`EHyClus` function. First, we are going to generate multidimensional data
+using `sim_model_ex2`:
+
+```{r}
+n <- 50
+curves <- sim_model_ex2(n = n, i_sim = 3)
+```
+
+And, as we are generating $n = 50$ curves per group and there are two groups,
+the true labels are:
+
+```{r}
+true_labels <- c(rep(1, n), rep(2, n))
+```
+
+We can run the algorithm with or without the true labels.
+
+```{r}
+res <- EHyClus(curves)
+res_with_labels <- EHyClus(curves, true_labels = true_labels)
+```
+
+For the result without labels, it can be seen that we only have the generated
+clusters:
+
+```{r}
+names(res)
+```
+
+Whereas the one we generated with labels has both `cluster` and `labels`:
+
+```{r}
+names(res_with_labels)
+```
+
+Let's explore both components of the latter. We're going to start with
+`cluster`.
+
+```{r, echo=FALSE}
+data.tree::FromListSimple(res_with_labels$cluster, nodeName = "cluster")
+```
+
+The first thing that stands out is that the combination of variables used,
+i.e. the one chosen as the best, is "dtaMEIdtaMHI". This can be seen in the
+prefix of the different elements. We can also see the different parameters
+used. For example, for the kmeans it is easy to see that it has been performed
+with both the Euclidean and the Mahalanobis distance.
+
+Looking in particular at some of the elements, we see that it contains the
+following:
+
+```{r}
+str(res_with_labels$cluster$hierarch$hierarch_single_euclidean_dtaMEIdtaMHI)
+```
+
+On the one hand we have `cluster` which is the vector that assigns each of the
+curves to a cluster. Then we have `valid`, which is the validation data. And
+finally `time`, which is the time that this particular method has taken to be
+executed. Let's take a look at `valid`:
+
+```{r}
+head(res_with_labels$cluster$hierarch$hierarch_single_euclidean_dtaMEIdtaMHI$valid)
+```
+
+It gives us 3 metrics: purity, Fmeasure and the Rand Index (RI). However, we
+can obtain this information in another way. Remember the second element of
+`res_with_labels`? It was called `metrics` and it's the following:
+
+```{r}
+head(res_with_labels$metrics, 3)
+```
+
+It gives us the Purity, Fmeasure, RI and Time for every clustering method with
+every combination of parameters that has been executed. We can search for
+"hierarch_single_euclidean_dtaMEIdtaMHI" and see that it yields the same
+results as seen previously:
+
+```{r}
+res_with_labels$metrics["hierarch_single_euclidean_dtaMEIdtaMHI",]
+```
+
+But now imagine that we executed `EHyClus` without giving the `true_labels`
+parameter but we want to compute the metrics. For that purpose, we can use the
+`clustering_validation` function, using the true labels as the first parameter
+and the ones generated by the clustering method as the second one:
+
+```{r}
+clustering_validation(true_labels, res$cluster$hierarch$hierarch_centroid_euclidean_dtaMEIdtaMHI$cluster)
+```
