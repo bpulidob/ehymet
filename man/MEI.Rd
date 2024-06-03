@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{MEI}
 \alias{MEI}
-\title{Modified Epigraph Index (MEI) for a univariate functional dataset.}
+\title{Modified Epigraph Index (MEI) for functional dataset.}
 \usage{
 MEI(curves, ...)
 }
@@ -19,7 +19,7 @@ represents values along the curve or an \code{array} with dimension
 }
 \description{
 The Modified Epigraph Index of a curve x is one minus the proportion of
-"time" the curves in the sample are above x
+"time" the curves in the sample are above x.
 }
 \examples{
 x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7),ncol = 3, nrow = 4)

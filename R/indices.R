@@ -1,4 +1,4 @@
-#' Epigraph Index (EI) for a univariate functional dataset.
+#' Epigraph Index (EI) for a functional dataset
 #'
 #' The Epigraph Index of a curve x is one minus the proportion of curves
 #' in the sample that are above x.
@@ -7,7 +7,6 @@
 #' represents values along the curve or \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
-#'
 #' @param ... Ignored.
 #'
 #' @return numeric \code{vector} containing the EI for each curve.
@@ -60,7 +59,7 @@ EI.default <- function(curves, ...) {
   stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
 }
 
-#' Hypograph Index (HI) for a univariate functional dataset.
+#' Hypograph Index (HI) for a functional dataset
 #'
 #' The Hypograph Index of a curve x is the proportion of curves in the sample
 #' that are below x.
@@ -69,7 +68,6 @@ EI.default <- function(curves, ...) {
 #' represents values along the curve or \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
-#'
 #' @param ... Ignored.
 #'
 #' @return \code{numeric vector} containing the HI for each curve.
@@ -122,16 +120,15 @@ HI.default <- function(curves, ...) {
   stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
 }
 
-#' Modified Epigraph Index (MEI) for a univariate functional dataset.
+#' Modified Epigraph Index (MEI) for functional dataset.
 #'
 #' The Modified Epigraph Index of a curve x is one minus the proportion of
-#' "time" the curves in the sample are above x
+#' "time" the curves in the sample are above x.
 #'
 #' @param curves \code{matrix} where each row represents a curve, and each column
 #' represents values along the curve or an \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
-#'
 #' @param ... Ignored.
 #'
 #' @return \code{numeric vector} containing the MEI for each curve.
@@ -181,7 +178,7 @@ MEI.default <- function(curves, ...) {
   stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
 }
 
-#' Modified Hypograph Index (MHI) for a univariate functional dataset.
+#' Modified Hypograph Index (MHI) for a functional dataset
 #'
 #' The Modified Hypograph Index of a curve x is the proportion of "time"
 #' the curves in the sample are below x.
@@ -190,7 +187,6 @@ MEI.default <- function(curves, ...) {
 #' represents values along the curve or an \code{array} with dimension
 #' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
 #' \eqn{k} dimensions.
-#'
 #' @param ... Ignored.
 #'
 #' @return \code{numeric vector} containing the MHI for each curve.
@@ -249,12 +245,12 @@ MHI.default <- function(curves, ...) {
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
 #' @param k Number of basis functions for the B-splines. If equals to 0, the number
 #' of basis functions will be automatically selected.
-#' @param bs A two letter chatacter string indicating the (penalized) smoothing
+#' @param bs A two letter character string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
 #' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
 #' limit of the evaluation grid. If not provided, it will be selected automatically.
 #' @param indices Set of indices to be applied to the dataset. They should be
-#' any between EI, HI, MEI and MHI
+#' any between EI, HI, MEI and MHI.
 #' @param ... Additional arguments (unused)
 #'
 #' @return A dataframe containing the indexes provided in \code{indices} for
@@ -270,7 +266,7 @@ MHI.default <- function(curves, ...) {
 #' generate_indices(x2, k = 4)
 #'
 #' @export
-generate_indices <- function(curves, k, bs = "cr", grid,
+generate_indices <- function(curves, k, grid, bs = "cr",
                              indices = c("EI", "HI", "MEI", "MHI"), ...) {
   # define indices constant
   INDICES <- c("EI", "HI", "MEI", "MHI")
@@ -307,9 +303,9 @@ generate_indices <- function(curves, k, bs = "cr", grid,
     deriv_col  <- paste0("ddta",  index)
     deriv2_col <- paste0("d2dta", index)
 
-    smooth_result <- get(index)(fun_data$smooth)
-    deriv_result  <- get(index)(fun_data$deriv)
-    deriv2_result <- get(index)(fun_data$deriv2)
+    smooth_result <- map_index_name_to_function(index)(fun_data$smooth)
+    deriv_result  <- map_index_name_to_function(index)(fun_data$deriv)
+    deriv2_result <- map_index_name_to_function(index)(fun_data$deriv2)
 
     ind_data <- cbind(ind_data,
                       stats::setNames(

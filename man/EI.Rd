@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{EI}
 \alias{EI}
-\title{Epigraph Index (EI) for a univariate functional dataset.}
+\title{Epigraph Index (EI) for a functional dataset}
 \usage{
 EI(curves, ...)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{HI}
 \alias{HI}
-\title{Hypograph Index (HI) for a univariate functional dataset.}
+\title{Hypograph Index (HI) for a functional dataset}
 \usage{
 HI(curves, ...)
 }

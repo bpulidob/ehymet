@@ -77,6 +77,16 @@ test_that("the 'n_clusters' parameter is working as expected", {
   )
 })
 
+test_that("the 'n_cores' parameter is not breaking anything", {
+  set.seed(42)
+
+  data <- ehyclus_example_data(n = 10)
+  curves <- data$curves
+  vars_combinations <- data$vars_combinations
+
+  expect_no_error(EHyClus(curves, vars_combinations = vars_combinations, n_cores = 2))
+})
+
 test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus'", {
   n <- 100
   labels <- rep(c(1,2), each = n)

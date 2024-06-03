@@ -70,7 +70,7 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #' @param n_cluster number of clusters to generate.
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param num_cores Number of cores to do parallel computation. 1 by default,
+#' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @return A list containing hierarchical clustering results
 #' for each configuration
@@ -86,7 +86,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
                                               "centroid","ward.D2"),
                               dist_list = c("euclidean", "manhattan"),
                               n_cluster=2, true_labels = NULL,
-                              num_cores=1) {
+                              n_cores=1) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
@@ -129,7 +129,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
     dist <- parameter_combinations$distance[i]
 
     clustInd_hierarch_aux(ind_data, vars, met, dist, n_cluster, true_labels)
-}, mc.cores = num_cores)
+}, mc.cores = n_cores)
 
   result_name <- get_result_names("hierarch", parameter_combinations, vars_combinations)
   names(result) <- result_name
@@ -233,7 +233,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param num_cores Number of cores to do parallel computation. 1 by default,
+#' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @return A list containing hierarchical clustering results
 #' for each configuration
@@ -249,7 +249,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 clustInd_kmeans <- function(ind_data, vars_combinations,
                             dist_list = c("euclidean", "mahalanobis"),
                             n_cluster = 2, true_labels = NULL,
-                            num_cores = 1) {
+                            n_cores = 1) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
@@ -291,7 +291,7 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
 
     clustInd_kmeans_aux(ind_data = ind_data, vars =vars, dist = dist,
                            n_cluster = n_cluster, true_labels = true_labels)
-  }, mc.cores = num_cores)
+  }, mc.cores = n_cores)
 
   result_name <- get_result_names("kmeans", parameter_combinations, vars_combinations)
   names(result) <- result_name
@@ -359,7 +359,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param num_cores Number of cores to do parallel computation. 1 by default,
+#' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @param ... Additional arguments (unused)
 #'
@@ -374,7 +374,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 clustInd_kkmeans <- function(ind_data, vars_combinations,
                              kernel_list = c("rbfdot", "polydot"),
                              n_cluster = 2, true_labels = NULL,
-                             num_cores = 1, ...) {
+                             n_cores = 1, ...) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
@@ -415,7 +415,7 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
     kern <- as.character(parameter_combinations$kernel[i])
 
     clustInd_kkmeans_aux(ind_data, vars, kern, n_cluster, true_labels)
-  }, mc.cores = num_cores)
+  }, mc.cores = n_cores)
 
   result_name <- get_result_names("kkmeans", parameter_combinations, vars_combinations)
   names(result) <- result_name
@@ -480,7 +480,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
-#' @param num_cores Number of cores to do parallel computation. 1 by default,
+#' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
 #' @param ... Additional arguments (unused)
 #'
@@ -495,7 +495,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 clustInd_spc <- function(ind_data, vars_combinations,
                          kernel_list = c("rbfdot", "polydot"),
                          n_cluster = 2, true_labels = NULL,
-                         num_cores = 1, ...) {
+                         n_cores = 1, ...) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
@@ -537,7 +537,7 @@ clustInd_spc <- function(ind_data, vars_combinations,
     kern <- as.character(parameter_combinations$kernel[i])
 
     clustInd_spc_aux(ind_data, vars, kern, n_cluster, true_labels)
-  }, mc.cores = num_cores)
+  }, mc.cores = n_cores)
 
   result_name <- get_result_names("spc", parameter_combinations, vars_combinations)
   names(result) <- result_name

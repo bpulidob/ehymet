@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{MHI}
 \alias{MHI}
-\title{Modified Hypograph Index (MHI) for a univariate functional dataset.}
+\title{Modified Hypograph Index (MHI) for a functional dataset}
 \usage{
 MHI(curves, ...)
 }

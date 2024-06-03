@@ -7,7 +7,7 @@
 #' the curve, and in the second case, \eqn{k} is the number of dimensions.
 #' @param k Number of basis functions for the B-splines. If equals to 0, the number
 #' of basis functions will be automatically selected.
-#' @param bs A two letter chatacter string indicating the (penalized) smoothing
+#' @param bs A two letter character string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
 #' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
 #' limit of the evaluation grid. If not provided, it will be selected automatically.
@@ -126,4 +126,18 @@ quiet <- function(x) {
   sink(tempfile())
   on.exit(sink())
   invisible(force(x))
+}
+
+#' Maps the index name to its corresponding function
+#'
+#' Used to ensure that we call our index functions inside \code{generate_indices}
+#'
+#' @noRd
+map_index_name_to_function <- function(index) {
+  switch(index,
+    "EI"  = EI,
+    "HI"  = HI,
+    "MEI" = MEI,
+    "MHI" = MHI
+  )
 }

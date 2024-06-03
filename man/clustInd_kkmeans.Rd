@@ -11,7 +11,7 @@ clustInd_kkmeans(
   kernel_list = c("rbfdot", "polydot"),
   n_cluster = 2,
   true_labels = NULL,
-  num_cores = 1,
+  n_cores = 1,
   ...
 )
 }
@@ -30,7 +30,7 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 \item{true_labels}{Vector of true labels for validation
 (if it is not known true_labels is set to NULL)}
 
-\item{num_cores}{Number of cores to do parallel computation. 1 by default,
+\item{n_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution.}
 
 \item{...}{Additional arguments (unused)}

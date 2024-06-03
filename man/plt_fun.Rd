@@ -2,25 +2,26 @@
 % Please edit documentation in R/simulation_models.R
 \name{plt_fun}
 \alias{plt_fun}
-\title{Function for generating plots of one dimensional functional datasets}
+\title{Plot for one-dimensional functional datasets}
 \usage{
 plt_fun(data, true_labels)
 }
 \arguments{
 \item{data}{2-dimensional data matrix where rows are the curves and columns
-are the points}
+are the points.}
 
 \item{true_labels}{Atomic vector containing the true groups in which the data should
-be classified}
+be classified.}
 }
 \value{
-A plot
+Plot (ggplot object)
 }
 \description{
-Function for generating plots of one dimensional functional datasets
+Plot for one-dimensional functional datasets
 }
 \examples{
 data <- sim_model_ex1()
 true_labels <- c(rep(1,50), rep(2,50))
 plt_fun(data, true_labels)
+
 }

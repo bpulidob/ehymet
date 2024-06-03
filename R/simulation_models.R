@@ -84,6 +84,11 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1){
 
 #' Function for generating functional data in one or multiple dimension
 #'
+#' The function can generate one-dimensional or multi-dimensional curves.
+#' For \code{i_sim} 1 or 2, one-dimensional curves are generated.
+#' For \code{i_sim} 3 or 4, multi-dimensional curves are generated.
+#' ADD REFERENCES
+#'
 #' @param n Number of curves to generate for each of the two groups. Set to 50 by default.
 #' @param p Number of grid points of the curves.
 #' Curves are generated over the interval \eqn{[0, 1]}. Set to 150 grid point by default.
@@ -155,20 +160,21 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1) {
 }
 
 
-#' Function for generating plots of one dimensional functional datasets
+#' Plot for one-dimensional functional datasets
 #'
 #' @param data 2-dimensional data matrix where rows are the curves and columns
-#' are the points
+#' are the points.
 #' @param true_labels Atomic vector containing the true groups in which the data should
-#' be classified
+#' be classified.
 #'
-#' @return A plot
-#' @export
+#' @return Plot (ggplot object)
 #'
 #' @examples
 #' data <- sim_model_ex1()
 #' true_labels <- c(rep(1,50), rep(2,50))
 #' plt_fun(data, true_labels)
+#'
+#' @export
 plt_fun <- function(data, true_labels) {
 
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
