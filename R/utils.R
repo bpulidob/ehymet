@@ -141,3 +141,11 @@ map_index_name_to_function <- function(index) {
     "MHI" = MHI
   )
 }
+
+check_n_cores <- function(n_cores) {
+  if (.Platform$OS.type != "unix") {
+    warning("Running this function using multiples cores is only supported on unix systems.",
+            "Setting 'n_cores' parameter to '1'")
+    n_cores <<- 1
+  }
+}

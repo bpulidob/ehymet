@@ -85,8 +85,8 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
                               method_list = c("single","complete","average",
                                               "centroid","ward.D2"),
                               dist_list = c("euclidean", "manhattan"),
-                              n_cluster=2, true_labels = NULL,
-                              n_cores=1) {
+                              n_cluster = 2, true_labels = NULL,
+                              n_cores = 1) {
 
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
@@ -96,6 +96,8 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
   if(!is.list(vars_combinations)) {
     stop("input 'vars_combinations' must be a list.", call. = FALSE)
   }
+
+  check_n_cores(n_cores)
 
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
@@ -260,6 +262,8 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
+  check_n_cores(n_cores)
+
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
 
@@ -385,6 +389,8 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
+  check_n_cores(n_cores)
+
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
 
@@ -505,6 +511,8 @@ clustInd_spc <- function(ind_data, vars_combinations,
   if(!is.list(vars_combinations)) {
     stop("Input 'vars_combinations' must be a data frame.", call. = FALSE)
   }
+
+  check_n_cores(n_cores)
 
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)

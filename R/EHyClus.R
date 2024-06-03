@@ -111,6 +111,8 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   check_list_parameter(l_dist_kmeans, DIST_KMEANS, "l_dist_kmeans")
   check_list_parameter(l_kernel, KERNEL, "l_kernel")
 
+  check_n_cores(n_cores)
+
   # Generate the dataset with the indexes
 
   generate_indices_parameters <- list(
