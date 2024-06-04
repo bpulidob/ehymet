@@ -97,7 +97,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
     stop("input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
-  check_n_cores(n_cores)
+  n_cores <- check_n_cores(n_cores)
 
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
@@ -262,7 +262,7 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
-  check_n_cores(n_cores)
+  n_cores <- check_n_cores(n_cores)
 
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
@@ -389,7 +389,7 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
-  check_n_cores(n_cores)
+  n_cores <- check_n_cores(n_cores)
 
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
@@ -512,7 +512,7 @@ clustInd_spc <- function(ind_data, vars_combinations,
     stop("Input 'vars_combinations' must be a data frame.", call. = FALSE)
   }
 
-  check_n_cores(n_cores)
+  n_cores <- check_n_cores(n_cores)
 
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
