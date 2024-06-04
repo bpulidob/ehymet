@@ -142,10 +142,18 @@ map_index_name_to_function <- function(index) {
   )
 }
 
+#' Disable multicore on windows without killing the execution
+#' @noRd
 check_n_cores <- function(n_cores) {
-  if (.Platform$OS.type != "unix") {
+  if (n_cores < 1 || n_cores %% 1 != 0) {
+    stop("'n_cores' must be an integer number greater than '1'", call. = FALSE)
+  }
+
+  if (.Platform$OS.type != "unix" && n_cores > 1) {
     warning("Running this function using multiples cores is only supported on unix systems.",
             "Setting 'n_cores' parameter to '1'")
-    n_cores <<- 1
+    return(1)
   }
+
+  return(n_cores)
 }

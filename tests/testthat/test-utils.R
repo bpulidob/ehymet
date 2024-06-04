@@ -47,11 +47,15 @@ test_that("'funspline' throws an error with invalid input", {
 })
 
 test_that("the 'check_n_cores' function works", {
-  # the proper behavior of this function can only be tested on windows
-  skip_on_os(c("mac", "linux", "solaris"))
-
   n_cores <- 542
-  check_n_cores(n_cores)
 
-  expect_equal(n_cores, 1)
+  if (.Platform$OS.type != "unix") {
+    expect_equal(check_n_cores(n_cores), 1)
+  } else {
+    expect_equal(check_n_cores(n_cores), 542)
+  }
+
+  curves <- ehyclus_example_data(n = 50)$curves
+  expect_error(EHyClus(curves, n_cores = -21))
+  expect_error(EHyClus(curves, n_cores = pi))
 })
