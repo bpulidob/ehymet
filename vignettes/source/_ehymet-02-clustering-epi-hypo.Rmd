@@ -1,8 +1,10 @@
 ---
-title: "Clustering through epigraph and hypograph indices"
-output: rmarkdown::html_vignette
+title: "Clustering through the epigraph and hypograph indices"
+output: 
+ rmarkdown::html_vignette:
+    toc: yes
 vignette: >
-  %\VignetteIndexEntry{Clustering through epigraph and hypograph indices}
+  %\VignetteIndexEntry{Clustering through the epigraph and hypograph indices}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 editor_options: 
@@ -14,6 +16,8 @@ editor_options:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment  = "#>",
+  message = FALSE, warning = FALSE, error = FALSE,
+  fig.cap  = "",
   fig.path = "includes/ehymet-02-"
 )
 ```

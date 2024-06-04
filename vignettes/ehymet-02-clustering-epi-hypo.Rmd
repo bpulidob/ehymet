@@ -1,10 +1,10 @@
 ---
 title: "Clustering through the epigraph and hypograph indices"
 output: 
-  rmarkdown::html_vignette:
+ rmarkdown::html_vignette:
     toc: yes
 vignette: >
-  %\VignetteIndexEntry{Clustering through epigraph and hypograph indices}
+  %\VignetteIndexEntry{Clustering through the epigraph and hypograph indices}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 editor_options: 
@@ -15,41 +15,27 @@ editor_options:
 
 
 
-``` {r include = FALSE}
+``` r
 set.seed(42)
 
 library(ehymet)
 ```
 
-# EHyClus function
+# The EHyClus function
 
 One of the main utilities of the epigraph and the hypograph index is to be
-able to measure ``extremality'' of a curve with respect to a bunch of curves
-and to provide and ordination of the curves from top to bottom or viceversa. 
+able to use classical clustering methods with them. is to be able to use
+classical clustering methods with them. In the package, the function that
+allows us to perform this process is `EHyClus`.
 
-EHyClus is a methodology for clustering functional data which is based in four 
-steps:
+The EHyClus function is designed for clustering multivariate datasets that
+contain curves, where the input data can be one-dimensional (n x p) or
+multi-dimensional (n x p x q). The function constructs a dataset using the
+different indices discussed on the first vignette such as the epigraph,
+hypograph, and their modified versions, and then applies various clustering
+algorithms to this dataset.
 
-1. Smooth the functional dataset.
-2. Apply the indices to data, first and second derivatives.
-3. Apply classical multivariate clustering technique.
-4. Obtain a clustering partition in $k$ groups ($k$ fixed in advanced).
-
-In `ehymet`, the function that allows us to perform this process is `EHyClus`.
-
-EHyClus function is designed for clustering functional datasets. The input data 
-can be a one-dimensional dataset, $n \times p$ matrix, or a multidimensional 
-one, $n \times p \times q$ array. The function transforms the initial dataset 
-by first smoothing the data and then applying different indices analyzed 
-on thef irst vignette such as the epigraph, hypograph, and their modified 
-versions, and then applies various clustering algorithms to this dataset. 
-Indices for one or multiple dimension are applied depending on the size of the 
-input data.
-
-For smoothing, it uses B-splines with a specified or automatically selected
-number of basis functions. By default, cubic B-splines are considered.
-
-This function can automatically determine the best combinations of variables
+The function can automatically determine the best combinations of variables
 for clustering (any number can be selected but the default is one) or use
 specified combinations provided by the user.
 
@@ -59,39 +45,35 @@ It supports multiple clustering methods: **hierarchical clustering**
 clustering methods, distance metrics, and kernels using parameters like
 `l_dist_hierarch`.
 
+For smoothing, it uses B-splines with a specified or automatically selected
+number of basis functions.
+
 To check the quality of the results, if true labels are provided, the function
 can validate the clustering results and compute performance metrics such as
-purity, F-measure, and Rand Index (RI). Additionally, it records the time taken 
-for each clustering method, allowing you to measure and analyze the trade-off 
-between the results and execution time.
+purity, F-measure, and Rand Index (RI). Also, it records the time taken for
+each clustering method, in case you want to measure it in case of wanting to
+know the tradeoff between results and execution time
 
 ## Parameters
 
 All the parameters and its functionality can be found on the function
 documentation, but arguably the most important ones are:
 
--   **curves**: The dataset containing the curves to be clustered. The functional 
-  dataset can be one dimensional ($n \times p$) where n is the number of
-  curves and p the number of time points, or multidimensional \
-  ($n \times q \times k$) where q represents the number of dimensions.
+-   **curves**: The dataset containing the curves to be clustered.
 -   **vars_combinations**: Determines the combinations of variables to use.
     Can be an integer for automatic selection or a list of specific
     combinations.
 -   **clustering_methods**: A vector specifying which clustering methods to
     apply.
 -   **k**: Number of basis functions for B-splines.
--   **indices**: Indices to generate for clustering. They should be one or more 
-    between "EI", "HI", "MEI" and "MHI". Depending on the dimension on the data,
-    its one-dimensional version or multidimensional version is computed.
--   **n_clusters**: Number of clusters.
-- **true_labels**: Numeric vector with true classification labels. 
-
+-   **bs**: Type of penalized smoothing basis to use.
+-   **indices**: Indices to generate for clustering.
 
 ## Example of usage and validation
 
-In this subsection, we will demonstrate how to validate the results of the 
-`EHyClus` function. We will begin by generating multidimensional data using 
-`sim_model_ex2`:
+In this subsection, we are going to display how to validate the results of the
+`EHyClus` function. First, we are going to generate multidimensional data
+using `sim_model_ex2`:
 
 
 ``` r
@@ -115,8 +97,8 @@ res <- EHyClus(curves)
 res_with_labels <- EHyClus(curves, true_labels = true_labels)
 ```
 
-For the result without labels, we can see that only the generated clusters are 
-displayed:
+For the result without labels, it can be seen that we only have the generated
+clusters:
 
 
 ``` r
@@ -124,7 +106,7 @@ names(res)
 #> [1] "cluster"
 ```
 
-Whereas the one generated with labels has both `cluster` and `metrics`:
+Whereas the one we generated with labels has both `cluster` and `labels`:
 
 
 ``` r
@@ -178,7 +160,7 @@ str(res_with_labels$cluster$hierarch$hierarch_single_euclidean_dtaMEIdtaMHI)
 #>  $ valid  : 'table' num [1:3(1d)] 0.51 0.658 0.495
 #>   ..- attr(*, "dimnames")=List of 1
 #>   .. ..$ : chr [1:3] "Purity" "Fmeasure" "RI"
-#>  $ time   : num 0.000239
+#>  $ time   : num 0.000263
 ```
 
 On the one hand we have `cluster` which is the vector that assigns each of the
@@ -200,10 +182,14 @@ can obtain this information in another way. Remember the second element of
 
 ``` r
 head(res_with_labels$metrics, 3)
-#>                                          Purity Fmeasure     RI         Time
-#> hierarch_single_euclidean_dtaMEIdtaMHI     0.51   0.6577 0.4952 0.0002388954
-#> hierarch_complete_euclidean_dtaMEIdtaMHI   0.69   0.5636 0.5679 0.0002110004
-#> hierarch_average_euclidean_dtaMEIdtaMHI    0.66   0.5766 0.5467 0.0001959801
+#>                                          Purity Fmeasure     RI
+#> hierarch_single_euclidean_dtaMEIdtaMHI     0.51   0.6577 0.4952
+#> hierarch_complete_euclidean_dtaMEIdtaMHI   0.69   0.5636 0.5679
+#> hierarch_average_euclidean_dtaMEIdtaMHI    0.66   0.5766 0.5467
+#>                                                  Time
+#> hierarch_single_euclidean_dtaMEIdtaMHI   0.0002629757
+#> hierarch_complete_euclidean_dtaMEIdtaMHI 0.0002098083
+#> hierarch_average_euclidean_dtaMEIdtaMHI  0.0002009869
 ```
 
 It gives us the Purity, Fmeasure, RI and Time for every clustering method with
@@ -214,8 +200,10 @@ results as seen previously:
 
 ``` r
 res_with_labels$metrics["hierarch_single_euclidean_dtaMEIdtaMHI",]
-#>                                        Purity Fmeasure     RI         Time
-#> hierarch_single_euclidean_dtaMEIdtaMHI   0.51   0.6577 0.4952 0.0002388954
+#>                                        Purity Fmeasure     RI
+#> hierarch_single_euclidean_dtaMEIdtaMHI   0.51   0.6577 0.4952
+#>                                                Time
+#> hierarch_single_euclidean_dtaMEIdtaMHI 0.0002629757
 ```
 
 But now imagine that we executed `EHyClus` without giving the `true_labels`

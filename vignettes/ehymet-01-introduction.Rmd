@@ -3,7 +3,6 @@ title: "Introduction to ehymet"
 output: 
   rmarkdown::html_vignette:
     toc: yes
-    # fig_width: 6
 bibliography: biblio_ehymet.bib
 vignette: >
   %\VignetteIndexEntry{Introduction to ehymet}
@@ -17,13 +16,13 @@ editor_options:
 
 
 
-``` {r include = FALSE}
+``` r
 set.seed(42)
 
 library(ehymet)
 ```
 
-# `ehymet` package goal {#sec-goal}
+# ehymet package goal {#sec-goal}
 
 The **ehymet** package (**E**pigraph-**Hy**pograph based **met**hodologies for
 functional data) is an `R` package designed to extend popular multivariate 
@@ -119,7 +118,6 @@ mean function $E_2(t)=30t{(1-t)}^2$.
 - **i_sim = 7**: $X_8(t)=E_2(t)+ h(t).$
 - **i_sim = 8**: $X_9(t)=E_2(t)+ e(t).$
 
-
 ### Output
 
 The function returns a data matrix of size $2n \times p$, where the first $n$
@@ -146,9 +144,6 @@ Also, we can plot them. To do so, we are going to load external packages. This
 is just an example of how to plot the curves, but the end user can do it the
 way they want.
 
-``` r
-print(plt_fun(curves, c(rep(1,5), rep(2,5))))
-```
 
 ``` r
 library(tidyr)
@@ -190,14 +185,14 @@ plot_curves <- function(curves, title = "", subtitle = "") {
 plot_curves(curves, title = "Example 1", subtitle = "i_sim = 1")
 ```
 
-![plot of chunk plot-sim-1-1](includes/ehymet-01-plot-sim-1-1-1.png)
+![](includes/ehymet-01-plot-sim-1-1-1.png)
 
 The case of `i_sim = 7` has the following graph representation:
 
-![plot of chunk plot-sim-1-7](includes/ehymet-01-plot-sim-1-7-1.png)
+![](includes/ehymet-01-plot-sim-1-7-1.png)
 
 Clear differences can be seen between both plots. We leave it up to the end
-user to experiment with the simulations as they see fit.
+user to experiment as they see fit with the simulations.
 
 ## Type 2 DGPs
 
@@ -284,7 +279,6 @@ The second group of data is generated as follows, depending on the value of
  - **i_sim = 4**: $X_{i}(t)=\mathbf{E}_8(t)+ B(t),$ where 
  $\mathbf{E}_8(t)=\mathbf{E}_6(t)+\mathbf{1}\displaystyle \sum_{k=4}^{100}\sqrt{\rho_k}\theta_k(t).$
 
-
 ### Output
 
 The function returns for the **one-dimensional case** (`i_sim=1,2`) a data 
@@ -309,11 +303,11 @@ dim(curves)
 As can be seen, now we don't have a matrix but a 3-dimensional array. We are
 going to plot the first dimension:
 
-![plot of chunk plot-sim-2-3-1dimension](includes/ehymet-01-plot-sim-2-3-1dimension-1.png)
+![](includes/ehymet-01-plot-sim-2-3-1dimension-1.png)
 
 And now the second dimension:
 
-![plot of chunk plot-sim-2-3-2dimension](includes/ehymet-01-plot-sim-2-3-2dimension-1.png)
+![](includes/ehymet-01-plot-sim-2-3-2dimension-1.png)
 
 # Indices computation
 
@@ -354,7 +348,8 @@ first and second derivative:
 
 ``` r
 names(indices_mult)
-#>  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"   "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"  
+#>  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"  
+#>  [6] "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"  
 #> [11] "ddtaMHI"  "d2dtaMHI"
 ```
 
@@ -363,10 +358,14 @@ We can also take a quick look to the generated indices:
 
 ``` r
 head(indices_mult, 3)
-#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
-#> 1  0.99   0.99    0.99  0.01   0.01    0.01 0.7018000 0.7325333 0.7407333 0.1966667 0.2790667 0.2684667
-#> 2  0.99   0.99    0.99  0.01   0.01    0.01 0.6420000 0.7212000 0.7210667 0.1892667 0.2792667 0.2904667
-#> 3  0.99   0.99    0.99  0.01   0.01    0.01 0.4653333 0.7262000 0.7378000 0.1470667 0.2758667 0.2515333
+#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI
+#> 1  0.99   0.99    0.99  0.01   0.01    0.01 0.7018000 0.7325333
+#> 2  0.99   0.99    0.99  0.01   0.01    0.01 0.6420000 0.7212000
+#> 3  0.99   0.99    0.99  0.01   0.01    0.01 0.4653333 0.7262000
+#>    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
+#> 1 0.7407333 0.1966667 0.2790667 0.2684667
+#> 2 0.7210667 0.1892667 0.2792667 0.2904667
+#> 3 0.7378000 0.1470667 0.2758667 0.2515333
 ```
 
 Now, for the sake of comparison, let's see what happens if we calculate the
@@ -381,19 +380,27 @@ indices_dim2 <- generate_indices(curves[,,2])
 
 ``` r
 head(indices_dim1, 3)
-#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
-#> 1  0.87   0.99    0.99  0.03   0.01    0.01 0.3356000 0.4969333 0.5032667 0.3456000 0.5069333 0.5132667
-#> 2  0.91   0.99    0.99  0.01   0.01    0.01 0.2908000 0.5111333 0.5106667 0.3008000 0.5211333 0.5206667
-#> 3  0.91   0.99    0.99  0.01   0.01    0.01 0.2932667 0.5034667 0.4964667 0.3032667 0.5134667 0.5064667
+#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI
+#> 1  0.87   0.99    0.99  0.03   0.01    0.01 0.3356000 0.4969333
+#> 2  0.91   0.99    0.99  0.01   0.01    0.01 0.2908000 0.5111333
+#> 3  0.91   0.99    0.99  0.01   0.01    0.01 0.2932667 0.5034667
+#>    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
+#> 1 0.5032667 0.3456000 0.5069333 0.5132667
+#> 2 0.5106667 0.3008000 0.5211333 0.5206667
+#> 3 0.4964667 0.3032667 0.5134667 0.5064667
 ```
 
 
 ``` r
 head(indices_dim2, 3)
-#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
-#> 1  0.99   0.99    0.99  0.04   0.01    0.01 0.5528667 0.5046667 0.4959333 0.5628667 0.5146667 0.5059333
-#> 2  0.98   0.99    0.99  0.01   0.01    0.01 0.5304667 0.4793333 0.4908667 0.5404667 0.4893333 0.5008667
-#> 3  0.96   0.99    0.99  0.01   0.01    0.01 0.3091333 0.4886000 0.4828667 0.3191333 0.4986000 0.4928667
+#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI
+#> 1  0.99   0.99    0.99  0.04   0.01    0.01 0.5528667 0.5046667
+#> 2  0.98   0.99    0.99  0.01   0.01    0.01 0.5304667 0.4793333
+#> 3  0.96   0.99    0.99  0.01   0.01    0.01 0.3091333 0.4886000
+#>    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
+#> 1 0.4959333 0.5628667 0.5146667 0.5059333
+#> 2 0.4908667 0.5404667 0.4893333 0.5008667
+#> 3 0.4828667 0.3191333 0.4986000 0.4928667
 ```
 
 One difference that is readily apparent is, for example, for “dtaMHI”. Let's take a look at it:
@@ -415,10 +422,9 @@ head(data.frame(
 
 Let's plot MHI vs MEI for both the original curves and the first derivatives:
 
-![plot of chunk plot-MHIvsMEI-original-curves](includes/ehymet-01-plot-MHIvsMEI-original-curves-1.png)
+![](includes/ehymet-01-plot-MHIvsMEI-original-curves-1.png)
 
 
-![plot of chunk plot-MHIvsMEI-first-derivatives](includes/ehymet-01-plot-MHIvsMEI-first-derivatives-1.png)
-
+![](includes/ehymet-01-plot-MHIvsMEI-first-derivatives-1.png)
 
 # References
