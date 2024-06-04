@@ -39,7 +39,7 @@
 #' @param verbose If \code{TRUE}, the function will print logs for about the execution of
 #' some clustering methods. Defaults to \code{FALSE}.
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
-#' which mean no parallel execution.
+#' which mean no parallel execution. Must be an integer number greater than 1.
 #'
 #' @return A \code{list} containing the clustering partition for each method and indexes
 #' combination and, if \code{true_labels} is provided a data frame containing the time elapsed for obtaining a

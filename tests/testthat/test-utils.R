@@ -54,4 +54,8 @@ test_that("the 'check_n_cores' function works", {
   } else {
     expect_equal(check_n_cores(n_cores), 542)
   }
+
+  curves <- ehyclus_example_data(n = 50)$curves
+  expect_error(EHyClus(curves, n_cores = -21))
+  expect_error(EHyClus(curves, n_cores = pi))
 })

@@ -72,7 +72,7 @@ more metrics are computed in the final result.}
 some clustering methods. Defaults to \code{FALSE}.}
 
 \item{n_cores}{Number of cores to do parallel computation. 1 by default,
-which mean no parallel execution.}
+which mean no parallel execution. Must be an integer number greater than 1.}
 }
 \value{
 A \code{list} containing the clustering partition for each method and indexes
