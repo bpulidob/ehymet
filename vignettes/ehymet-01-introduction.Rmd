@@ -317,10 +317,9 @@ And now the second dimension:
 
 # Indices computation
 
-As mentioned above, [the main contribution of the package](#sec-goal) is the
-implementation of the epigraph and the hypograph index, both in one and
-multiple dimensions. The function to generate the indices is
-`generate_indices` and It can compute:
+`ehymet`provides the implementation of the epigraph and the hypograph index, 
+both in one and multiple dimensions. The function to generate the indices is
+`generate_indices` and it can compute:
 
 -   **Epigraph Index** (EI)
 -   **Hypograph Index** (HI)
@@ -328,9 +327,12 @@ multiple dimensions. The function to generate the indices is
 -   **Modified Hypograph Index** (MHI)
 
 The `indices` parameter can be specified to calculate a subset of the total
-indices, but by default it calculates all of them.
+indices, but by default it calculates all of them. Indices for one-dimensional 
+functional data or for data in more dimensions are calculated depending of the 
+size of the input array.
 
-To try the indices, let's generate multidimensional data with `sim_model_ex2`:
+Let's try this function to generate indices with multidimensional data generated 
+with `sim_model_ex2`:
 
 
 ``` r
