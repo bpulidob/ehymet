@@ -17,9 +17,9 @@ generate_indices(
 \arguments{
 \item{curves}{\code{matrix} with dimension \eqn{n \times p} in the case of a
 one-dimensional functional dataset, or \code{array} of dimension
-\eqn{n \times p \times k} in the case of a multivariate functional dataset.
+\eqn{n \times p \times q} in the case of a multivariate functional dataset.
 \eqn{n} represents the number of curves, \eqn{p} the number of values along
-the curve, and in the second case, \eqn{k} is the number of dimensions.}
+the curve, and in the second case, \eqn{q} is the number of dimensions.}
 
 \item{k}{Number of basis functions for the B-splines. If equals to 0, the number
 of basis functions will be automatically selected.}

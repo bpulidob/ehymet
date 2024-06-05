@@ -9,8 +9,8 @@ MHI(curves, ...)
 \arguments{
 \item{curves}{\code{matrix} where each row represents a curve, and each column
 represents values along the curve or an \code{array} with dimension
-\eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
-\eqn{k} dimensions.}
+\eqn{n \times p \times q} with \eqn{n} curves, \eqn{p} values along the curve, and
+\eqn{q} dimensions.}
 
 \item{...}{Ignored.}
 }

@@ -5,8 +5,8 @@
 #'
 #' @param curves \code{matrix} where each row represents a curve, and each column
 #' represents values along the curve or \code{array} with dimension
-#' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
-#' \eqn{k} dimensions.
+#' \eqn{n \times p \times q} with \eqn{n} curves, \eqn{p} values along the curve, and
+#' \eqn{q} dimensions.
 #' @param ... Ignored.
 #'
 #' @return numeric \code{vector} containing the EI for each curve.
@@ -66,8 +66,8 @@ EI.default <- function(curves, ...) {
 #'
 #' @param curves \code{matrix} where each row represents a curve, and each column
 #' represents values along the curve or \code{array} with dimension
-#' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
-#' \eqn{k} dimensions.
+#' \eqn{n \times p \times q} with \eqn{n} curves, \eqn{p} values along the curve, and
+#' \eqn{q} dimensions.
 #' @param ... Ignored.
 #'
 #' @return \code{numeric vector} containing the HI for each curve.
@@ -127,8 +127,8 @@ HI.default <- function(curves, ...) {
 #'
 #' @param curves \code{matrix} where each row represents a curve, and each column
 #' represents values along the curve or an \code{array} with dimension
-#' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
-#' \eqn{k} dimensions.
+#' \eqn{n \times p \times q} with \eqn{n} curves, \eqn{p} values along the curve, and
+#' \eqn{q} dimensions.
 #' @param ... Ignored.
 #'
 #' @return \code{numeric vector} containing the MEI for each curve.
@@ -185,8 +185,8 @@ MEI.default <- function(curves, ...) {
 #'
 #' @param curves \code{matrix} where each row represents a curve, and each column
 #' represents values along the curve or an \code{array} with dimension
-#' \eqn{n \times p \times k} with \eqn{n} curves, \eqn{p} values along the curve, and
-#' \eqn{k} dimensions.
+#' \eqn{n \times p \times q} with \eqn{n} curves, \eqn{p} values along the curve, and
+#' \eqn{q} dimensions.
 #' @param ... Ignored.
 #'
 #' @return \code{numeric vector} containing the MHI for each curve.
@@ -240,9 +240,9 @@ MHI.default <- function(curves, ...) {
 #'
 #' @param curves \code{matrix} with dimension \eqn{n \times p} in the case of a
 #' one-dimensional functional dataset, or \code{array} of dimension
-#' \eqn{n \times p \times k} in the case of a multivariate functional dataset.
+#' \eqn{n \times p \times q} in the case of a multivariate functional dataset.
 #' \eqn{n} represents the number of curves, \eqn{p} the number of values along
-#' the curve, and in the second case, \eqn{k} is the number of dimensions.
+#' the curve, and in the second case, \eqn{q} is the number of dimensions.
 #' @param k Number of basis functions for the B-splines. If equals to 0, the number
 #' of basis functions will be automatically selected.
 #' @param bs A two letter character string indicating the (penalized) smoothing

@@ -24,8 +24,8 @@ EHyClus(
 }
 \arguments{
 \item{curves}{Dataset containing the curves to apply a clustering algorithm.
-The functional dataset can be one dimensional (\eqn{n \times p}) where n is the number of
-curves and p the number of time points, or multidimensional (\eqn{n \times p \times k}) where k
+The functional dataset can be one dimensional (\eqn{n \times p}) where \eqn{n} is the number of
+curves and \code{p} the number of time points, or multidimensional (\eqn{n \times p \times q}) where \eqn{q}
 represents the number of dimensions in the data}
 
 \item{vars_combinations}{\code{integer} or \code{list}.
