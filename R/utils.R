@@ -38,37 +38,36 @@ funspline <- function(curves, k, bs = "cr", grid) {
     smooth <- as.matrix(ys) # smoothed data
 
     if (!missing(grid)) {
-      deriv  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
+      deriv <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
       deriv2 <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
     } else {
-      deriv  <- as.matrix(tf::tf_derive(ys, order = 1))
+      deriv <- as.matrix(tf::tf_derive(ys, order = 1))
       deriv2 <- as.matrix(tf::tf_derive(ys, order = 2))
     }
-
   } else {
     n_curves <- dim(curves)[1]
     l_curves <- dim(curves)[2]
     d_curves <- dim(curves)[3]
 
     # Initialize empty dataframes to store the results
-    smooth <- array(rep(NaN, n_curves * l_curves),   dim = c(n_curves, l_curves, d_curves))
-    deriv  <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
+    smooth <- array(rep(NaN, n_curves * l_curves), dim = c(n_curves, l_curves, d_curves))
+    deriv <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
     deriv2 <- array(rep(NaN, n_curves * (l_curves)), dim = c(n_curves, l_curves, d_curves))
 
     for (d in seq_len(dim(curves)[3])) {
-      tfb_params[["data"]] <- curves[,,d]
+      tfb_params[["data"]] <- curves[, , d]
 
       # Smooth data using B-spline basis
       ys <- suppressMessages(do.call(tf::tfb, tfb_params))
 
       # Evaluate smoothed data and derivatives
-      smooth[,,d] <- as.matrix(ys) # smoothed data
+      smooth[, , d] <- as.matrix(ys) # smoothed data
       if (!missing(grid)) {
-        deriv[,,d]  <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
-        deriv2[,,d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
+        deriv[, , d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
+        deriv2[, , d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
       } else {
-        deriv[,,d]  <- as.matrix(tf::tf_derive(ys, order = 1))
-        deriv2[,,d] <- as.matrix(tf::tf_derive(ys, order = 2))
+        deriv[, , d] <- as.matrix(tf::tf_derive(ys, order = 1))
+        deriv2[, , d] <- as.matrix(tf::tf_derive(ys, order = 2))
       }
     }
   }
@@ -96,13 +95,14 @@ check_list_parameter <- function(argument, parameter_values, parameter_name) {
   }
 
   if (any(duplicated(argument))) {
-    stop("duplicated argument in '", parameter_name,"'.", call. = FALSE)
+    stop("duplicated argument in '", parameter_name, "'.", call. = FALSE)
   }
 
   indices <- pmatch(argument, parameter_values)
   if (any(is.na(indices))) {
     stop("invalid argument in '", parameter_name, "': ", paste(argument[is.na(indices)], collapse = ", "), ".",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 }
 
@@ -115,8 +115,8 @@ get_result_names <- function(method_name, parameter_combinations, vars_combinati
   }
 
   args <- append(args, list(rep(sapply(vars_combinations, function(x) paste0(x, collapse = "")),
-                                times = nrow(parameter_combinations) / length(vars_combinations))
-  ))
+    times = nrow(parameter_combinations) / length(vars_combinations)
+  )))
   args[["sep"]] <- "_"
   do.call(paste, args)
 }
@@ -151,8 +151,10 @@ check_n_cores <- function(n_cores) {
   }
 
   if (.Platform$OS.type != "unix" && n_cores > 1) {
-    warning("Running this function using multiples cores is only supported on unix systems.",
-            "Setting 'n_cores' parameter to '1'")
+    warning(
+      "Running this function using multiples cores is only supported on unix systems.",
+      "Setting 'n_cores' parameter to '1'"
+    )
     return(1)
   }
 

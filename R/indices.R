@@ -12,11 +12,12 @@
 #' @return numeric \code{vector} containing the EI for each curve.
 #'
 #' @examples
-#' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), ncol = 3, nrow = 4)
+#' x <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), ncol = 3, nrow = 4)
 #' EI(x)
 #'
-#' y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-#' dim = c(3,4,2))
+#' y <- array(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7, -1, -5, -6, 2, 3, 0, -1, 0, 2, -1, -2, 0),
+#'   dim = c(3, 4, 2)
+#' )
 #' EI(y)
 #'
 #' @export
@@ -29,9 +30,11 @@ EI.matrix <- function(curves, ...) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
 
-  index <- apply(curves,1, function(y)
-    sum(apply(curves,1,function(x)
-      sum(x>=y)==l_curves)))/n_curves
+  index <- apply(curves, 1, function(y) {
+    sum(apply(curves, 1, function(x) {
+      sum(x >= y) == l_curves
+    }))
+  }) / n_curves
 
   return(1 - index)
 }
@@ -46,12 +49,15 @@ EI.array <- function(curves, ...) {
   l_curves <- dim(curves)[2]
   d_curves <- dim(curves)[3]
 
-  index <- colSums(Reduce('*',lapply(1:d_curves, function(k)
-    sapply(1:n_curves, function(j)
-      colSums(sapply(1:n_curves, function(i)
-        curves[i,,k] >= curves[j,,k]))==l_curves))))
+  index <- colSums(Reduce("*", lapply(1:d_curves, function(k) {
+    sapply(1:n_curves, function(j) {
+      colSums(sapply(1:n_curves, function(i) {
+        curves[i, , k] >= curves[j, , k]
+      })) == l_curves
+    })
+  })))
 
-  return(1 - index/n_curves)
+  return(1 - index / n_curves)
 }
 
 #' @export
@@ -73,11 +79,12 @@ EI.default <- function(curves, ...) {
 #' @return \code{numeric vector} containing the HI for each curve.
 #'
 #' @examples
-#' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), ncol = 3, nrow = 4)
+#' x <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), ncol = 3, nrow = 4)
 #' HI(x)
 #'
-#' y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-#' dim = c(3,4,2))
+#' y <- array(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7, -1, -5, -6, 2, 3, 0, -1, 0, 2, -1, -2, 0),
+#'   dim = c(3, 4, 2)
+#' )
 #' HI(y)
 #'
 #' @export
@@ -90,9 +97,11 @@ HI.matrix <- function(curves, ...) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
 
-  index <- apply(curves,1, function(y)
-    sum(apply(curves,1,function(x)
-      sum(x<=y)==l_curves)))/n_curves
+  index <- apply(curves, 1, function(y) {
+    sum(apply(curves, 1, function(x) {
+      sum(x <= y) == l_curves
+    }))
+  }) / n_curves
 
   return(index)
 }
@@ -107,12 +116,15 @@ HI.array <- function(curves, ...) {
   l_curves <- dim(curves)[2]
   d_curves <- dim(curves)[3]
 
-  index <- colSums(Reduce('*',lapply(1:d_curves, function(k)
-    sapply(1:n_curves, function(j)
-      colSums(sapply(1:n_curves, function(i)
-        curves[i,,k] <= curves[j,,k]))==l_curves))))
+  index <- colSums(Reduce("*", lapply(1:d_curves, function(k) {
+    sapply(1:n_curves, function(j) {
+      colSums(sapply(1:n_curves, function(i) {
+        curves[i, , k] <= curves[j, , k]
+      })) == l_curves
+    })
+  })))
 
-  return(index/n_curves)
+  return(index / n_curves)
 }
 
 #' @export
@@ -134,10 +146,11 @@ HI.default <- function(curves, ...) {
 #' @return \code{numeric vector} containing the MEI for each curve.
 #'
 #' @examples
-#' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7),ncol = 3, nrow = 4)
+#' x <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), ncol = 3, nrow = 4)
 #' MEI(x)
-#' y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-#' dim = c(3,4,2))
+#' y <- array(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7, -1, -5, -6, 2, 3, 0, -1, 0, 2, -1, -2, 0),
+#'   dim = c(3, 4, 2)
+#' )
 #' MEI(y)
 #'
 #' @export
@@ -150,8 +163,8 @@ MEI.matrix <- function(curves, ...) {
   n_curves <- dim(curves)[1]
   l_curves <- dim(curves)[2]
   rankm <- apply(curves, 2, function(y) (rank(y, ties.method = "min")))
-  n_a <- n_curves-rankm+1
-  index <- rowSums(n_a)/(n_curves*l_curves)
+  n_a <- n_curves - rankm + 1
+  index <- rowSums(n_a) / (n_curves * l_curves)
   return(1 - index)
 }
 
@@ -165,12 +178,15 @@ MEI.array <- function(curves, ...) {
   l_curves <- dim(curves)[2]
   d_curves <- dim(curves)[3]
 
-  index <- sapply(1:n_curves, function(j)
-    sum(Reduce('*', lapply(1:d_curves, function(k)
-      sapply(1:n_curves, function(i)
-        curves[i,,k] >= curves[j,,k])))))
+  index <- sapply(1:n_curves, function(j) {
+    sum(Reduce("*", lapply(1:d_curves, function(k) {
+      sapply(1:n_curves, function(i) {
+        curves[i, , k] >= curves[j, , k]
+      })
+    })))
+  })
 
-  return (1 - index / (n_curves * l_curves))
+  return(1 - index / (n_curves * l_curves))
 }
 
 #' @export
@@ -192,10 +208,11 @@ MEI.default <- function(curves, ...) {
 #' @return \code{numeric vector} containing the MHI for each curve.
 #'
 #' @examples
-#' x <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), ncol = 3, nrow = 4)
+#' x <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), ncol = 3, nrow = 4)
 #' MHI(x)
-#' y <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-#' dim = c(3,4,2))
+#' y <- array(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7, -1, -5, -6, 2, 3, 0, -1, 0, 2, -1, -2, 0),
+#'   dim = c(3, 4, 2)
+#' )
 #' MHI(y)
 #'
 #' @export
@@ -222,12 +239,15 @@ MHI.array <- function(curves, ...) {
   l_curves <- dim(curves)[2]
   d_curves <- dim(curves)[3]
 
-  index <- sapply(1:n_curves, function(j)
-    sum(Reduce('*', lapply(1:d_curves, function(k)
-      sapply(1:n_curves, function(i)
-        curves[i,,k] <= curves[j,,k])))))
+  index <- sapply(1:n_curves, function(j) {
+    sum(Reduce("*", lapply(1:d_curves, function(k) {
+      sapply(1:n_curves, function(i) {
+        curves[i, , k] <= curves[j, , k]
+      })
+    })))
+  })
 
-  return (index / (n_curves * l_curves))
+  return(index / (n_curves * l_curves))
 }
 
 #' @export
@@ -258,11 +278,12 @@ MHI.default <- function(curves, ...) {
 #' @export
 #'
 #' @examples
-#' x1 <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-#' dim = c(3,4,2))
+#' x1 <- array(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7, -1, -5, -6, 2, 3, 0, -1, 0, 2, -1, -2, 0),
+#'   dim = c(3, 4, 2)
+#' )
 #' generate_indices(x1, k = 4)
 #'
-#' x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
+#' x2 <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), nrow = 3, ncol = 4)
 #' generate_indices(x2, k = 4)
 #'
 #' @export
@@ -299,18 +320,20 @@ generate_indices <- function(curves, k, grid, bs = "cr",
   # Loop through the list of functions and apply them to the smoothed and
   # its first and second derivatives
   for (index in indices) {
-    smooth_col <- paste0("dta",   index)
-    deriv_col  <- paste0("ddta",  index)
+    smooth_col <- paste0("dta", index)
+    deriv_col <- paste0("ddta", index)
     deriv2_col <- paste0("d2dta", index)
 
     smooth_result <- map_index_name_to_function(index)(fun_data$smooth)
-    deriv_result  <- map_index_name_to_function(index)(fun_data$deriv)
+    deriv_result <- map_index_name_to_function(index)(fun_data$deriv)
     deriv2_result <- map_index_name_to_function(index)(fun_data$deriv2)
 
-    ind_data <- cbind(ind_data,
-                      stats::setNames(
-                        data.frame(smooth_result, deriv_result,deriv2_result),
-                        c(smooth_col, deriv_col, deriv2_col))
+    ind_data <- cbind(
+      ind_data,
+      stats::setNames(
+        data.frame(smooth_result, deriv_result, deriv2_result),
+        c(smooth_col, deriv_col, deriv2_col)
+      )
     )
   }
 

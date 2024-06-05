@@ -60,8 +60,10 @@ clustering_validation <- function(true_labels, clusters) {
   rec <- tp / (tp + fn) # Recall
 
   # (Purity, Fmeasure, RI)
-  res <- c(round(res_purity, 4), round(2 * ((prec * rec) / (prec + rec)), 4),
-           round((tp + tn) / (tp + fp + fn + tn), 4))
+  res <- c(
+    round(res_purity, 4), round(2 * ((prec * rec) / (prec + rec)), 4),
+    round((tp + tn) / (tp + fp + fn + tn), 4)
+  )
   names(res) <- c("Purity", "Fmeasure", "RI")
 
   as.table(res)

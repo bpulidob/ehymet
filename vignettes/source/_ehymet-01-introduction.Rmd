@@ -16,9 +16,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment  = "#>",
+  comment = "#>",
   message = FALSE, warning = FALSE, error = FALSE,
-  fig.cap  = "",
+  fig.cap = "",
   fig.path = "includes/ehymet-01-"
 )
 ```
@@ -154,7 +154,7 @@ library(ggsci)
 library(cowplot)
 
 plot_curves <- function(curves, title = "", subtitle = "") {
-  data <- as.data.frame(curves) |> 
+  data <- as.data.frame(curves) |>
     mutate(curve_id = row_number())
   n <- dim(curves)[1] / 2
 
@@ -163,12 +163,12 @@ plot_curves <- function(curves, title = "", subtitle = "") {
       cols = -curve_id,
       names_to = "point",
       values_to = "value"
-    ) %>% 
+    ) %>%
     mutate(
       point = as.numeric(sub("V", "", point)),
       group = if_else(curve_id %in% 1:n, 1, 2)
     )
-  
+
   ggplot(data_long, aes(x = point, y = value, group = curve_id, color = as.factor(group))) +
     geom_line() +
     labs(
@@ -298,13 +298,13 @@ As can be seen, now we don't have a matrix but a 3-dimensional array. We are
 going to plot the first dimension:
 
 ```{r plot-sim-2-3-1dimension, echo=FALSE}
-plot_curves(curves[,,1], title = "DGP 2", subtitle = "i_sim = 4; first dimension")
+plot_curves(curves[, , 1], title = "DGP 2", subtitle = "i_sim = 4; first dimension")
 ```
 
 And now the second dimension:
 
 ```{r plot-sim-2-3-2dimension, echo=FALSE}
-plot_curves(curves[,,2], title = "DGP 2", subtitle = "i_sim = 4; second dimension")
+plot_curves(curves[, , 2], title = "DGP 2", subtitle = "i_sim = 4; second dimension")
 ```
 
 For the sake of visualization, we can also obtain the derivatives of the
@@ -313,20 +313,20 @@ curves using the `funspline` function, which is an internal function of the
 
 ```{r}
 funspline_result <- ehymet:::funspline(curves)
-deriv  <- funspline_result$deriv
+deriv <- funspline_result$deriv
 deriv2 <- funspline_result$deriv2
 ```
 
 The plot for first dimension of the derivative is the following one:
 
 ```{r plot-sim-2-3-1dimension-deriv, echo=FALSE}
-plot_curves(deriv[,,1], title = "DGP 2", subtitle = "i_sim = 4; first dimension (derivative)")
+plot_curves(deriv[, , 1], title = "DGP 2", subtitle = "i_sim = 4; first dimension (derivative)")
 ```
 
 And for the second dimensions:
 
 ```{r plot-sim-2-3-2dimension-deriv, echo=FALSE}
-plot_curves(deriv[,,2], title = "DGP 2", subtitle = "i_sim = 4; second dimension (derivative)")
+plot_curves(deriv[, , 2], title = "DGP 2", subtitle = "i_sim = 4; second dimension (derivative)")
 ```
 
 For the derivatives, we can observe a clear overlapping between curves on both
@@ -379,8 +379,8 @@ Now, for the sake of comparison, let's see what happens if we calculate the
 indices separately for each dimension and check the first few rows:
 
 ```{r}
-indices_dim1 <- generate_indices(curves[,,1])
-indices_dim2 <- generate_indices(curves[,,2])
+indices_dim1 <- generate_indices(curves[, , 1])
+indices_dim2 <- generate_indices(curves[, , 2])
 ```
 
 ```{r}
@@ -405,42 +405,45 @@ head(data.frame(
 Let's plot MHI vs MEI for both the original curves and the first derivatives:
 
 ```{r plot-MHIvsMEI-original-curves, echo=FALSE}
-datos_ind_MEIMHI <- indices_mult[,c('dtaMEI','dtaMHI')]
-datos_ind_MEIMHI["Cluster"] <- c(rep("1", n),rep("2", n))
+datos_ind_MEIMHI <- indices_mult[, c("dtaMEI", "dtaMHI")]
+datos_ind_MEIMHI["Cluster"] <- c(rep("1", n), rep("2", n))
 
-ggplot(datos_ind_MEIMHI, aes(x = dtaMEI, y = dtaMHI, color = factor(Cluster)))+
+ggplot(datos_ind_MEIMHI, aes(x = dtaMEI, y = dtaMHI, color = factor(Cluster))) +
   geom_point() +
   scale_color_d3() +
   theme_half_open() +
   ggtitle("Original curves") +
-  ylab("MHI") + xlab("MEI") +
-  theme(legend.position="none")
+  ylab("MHI") +
+  xlab("MEI") +
+  theme(legend.position = "none")
 ```
 
 ```{r plot-MHIvsMEI-first-derivatives, echo=FALSE}
-datos_ind_dMEIMHI <- indices_mult[,c('ddtaMEI','ddtaMHI')]
+datos_ind_dMEIMHI <- indices_mult[, c("ddtaMEI", "ddtaMHI")]
 datos_ind_dMEIMHI["Cluster"] <- c(rep("1", n), rep("2", n))
 
-ggplot(datos_ind_dMEIMHI, aes(x = ddtaMEI, y=ddtaMHI, color=factor(Cluster)))+
+ggplot(datos_ind_dMEIMHI, aes(x = ddtaMEI, y = ddtaMHI, color = factor(Cluster))) +
   geom_point() +
   scale_color_d3() +
   theme_half_open() +
   ggtitle("First derivatives") +
-  ylab("MHI") + xlab("MEI") +
-  theme(legend.position="none")
+  ylab("MHI") +
+  xlab("MEI") +
+  theme(legend.position = "none")
 ```
 
 ```{r plot-MHIvsMEI-second-derivatives, echo=FALSE}
-datos_ind_d2MEIMHI <- indices_mult[,c('d2dtaMEI','d2dtaMHI')]
+datos_ind_d2MEIMHI <- indices_mult[, c("d2dtaMEI", "d2dtaMHI")]
 datos_ind_d2MEIMHI["Cluster"] <- c(rep("1", n), rep("2", n))
 
-ggplot(datos_ind_d2MEIMHI, aes(x = d2dtaMEI, y=d2dtaMHI, color=factor(Cluster)))+
+ggplot(datos_ind_d2MEIMHI, aes(x = d2dtaMEI, y = d2dtaMHI, color = factor(Cluster))) +
   geom_point() +
   scale_color_d3() +
   theme_half_open() +
   ggtitle("Second derivatives") +
-  ylab("MHI") + xlab("MEI") +
-  theme(legend.position="none")
+  ylab("MHI") +
+  xlab("MEI") +
+  theme(legend.position = "none")
 ```
 
 For the original curves and the first derivative, no clear separation can be

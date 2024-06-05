@@ -33,7 +33,7 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
   curves <- data$curves
 
   vars_wrong_name <- list(c("dtaEI", "ddtaET", "d2dtaEI"))
-  vars_singular   <- list(c("dtaEI", "ddtaEI", "d2dtaEI"))
+  vars_singular <- list(c("dtaEI", "ddtaEI", "d2dtaEI"))
   vars_wrong_and_correct <- list(c("dtaEI", "ddtaET", "d2dtaEI"), c("dtaEI", "dtaMEI"))
 
   # The case with only one variable should throw a warning but still works
@@ -60,7 +60,6 @@ test_that("the checking related to 'vars_combinations' is doing its work", {
   # As one of the vars combinations is correct but there is also one incorrect,
   # this should work but a warning is expected
   expect_warning(EHyClus(curves = curves, k = 10, vars_combinations = vars_wrong_and_correct))
-
 })
 
 test_that("the 'n_clusters' parameter is working as expected", {
@@ -89,10 +88,10 @@ test_that("the 'n_cores' parameter is not breaking anything", {
 
 test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus'", {
   n <- 100
-  labels <- rep(c(1,2), each = n)
+  labels <- rep(c(1, 2), each = n)
 
-  vars1  <- c("dtaMEI","ddtaMEI")
-  vars2  <- c("dtaMEI","d2dtaMEI")
+  vars1 <- c("dtaMEI", "ddtaMEI")
+  vars2 <- c("dtaMEI", "d2dtaMEI")
 
   curves <- sim_model_ex2(n = n)
   res <- EHyClus(curves, vars_combinations = list(vars1, vars2), true_labels = labels)
@@ -105,9 +104,9 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
 test_that("the 'get_best_vars_combinations' is giving the expected results", {
   set.seed(42)
 
-  curves  <- sim_model_ex1()
+  curves <- sim_model_ex1()
   grid <- c(1, 2)
-  k  <- 30
+  k <- 30
   indices <- c("EI", "HI", "MEI", "MHI")
 
   expected_best_combinations <- list(
@@ -146,8 +145,8 @@ test_that("giving an integer number to 'vars_combinations' works", {
   max_vars_combinations_number <- 2^6 - 6 - 1
   res <- suppressWarnings(
     EHyClus(curves,
-            vars_combinations = humongous_vars_combinations_number,
-            indices = indices
+      vars_combinations = humongous_vars_combinations_number,
+      indices = indices
     )
   )
 

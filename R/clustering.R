@@ -11,12 +11,11 @@
 #' (if it is not known true_labels is set to NULL)
 #'
 #' @return A list containing clustering results and execution time.
-#' @noRd
 #'
+#' @noRd
 clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
                                   dist = "euclidean", n_cluster = 2,
-                                  true_labels=NULL){
-
+                                  true_labels = NULL) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.")
@@ -27,25 +26,25 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
     stop("Invalid variable name.")
   }
 
-  if(!all(method %in% c("single","complete","average", "centroid","ward.D2"))) {
+  if (!all(method %in% c("single", "complete", "average", "centroid", "ward.D2"))) {
     stop("Invalid method name.")
   }
 
-  if(!all(dist %in% c("euclidean", "manhattan"))) {
+  if (!all(dist %in% c("euclidean", "manhattan"))) {
     stop("Invalid distance name.")
   }
 
   t0 <- Sys.time()
 
   # Perform hierarchical clustering
-  d <- stats::dist(ind_data[,vars], method = dist)
+  d <- stats::dist(ind_data[, vars], method = dist)
   met <- stats::hclust(d, method = method)
   clus <- stats::cutree(met, k = n_cluster)
 
   t1 <- Sys.time()
 
   # Calculate execution time
-  et <- data.frame(difftime(t1,t0,'secs'))
+  et <- data.frame(difftime(t1, t0, "secs"))
 
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(et))
@@ -74,26 +73,29 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #' which mean no parallel execution.
 #' @return A list containing hierarchical clustering results
 #' for each configuration
-#' @export
+#'
 #' @examples
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- generate_indices(data)
 #' clustInd_hierarch(data_ind, list(vars1, vars2))
+#'
+#' @export
 clustInd_hierarch <- function(ind_data, vars_combinations,
-                              method_list = c("single","complete","average",
-                                              "centroid","ward.D2"),
+                              method_list = c(
+                                "single", "complete", "average",
+                                "centroid", "ward.D2"
+                              ),
                               dist_list = c("euclidean", "manhattan"),
                               n_cluster = 2, true_labels = NULL,
                               n_cores = 1) {
-
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.list(vars_combinations)) {
+  if (!is.list(vars_combinations)) {
     stop("input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
@@ -108,8 +110,8 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 
   # Check if indices, methods and distances lists are provided
   if (!is.character(method_list) ||
-      !is.character(dist_list) || length(vars_combinations) == 0 ||
-      length(method_list) == 0 || length(dist_list) == 0) {
+    !is.character(dist_list) || length(vars_combinations) == 0 ||
+    length(method_list) == 0 || length(dist_list) == 0) {
     stop("invalid 'method_list' or 'dist_list'. Both must be non-empty character vectors.", call. = FALSE)
   }
 
@@ -118,8 +120,10 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
   }
 
   # Generate all the possible combinations of indices, methods and distances
-  parameter_combinations <- expand.grid(vars = names(vars_combinations),
-                                        method = method_list, distance = dist_list)
+  parameter_combinations <- expand.grid(
+    vars = names(vars_combinations),
+    method = method_list, distance = dist_list
+  )
 
   tl_null <- is.null(true_labels)
 
@@ -127,11 +131,11 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 
   result <- parallel::mclapply(1:n_comb, function(i) {
     vars <- vars_combinations[[parameter_combinations$vars[i]]]
-    met  <- parameter_combinations$method[i]
+    met <- parameter_combinations$method[i]
     dist <- parameter_combinations$distance[i]
 
     clustInd_hierarch_aux(ind_data, vars, met, dist, n_cluster, true_labels)
-}, mc.cores = n_cores)
+  }, mc.cores = n_cores)
 
   result_name <- get_result_names("hierarch", parameter_combinations, vars_combinations)
   names(result) <- result_name
@@ -147,17 +151,17 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 #' @param n_cluster Number of clusters to create
 #'
 #' @return k-means clustering with Mahalanobis distance output
+#'
 #' @noRd
-kmeans_mahal <- function(ind_data, n_cluster){
-
+kmeans_mahal <- function(ind_data, n_cluster) {
   # Check if input is numeric matrix or array
   if (!(is.numeric(ind_data) || is.matrix(ind_data) || is.array(ind_data) ||
-        is.data.frame(ind_data))) {
+    is.data.frame(ind_data))) {
     stop("Input must be a numeric matrix, array or data frame.")
   }
 
   # Convert data to matrix
-  if (! is.matrix(ind_data)) {
+  if (!is.matrix(ind_data)) {
     data_matrix <- as.matrix(ind_data)
   } else {
     data_matrix <- ind_data
@@ -167,9 +171,11 @@ kmeans_mahal <- function(ind_data, n_cluster){
   c <- chol(stats::var(data_matrix))
   data_transform <- data_matrix %*% solve(c)
 
-  #vector containing the clustering partition
-  km <- stats::kmeans(data_transform, centers=n_cluster, iter.max=1000,
-                      nstart=100)$cluster
+  # vector containing the clustering partition
+  km <- stats::kmeans(data_transform,
+    centers = n_cluster, iter.max = 1000,
+    nstart = 100
+  )$cluster
   return(km)
 }
 
@@ -184,10 +190,10 @@ kmeans_mahal <- function(ind_data, n_cluster){
 #' (if it is not known true_labels is set to NULL)
 #'
 #' @return A list containing clustering results and execution time.
+#'
 #' @noRd
 clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
-                                n_cluster = 2, true_labels = NULL){
-
+                                n_cluster = 2, true_labels = NULL) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.")
@@ -205,14 +211,16 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 
   t0 <- Sys.time()
 
-  if(dist=="euclidean"){
-    clus <- stats::kmeans(ind_data[,vars], centers = n_cluster,
-                          iter.max = 1000, nstart = 100)$cluster
-  } else{
-    clus <- kmeans_mahal(ind_data[,vars], n_cluster)
+  if (dist == "euclidean") {
+    clus <- stats::kmeans(ind_data[, vars],
+      centers = n_cluster,
+      iter.max = 1000, nstart = 100
+    )$cluster
+  } else {
+    clus <- kmeans_mahal(ind_data[, vars], n_cluster)
   }
   t1 <- Sys.time()
-  t <- data.frame(difftime(t1,t0,'secs'))
+  t <- data.frame(difftime(t1, t0, "secs"))
 
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(t))
@@ -241,24 +249,25 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' for each configuration
 #'
 #' @return A list containing kmeans clustering results for each configuration
-#' @export
+#'
 #' @examples
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- generate_indices(data)
 #' clustInd_kmeans(data_ind, list(vars1, vars2))
+#'
+#' @export
 clustInd_kmeans <- function(ind_data, vars_combinations,
                             dist_list = c("euclidean", "mahalanobis"),
                             n_cluster = 2, true_labels = NULL,
                             n_cores = 1) {
-
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.list(vars_combinations)) {
+  if (!is.list(vars_combinations)) {
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
@@ -282,8 +291,10 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
   }
 
   # Generate all the possible combinations of indices, methods and distances
-  parameter_combinations <- expand.grid(vars = names(vars_combinations),
-                                        distance = dist_list)
+  parameter_combinations <- expand.grid(
+    vars = names(vars_combinations),
+    distance = dist_list
+  )
 
   tl_null <- is.null(true_labels)
 
@@ -293,8 +304,10 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
     vars <- vars_combinations[[parameter_combinations$vars[i]]]
     dist <- parameter_combinations$distance[i]
 
-    clustInd_kmeans_aux(ind_data = ind_data, vars =vars, dist = dist,
-                           n_cluster = n_cluster, true_labels = true_labels)
+    clustInd_kmeans_aux(
+      ind_data = ind_data, vars = vars, dist = dist,
+      n_cluster = n_cluster, true_labels = true_labels
+    )
   }, mc.cores = n_cores)
 
   result_name <- get_result_names("kmeans", parameter_combinations, vars_combinations)
@@ -315,10 +328,10 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
 #' (if it is not known true_labels is set to NULL)
 #'
 #' @return A list containing clustering results and execution time.
+#'
 #' @noRd
 clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
-                                 n_cluster = 2, true_labels = NULL, ...){
-
+                                 n_cluster = 2, true_labels = NULL, ...) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.")
@@ -336,11 +349,12 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 
 
   t0 <- Sys.time()
-  kkmeans_out <- kernlab::kkmeans(as.matrix(ind_data[,vars]),
-                                  centers= n_cluster, kernel = kernel, ...)
+  kkmeans_out <- kernlab::kkmeans(as.matrix(ind_data[, vars]),
+    centers = n_cluster, kernel = kernel, ...
+  )
   clus <- kkmeans_out@.Data
   t1 <- Sys.time()
-  t <- data.frame(difftime(t1,t0,'secs'))
+  t <- data.frame(difftime(t1, t0, "secs"))
 
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(t))
@@ -367,25 +381,26 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' which mean no parallel execution.
 #' @param ... Additional arguments (unused)
 #'
-#' @return A list containing kkmeans clustering results for each configuration
-#' @export
+#' @return A \code{list} containing kernel-kmeans clustering results for each configuration.
+#'
 #' @examples
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- generate_indices(data)
 #' clustInd_kkmeans(data_ind, list(vars1, vars2))
+#'
+#' @export
 clustInd_kkmeans <- function(ind_data, vars_combinations,
                              kernel_list = c("rbfdot", "polydot"),
                              n_cluster = 2, true_labels = NULL,
                              n_cores = 1, ...) {
-
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.list(vars_combinations)) {
+  if (!is.list(vars_combinations)) {
     stop("Input 'vars_combinations' must be a list.", call. = FALSE)
   }
 
@@ -409,8 +424,10 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
   }
 
   # Generate all the possible combinations of indices, methods and distances
-  parameter_combinations <- expand.grid(vars = names(vars_combinations),
-                                        kernel = kernel_list)
+  parameter_combinations <- expand.grid(
+    vars = names(vars_combinations),
+    kernel = kernel_list
+  )
 
   tl_null <- is.null(true_labels)
 
@@ -440,10 +457,10 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
 #' (if it is not known true_labels is set to NULL)
 #'
 #' @return A list containing clustering results and execution time.
+#'
 #' @noRd
 clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
-                             true_labels=NULL, ...){
-
+                             true_labels = NULL, ...) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.", call. = FALSE)
@@ -458,12 +475,13 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 
   # create target variable
   nrow_ind_data <- nrow(ind_data)
-  specc_output <- kernlab::specc(as.matrix(ind_data[,vars]),
-                                 centers = n_cluster,  kernel = kernel, ...)
+  specc_output <- kernlab::specc(as.matrix(ind_data[, vars]),
+    centers = n_cluster, kernel = kernel, ...
+  )
   clus <- specc_output@.Data
 
   t1 <- Sys.time()
-  t <- data.frame(difftime(t1,t0,'secs'))
+  t <- data.frame(difftime(t1, t0, "secs"))
 
   if (is.null(true_labels)) {
     res <- list("cluster" = clus, "time" = as.numeric(t))
@@ -491,24 +509,25 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' @param ... Additional arguments (unused)
 #'
 #' @return A list containing kkmeans clustering results for each configuration
-#' @export
+#'
 #' @examples
 #' vars1 <- c("dtaEI", "dtaMEI")
 #' vars2 <- c("dtaHI", "dtaMHI")
 #' data <- ehymet::sim_model_ex1()
 #' data_ind <- generate_indices(data)
 #' clustInd_spc(data_ind, list(vars1, vars2))
+#'
+#' @export
 clustInd_spc <- function(ind_data, vars_combinations,
                          kernel_list = c("rbfdot", "polydot"),
                          n_cluster = 2, true_labels = NULL,
                          n_cores = 1, ...) {
-
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.", call. = FALSE)
   }
 
-  if(!is.list(vars_combinations)) {
+  if (!is.list(vars_combinations)) {
     stop("Input 'vars_combinations' must be a data frame.", call. = FALSE)
   }
 
@@ -523,7 +542,7 @@ clustInd_spc <- function(ind_data, vars_combinations,
 
   # Check if indices, methods and distances lists are provided
   if (!is.character(kernel_list) || length(vars_combinations) == 0 ||
-      length(kernel_list) == 0) {
+    length(kernel_list) == 0) {
     stop("Invalid 'kernel_list' or 'vars_combinations'. Both must be non-empty
          character vectors.", call. = FALSE)
   }
@@ -533,8 +552,10 @@ clustInd_spc <- function(ind_data, vars_combinations,
   }
 
   # Generate all the possible combinations of indices, methods and distances
-  parameter_combinations <- expand.grid(vars = names(vars_combinations),
-                                        kernel = kernel_list)
+  parameter_combinations <- expand.grid(
+    vars = names(vars_combinations),
+    kernel = kernel_list
+  )
 
   tl_null <- is.null(true_labels)
 

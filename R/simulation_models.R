@@ -38,7 +38,7 @@
 #' dim(sm1)
 #'
 #' @export
-sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1){
+sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1) {
   if (!requireNamespace("MASS", quietly = TRUE)) {
     stop("package 'MASS' is required for this functionality", call. = FALSE)
   }
@@ -49,33 +49,32 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1){
 
   t_interval <- seq(0, 1, length = p)
 
-  S <- function(t) exp(-1/0.3 * abs(outer(t,t,"-")))
+  S <- function(t) exp(-1 / 0.3 * abs(outer(t, t, "-")))
   sigma <- 0.3 * S(t_interval)
   # centered Gaussian process
-  egauss <- MASS::mvrnorm(n ,rep(0, p), sigma)
+  egauss <- MASS::mvrnorm(n, rep(0, p), sigma)
 
-  S2 <- function(t) exp(-1/0.2 * abs(outer(t,t,"-")))
+  S2 <- function(t) exp(-1 / 0.2 * abs(outer(t, t, "-")))
   sigma2 <- 0.5 * S2(t_interval)
   # centered Gaussian process
-  hgauss <- MASS::mvrnorm(n ,rep(0, p), sigma2)
+  hgauss <- MASS::mvrnorm(n, rep(0, p), sigma2)
 
-  f1 <- (30 * t_interval^(3/2) * (1 - t_interval))
+  f1 <- (30 * t_interval^(3 / 2) * (1 - t_interval))
   matr <- matrix(rep(f1, each = n), nrow = n)
   dat1 <- matr + egauss
 
   f2 <- (30 * t_interval * (1 - t_interval))
   matr2 <- matrix(rep(f2, each = n), nrow = n)
 
-  dat2 <- switch(
-    i_sim,
-    dat1 + 0.5,           # 1
-    dat1 + 0.75,          # 2
-    dat1 + 1,             # 3
-    matr + 2 * egauss,    # 4
+  dat2 <- switch(i_sim,
+    dat1 + 0.5, # 1
+    dat1 + 0.75, # 2
+    dat1 + 1, # 3
+    matr + 2 * egauss, # 4
     matr + 0.25 * egauss, # 5
-    matr + hgauss,        # 6
-    matr2 + hgauss,       # 7
-    matr2 + egauss        # 8
+    matr + hgauss, # 6
+    matr2 + hgauss, # 7
+    matr2 + egauss # 8
   )
 
   rbind(dat1, dat2)
@@ -115,47 +114,52 @@ sim_model_ex2 <- function(n = 50, p = 150, i_sim = 1) {
   t_interval <- seq(0, 1, length = p)
 
   K <- 100
-  if(i_sim %in% c(1,2)){
+  if (i_sim %in% c(1, 2)) {
     E1 <- t_interval * (1 - t_interval)
-  } else{
-    E1 <- rbind(t_interval * (1 - t_interval), 4*t_interval^2 * (1 - t_interval))
+  } else {
+    E1 <- rbind(t_interval * (1 - t_interval), 4 * t_interval^2 * (1 - t_interval))
   }
 
   rho <- ifelse(1:K < 4, 1 / (1:K + 1), 1 / (1:K + 1)^2)
 
   theta <- t(sapply(1:K, function(k) {
-    if (k %% 2 == 0) sqrt(2) * sin(k * pi * t_interval)
-    else if (k %% 2 != 0 && k != 1) sqrt(2) * cos((k - 1) * pi * t_interval)
-    else rep(1, p)
+    if (k %% 2 == 0) {
+      sqrt(2) * sin(k * pi * t_interval)
+    } else if (k %% 2 != 0 && k != 1) {
+      sqrt(2) * cos((k - 1) * pi * t_interval)
+    } else {
+      rep(1, p)
+    }
   }))
 
   m <- sqrt(rho) * theta
 
   E2 <- switch(i_sim,
-      E1 + colSums(m[1:4,]),       # 1
-      E1 + colSums(m[5:K,]),       # 2
-      t(t(E1) + colSums(m[1:4,])), # 3
-      t(t(E1) + colSums(m[5:K,]))  # 4
+    E1 + colSums(m[1:4, ]), # 1
+    E1 + colSums(m[5:K, ]), # 2
+    t(t(E1) + colSums(m[1:4, ])), # 3
+    t(t(E1) + colSums(m[5:K, ])) # 4
   )
 
   if (i_sim %in% c(1, 2)) {
-    z1 <- t(matrix(stats::rnorm(n*K), K, n) * sqrt(rho))
-    z2 <- t(matrix(stats::rnorm(n*K), K, n) * sqrt(rho))
+    z1 <- t(matrix(stats::rnorm(n * K), K, n) * sqrt(rho))
+    z2 <- t(matrix(stats::rnorm(n * K), K, n) * sqrt(rho))
 
     X1 <- t(t(z1 %*% theta) + E1)
     X2 <- t(t(z2 %*% theta) + E2)
-    X <- rbind(X1,X2)
+    X <- rbind(X1, X2)
   } else {
-    z1 <- aperm(array(stats::rnorm(n*K*2), dim =c(K, n, 2)) * sqrt(rho),
-                perm = c(2, 1, 3))
-    z2 <- aperm(array(stats::rnorm(n*K*2), dim =c(K, n, 2)) * sqrt(rho),
-                perm = c(2, 1, 3))
+    z1 <- aperm(array(stats::rnorm(n * K * 2), dim = c(K, n, 2)) * sqrt(rho),
+      perm = c(2, 1, 3)
+    )
+    z2 <- aperm(array(stats::rnorm(n * K * 2), dim = c(K, n, 2)) * sqrt(rho),
+      perm = c(2, 1, 3)
+    )
 
-    X1 <- aperm(array(unlist(lapply(1:2, function(k) t(z1[ , , k] %*% theta) + E1[k, ])), dim = c(p, n, 2)), perm = c(2, 1, 3))
-    X2 <- aperm(array(unlist(lapply(1:2, function(k) t(z2[ , , k] %*% theta) + E2[k, ])), dim = c(p, n, 2)), perm = c(2, 1, 3))
-    X <- array(unlist(lapply(1:2, function(k) rbind(X1[ , , k], X2[ , , k]))), dim = c(2 * n, p, 2))
+    X1 <- aperm(array(unlist(lapply(1:2, function(k) t(z1[, , k] %*% theta) + E1[k, ])), dim = c(p, n, 2)), perm = c(2, 1, 3))
+    X2 <- aperm(array(unlist(lapply(1:2, function(k) t(z2[, , k] %*% theta) + E2[k, ])), dim = c(p, n, 2)), perm = c(2, 1, 3))
+    X <- array(unlist(lapply(1:2, function(k) rbind(X1[, , k], X2[, , k]))), dim = c(2 * n, p, 2))
   }
 
   X
 }
-

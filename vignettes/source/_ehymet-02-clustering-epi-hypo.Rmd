@@ -15,9 +15,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment  = "#>",
+  comment = "#>",
   message = FALSE, warning = FALSE, error = FALSE,
-  fig.cap  = "",
+  fig.cap = "",
   fig.path = "includes/ehymet-02-"
 )
 ```
@@ -99,9 +99,10 @@ of variables, we will use "d2dtaMEI" with "d2dtaMHI".
 
 ```{r}
 res <- EHyClus(curves, vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")))
-res_with_labels <- EHyClus(curves, 
-                           vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")),
-                           true_labels = true_labels)
+res_with_labels <- EHyClus(curves,
+  vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")),
+  true_labels = true_labels
+)
 ```
 
 For the result without labels, it can be seen that we only have the generated
@@ -160,7 +161,7 @@ every combination of parameters that has been executed. We can search for
 results as seen previously:
 
 ```{r}
-res_with_labels$metrics["hierarch_single_euclidean_d2dtaMEId2dtaMHI",]
+res_with_labels$metrics["hierarch_single_euclidean_d2dtaMEId2dtaMHI", ]
 ```
 
 But now imagine that we executed `EHyClus` without giving the `true_labels`
@@ -177,7 +178,7 @@ of them have given us better metrics. We are going to sort all the results
 based on the RI:
 
 ```{r}
-head(res_with_labels$metrics[order(res_with_labels$metrics$RI, decreasing = TRUE),], 5)
+head(res_with_labels$metrics[order(res_with_labels$metrics$RI, decreasing = TRUE), ], 5)
 ```
 
 Indeed, we can see that some methods have given us excellent results,

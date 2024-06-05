@@ -53,14 +53,13 @@
 #' @export
 EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = "cr",
                     clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
-                    indices            = c("EI", "HI", "MEI", "MHI"),
-                    l_method_hierarch  = c("single", "complete", "average", "centroid", "ward.D2"),
-                    l_dist_hierarch    = c("euclidean", "manhattan"),
-                    l_dist_kmeans      = c("euclidean", "mahalanobis"),
-                    l_kernel           = c("rbfdot", "polydot"),
+                    indices = c("EI", "HI", "MEI", "MHI"),
+                    l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
+                    l_dist_hierarch = c("euclidean", "manhattan"),
+                    l_dist_kmeans = c("euclidean", "mahalanobis"),
+                    l_kernel = c("rbfdot", "polydot"),
                     grid,
                     true_labels = NULL, verbose = FALSE, n_cores = 1) {
-
   if (!is.list(vars_combinations) && !is.numeric(vars_combinations)) {
     stop("input 'vars_combinations' must be a list or an integer number", call. = FALSE)
   }
@@ -96,12 +95,12 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   )
 
   # Constants definition
-  INDICES            <- c("EI", "HI", "MEI", "MHI")
-  METHOD_HIERARCH    <- c("single", "complete", "average", "centroid", "ward.D2")
-  DIST_HIERARCH      <- c("euclidean", "manhattan")
-  DIST_KMEANS        <- c("euclidean", "mahalanobis")
-  KERNEL             <- c("rbfdot", "polydot")
-  METHOD_SVC         <- c("kmeans", "kernkmeans")
+  INDICES <- c("EI", "HI", "MEI", "MHI")
+  METHOD_HIERARCH <- c("single", "complete", "average", "centroid", "ward.D2")
+  DIST_HIERARCH <- c("euclidean", "manhattan")
+  DIST_KMEANS <- c("euclidean", "mahalanobis")
+  KERNEL <- c("rbfdot", "polydot")
+  METHOD_SVC <- c("kmeans", "kernkmeans")
   CLUSTERING_METHODS <- names(default_clustering_methods)
 
   check_list_parameter(clustering_methods, CLUSTERING_METHODS, "clustering_method")
@@ -164,7 +163,7 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   for (method in clustering_methods) {
     method_args <- switch(method,
       "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_list = l_dist_hierarch)),
-      "kmeans"   = append(common_clustering_arguments, list(dist_list   = l_dist_kmeans)),
+      "kmeans"   = append(common_clustering_arguments, list(dist_list = l_dist_kmeans)),
       "kkmeans"  = append(common_clustering_arguments, list(kernel_list = l_kernel)),
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
     )
@@ -182,8 +181,10 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
     for (clustering_method in names(cluster)) {
       for (method in names(cluster[[clustering_method]])) {
         methods <- c(methods, method)
-        metrics <- rbind(metrics,
-                         c(cluster[[clustering_method]][[method]][["valid"]], cluster[[clustering_method]][[method]][["time"]]))
+        metrics <- rbind(
+          metrics,
+          c(cluster[[clustering_method]][[method]][["valid"]], cluster[[clustering_method]][[method]][["time"]])
+        )
       }
     }
     names(metrics) <- c("Purity", "Fmeasure", "RI", "Time")
@@ -196,7 +197,7 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
 
   class(result) <- c("EHyClus", class(result))
 
-  attr(result, "n_clusters")        <- n_clusters
+  attr(result, "n_clusters") <- n_clusters
   attr(result, "vars_combinations") <- vars_combinations
 
   result
@@ -238,8 +239,8 @@ get_best_vars_combinations <- function(ind_curves, top_n) {
 check_vars_combinations <- function(vars_combinations, ind_curves) {
   vars_combinations_to_remove <- c()
 
-  vars_empty           <- c()
-  vars_invalid_name    <- c()
+  vars_empty <- c()
+  vars_invalid_name <- c()
   vars_almost_singular <- c()
 
 
@@ -252,10 +253,11 @@ check_vars_combinations <- function(vars_combinations, ind_curves) {
     }
 
     if (length(vars_combinations[[i]]) == 1) {
-      warning(paste0("Combination of varaibles '", vars_combinations[[i]],
-                     "' with index ", i, " is only one variable, which ",
-                     "does not have much sense in this context...")
-      )
+      warning(paste0(
+        "Combination of varaibles '", vars_combinations[[i]],
+        "' with index ", i, " is only one variable, which ",
+        "does not have much sense in this context..."
+      ))
     }
 
     if (!all(vars_combinations[[i]] %in% names(ind_curves))) {
@@ -265,31 +267,39 @@ check_vars_combinations <- function(vars_combinations, ind_curves) {
       next
     }
 
-    if (det(stats::var(ind_curves[,vars_combinations[[i]]])) == 0) {
+    if (det(stats::var(ind_curves[, vars_combinations[[i]]])) == 0) {
       vars_combinations_to_remove <- c(vars_combinations_to_remove, i)
       vars_almost_singular <- c(vars_almost_singular, i)
     }
   }
 
   if (length(vars_empty)) {
-    warning(paste("Index/indices ", paste0(vars_empty, collapse = ", "), "of 'vars_combinations' is/are empty.",
-                  "Removing them..."))
+    warning(paste(
+      "Index/indices ", paste0(vars_empty, collapse = ", "), "of 'vars_combinations' is/are empty.",
+      "Removing them..."
+    ))
   }
 
   if (length(vars_invalid_name)) {
-    warning(paste("Invalid variable name in 'vars_combinations' for index/indices ",
-                  paste0(vars_invalid_name, collapse = ", "),
-                  ". Removing them..."))
+    warning(paste(
+      "Invalid variable name in 'vars_combinations' for index/indices ",
+      paste0(vars_invalid_name, collapse = ", "),
+      ". Removing them..."
+    ))
   }
 
   if (length(vars_almost_singular)) {
-    warning(paste("Combination/s of variables with index/indices", paste0(vars_almost_singular, collapse = ", "),
-                  "is/are singular or almost singular. Removing them..."))
+    warning(paste(
+      "Combination/s of variables with index/indices", paste0(vars_almost_singular, collapse = ", "),
+      "is/are singular or almost singular. Removing them..."
+    ))
   }
 
   if (length(vars_combinations_to_remove)) {
-    warning(paste("Combination/s of variable/s with index", paste0(vars_combinations_to_remove, collapse = ", "),
-                  "are not valid. Excluding them from any computation..."))
+    warning(paste(
+      "Combination/s of variable/s with index", paste0(vars_combinations_to_remove, collapse = ", "),
+      "are not valid. Excluding them from any computation..."
+    ))
   }
 
   if (length(vars_combinations_to_remove) == length(vars_combinations)) {
