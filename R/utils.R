@@ -13,6 +13,7 @@
 #' limit of the evaluation grid. If not provided, it will be selected automatically.
 #'
 #' @return A list containing smoothed data, first and second derivatives
+#'
 #' @noRd
 funspline <- function(curves, k, bs = "cr", grid) {
   curves_dim <- length(dim(curves))
