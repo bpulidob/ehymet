@@ -44,11 +44,12 @@ Create a dataset with indexes from a functional dataset in one or multiple
 dimensions
 }
 \examples{
-x1 <- array(c(1,2,3, 3,2,1, 5,2,3, 9,8,7, -1,-5,-6, 2,3,0, -1,0,2, -1,-2,0),
-dim = c(3,4,2))
+x1 <- array(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7, -1, -5, -6, 2, 3, 0, -1, 0, 2, -1, -2, 0),
+  dim = c(3, 4, 2)
+)
 generate_indices(x1, k = 4)
 
-x2 <- matrix(c(1,2,3,3,2,1,5,2,3,9,8,7), nrow = 3, ncol  = 4)
+x2 <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), nrow = 3, ncol = 4)
 generate_indices(x2, k = 4)
 
 }

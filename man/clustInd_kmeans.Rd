@@ -48,4 +48,5 @@ vars2 <- c("dtaHI", "dtaMHI")
 data <- ehymet::sim_model_ex1()
 data_ind <- generate_indices(data)
 clustInd_kmeans(data_ind, list(vars1, vars2))
+
 }

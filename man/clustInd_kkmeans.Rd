@@ -36,7 +36,7 @@ which mean no parallel execution.}
 \item{...}{Additional arguments (unused)}
 }
 \value{
-A list containing kkmeans clustering results for each configuration
+A \code{list} containing kernel-kmeans clustering results for each configuration.
 }
 \description{
 Perform kernel kmeans clustering for a different combinations of indexes
@@ -48,4 +48,5 @@ vars2 <- c("dtaHI", "dtaMHI")
 data <- ehymet::sim_model_ex1()
 data_ind <- generate_indices(data)
 clustInd_kkmeans(data_ind, list(vars1, vars2))
+
 }
