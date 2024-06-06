@@ -16,7 +16,7 @@ editor_options:
 
 
 
-``` r
+```r
 set.seed(42)
 
 library(ehymet)
@@ -47,7 +47,7 @@ following papers:
 
 # DGPs introduced in the package
 
-The package introduces two functions which generate different Data Generation
+`ehymet` introduces two functions which generate different Data Generation
 Processes (DGPs) for functional data in one or multiple dimension. The first
 function, `sim_model_ex1`, generate DGPs in one dimension as originally
 described by [@flores_homogeneity_2018]. The second function, `sim_model_ex2`,
@@ -127,7 +127,7 @@ the curves from the second group, generated according to the selected value of
 To simulate the curves, we can follow these steps:
 
 
-``` r
+```r
 n <- 5
 curves <- sim_model_ex1(n = n, i_sim = 1)
 dim(curves)
@@ -142,7 +142,7 @@ is just an example of how to plot the curves, but the end user can do it the
 way they want.
 
 
-``` r
+```r
 library(tidyr)
 library(dplyr)
 library(ggplot2)
@@ -179,7 +179,7 @@ plot_curves <- function(curves, title = "", subtitle = "") {
     theme(legend.position = "none")
 }
 
-plot_curves(curves, title = "DGP 1", subtitle = "i_sim = 1")
+plot_curves(curves, title = "Type 1 DGPs", subtitle = "i_sim = 1")
 ```
 
 ![](includes/ehymet-01-plot-sim-1-1-1.png)
@@ -283,7 +283,7 @@ of `i_sim` equal to 3 and 4. Here, we would like to point out how to simulate
 a multivariate functional dataset with `i_sim = 3` or `i_sim = 4`.
 
 
-``` r
+```r
 n <- 5
 curves <- sim_model_ex2(n = n, i_sim = 4)
 dim(curves)
@@ -304,7 +304,7 @@ curves using the `funspline` function, which is an internal function of the
 `ehymet` package. It can be used with `ehymet:::`.
 
 
-``` r
+```r
 funspline_result <- ehymet:::funspline(curves)
 deriv <- funspline_result$deriv
 deriv2 <- funspline_result$deriv2
@@ -318,12 +318,12 @@ And for the second dimensions:
 
 ![](includes/ehymet-01-plot-sim-2-3-2dimension-deriv-1.png)
 
-For the derivatives, we can observe a clear overlapping between curves on both
+We can observe a clear overlapping between first derivatives curves on both 
 dimensions.
 
 # Indices computation
 
-`ehymet`provides the implementation of the epigraph and the hypograph index,
+`ehymet` provides the implementation of the epigraph and the hypograph index,
 both in one and multiple dimensions. The function to generate the indices is
 `generate_indices` and it can compute:
 
@@ -341,7 +341,7 @@ Let's try this function to generate indices with multidimensional data
 generated with `sim_model_ex2`:
 
 
-``` r
+```r
 n <- 50
 curves <- sim_model_ex2(i_sim = 4, n = n)
 dim(curves)
@@ -351,7 +351,7 @@ dim(curves)
 And now compute the indices for the multidimensional data:
 
 
-``` r
+```r
 indices_mult <- generate_indices(curves)
 ```
 
@@ -359,68 +359,55 @@ We can check that all the indices are computed for each curve and for its
 first and second derivative:
 
 
-``` r
+```r
 names(indices_mult)
-#>  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"  
-#>  [6] "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"  
-#> [11] "ddtaMHI"  "d2dtaMHI"
+#>  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"   "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI"
+#> [10] "dtaMHI"   "ddtaMHI"  "d2dtaMHI"
 ```
 
 We can also take a quick look to the generated indices:
 
 
-``` r
+```r
 head(indices_mult, 3)
-#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI dtaMEI   ddtaMEI
-#> 1  0.99   0.99    0.99  0.01   0.01    0.01 0.8068 0.7372667
-#> 2  0.99   0.99    0.99  0.01   0.01    0.01 0.7458 0.7348667
-#> 3  0.98   0.99    0.99  0.01   0.01    0.01 0.5360 0.7300000
-#>    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
-#> 1 0.6912667 0.2582667 0.3046000 0.2504667
-#> 2 0.6760667 0.2315333 0.2957333 0.2698667
-#> 3 0.6956000 0.1463333 0.2895333 0.2426000
+#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
+#> 1  0.99   0.99    0.99  0.01   0.01    0.01 0.8068 0.7372667 0.6912667 0.2582667 0.3046000 0.2504667
+#> 2  0.99   0.99    0.99  0.01   0.01    0.01 0.7458 0.7348667 0.6760667 0.2315333 0.2957333 0.2698667
+#> 3  0.98   0.99    0.99  0.01   0.01    0.01 0.5360 0.7300000 0.6956000 0.1463333 0.2895333 0.2426000
 ```
 
 Now, for the sake of comparison, let's see what happens if we calculate the
 indices separately for each dimension and check the first few rows:
 
 
-``` r
+```r
 indices_dim1 <- generate_indices(curves[, , 1])
 indices_dim2 <- generate_indices(curves[, , 2])
 ```
 
 
-``` r
+```r
 head(indices_dim1, 3)
-#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI
-#> 1  0.94   0.99    0.99  0.03   0.01    0.01 0.4260000 0.5051333
-#> 2  0.91   0.99    0.99  0.01   0.01    0.01 0.3576667 0.5132667
-#> 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3458000 0.5030667
-#>    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
-#> 1 0.4685333 0.4360000 0.5151333 0.4785333
-#> 2 0.4755333 0.3676667 0.5232667 0.4855333
-#> 3 0.4674667 0.3558000 0.5130667 0.4774667
+#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
+#> 1  0.94   0.99    0.99  0.03   0.01    0.01 0.4260000 0.5051333 0.4685333 0.4360000 0.5151333 0.4785333
+#> 2  0.91   0.99    0.99  0.01   0.01    0.01 0.3576667 0.5132667 0.4755333 0.3676667 0.5232667 0.4855333
+#> 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3458000 0.5030667 0.4674667 0.3558000 0.5130667 0.4774667
 ```
 
 
-``` r
+```r
 head(indices_dim2, 3)
-#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI
-#> 1  0.99   0.99    0.99  0.04   0.01    0.01 0.6290667 0.5267333
-#> 2  0.99   0.99    0.99  0.01   0.01    0.01 0.6096667 0.5073333
-#> 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3265333 0.5064667
-#>    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
-#> 1 0.4632000 0.6390667 0.5367333 0.4732000
-#> 2 0.4604000 0.6196667 0.5173333 0.4704000
-#> 3 0.4607333 0.3365333 0.5164667 0.4707333
+#>   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI
+#> 1  0.99   0.99    0.99  0.04   0.01    0.01 0.6290667 0.5267333 0.4632000 0.6390667 0.5367333 0.4732000
+#> 2  0.99   0.99    0.99  0.01   0.01    0.01 0.6096667 0.5073333 0.4604000 0.6196667 0.5173333 0.4704000
+#> 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3265333 0.5064667 0.4607333 0.3365333 0.5164667 0.4707333
 ```
 
 One difference that is readily apparent is, for example, for “dtaMHI”. Let's
 take a look at it:
 
 
-``` r
+```r
 head(data.frame(
   dim1 = unname(indices_dim1["dtaMHI"]),
   dim2 = unname(indices_dim2["dtaMHI"]),
@@ -434,7 +421,8 @@ head(data.frame(
 #> 5 0.3574000 0.5160000 0.1821333
 ```
 
-Let's plot MHI vs MEI for both the original curves and the first derivatives:
+Let's plot MHI vs MEI for both the original curves and both first and second
+derivatives:
 
 ![](includes/ehymet-01-plot-MHIvsMEI-original-curves-1.png)
 
@@ -442,7 +430,7 @@ Let's plot MHI vs MEI for both the original curves and the first derivatives:
 
 ![](includes/ehymet-01-plot-MHIvsMEI-second-derivatives-1.png)
 
-For the original curves, no clear separation can be seen. However, both in the
+For the original curves, no clear separation is evidenced. However, both in the
 first and second derivatives we see that the groups are clearly
 differentiated. This may indicate that using the MEI and MHI indices computed
 for the first or second derivatives could yield great results in clustering

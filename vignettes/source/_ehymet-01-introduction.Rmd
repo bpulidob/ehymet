@@ -54,7 +54,7 @@ following papers:
 
 # DGPs introduced in the package
 
-The package introduces two functions which generate different Data Generation
+`ehymet` introduces two functions which generate different Data Generation
 Processes (DGPs) for functional data in one or multiple dimension. The first
 function, `sim_model_ex1`, generate DGPs in one dimension as originally
 described by [@flores_homogeneity_2018]. The second function, `sim_model_ex2`,
@@ -183,7 +183,7 @@ plot_curves <- function(curves, title = "", subtitle = "") {
     theme(legend.position = "none")
 }
 
-plot_curves(curves, title = "DGP 1", subtitle = "i_sim = 1")
+plot_curves(curves, title = "Type 1 DGPs", subtitle = "i_sim = 1")
 ```
 
 The case for `i_sim = 7` has the following graph representation:
@@ -191,7 +191,7 @@ The case for `i_sim = 7` has the following graph representation:
 ```{r plot-sim-1-7, echo=FALSE}
 n <- 5
 curves <- sim_model_ex1(n = n, i_sim = 7)
-plot_curves(curves, title = "DGP 1", subtitle = "i_sim = 7")
+plot_curves(curves, title = "Type 1 DGPs", subtitle = "i_sim = 7")
 ```
 
 Clear differences can be seen between both plots. We leave it up to the end
@@ -298,7 +298,7 @@ As can be seen, now we don't have a matrix but a 3-dimensional array. We are
 going to plot the first dimension:
 
 ```{r plot-sim-2-3-1dimension, echo=FALSE}
-plot_curves(curves[, , 1], title = "DGP 2", subtitle = "i_sim = 4; first dimension")
+plot_curves(curves[, , 1], title = "Type 2 DGP", subtitle = "i_sim = 4; first dimension")
 ```
 
 And now the second dimension:
@@ -320,21 +320,23 @@ deriv2 <- funspline_result$deriv2
 The plot for first dimension of the derivative is the following one:
 
 ```{r plot-sim-2-3-1dimension-deriv, echo=FALSE}
-plot_curves(deriv[, , 1], title = "DGP 2", subtitle = "i_sim = 4; first dimension (derivative)")
+plot_curves(deriv[, , 1], title = "Type 2 DGPs", subtitle = "i_sim = 4; 
+            first dimension (first derivative)")
 ```
 
 And for the second dimensions:
 
 ```{r plot-sim-2-3-2dimension-deriv, echo=FALSE}
-plot_curves(deriv[, , 2], title = "DGP 2", subtitle = "i_sim = 4; second dimension (derivative)")
+plot_curves(deriv[, , 2], title = "Type 2 DGPs", subtitle = "i_sim = 4; 
+            second dimension (first derivative)")
 ```
 
-For the derivatives, we can observe a clear overlapping between curves on both
+We can observe a clear overlapping between first derivatives curves on both 
 dimensions.
 
 # Indices computation
 
-`ehymet`provides the implementation of the epigraph and the hypograph index,
+`ehymet` provides the implementation of the epigraph and the hypograph index,
 both in one and multiple dimensions. The function to generate the indices is
 `generate_indices` and it can compute:
 
@@ -403,7 +405,8 @@ head(data.frame(
 ), 5)
 ```
 
-Let's plot MHI vs MEI for both the original curves and the first derivatives:
+Let's plot MHI vs MEI for both the original curves and both first and second
+derivatives:
 
 ```{r plot-MHIvsMEI-original-curves, echo=FALSE}
 datos_ind_MEIMHI <- indices_mult[, c("dtaMEI", "dtaMHI")]
@@ -447,7 +450,7 @@ ggplot(datos_ind_d2MEIMHI, aes(x = d2dtaMEI, y = d2dtaMHI, color = factor(Cluste
   theme(legend.position = "none")
 ```
 
-For the original curves, no clear separation can be seen. However, both in the
+For the original curves, no clear separation is evidenced. However, both in the
 first and second derivatives we see that the groups are clearly
 differentiated. This may indicate that using the MEI and MHI indices computed
 for the first or second derivatives could yield great results in clustering

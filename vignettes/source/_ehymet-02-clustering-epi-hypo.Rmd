@@ -112,7 +112,7 @@ clusters:
 names(res)
 ```
 
-Whereas the one we generated with labels has both `cluster` and `labels`:
+Whereas the one we generated with labels has both `cluster` and `metrics`:
 
 ```{r}
 names(res_with_labels)
@@ -148,8 +148,8 @@ head(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMH
 ```
 
 It gives us 3 metrics: Purity, Fmeasure and the Rand Index (RI). However, we
-can obtain this information in another way. Remember the second element of
-`res_with_labels`? It was called `metrics` and it's the following:
+can obtain this information in another way. Going back to the second element of
+`res_with_labels`: `metrics` give us a summary of all metrics:
 
 ```{r}
 head(res_with_labels$metrics, 3)
