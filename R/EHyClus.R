@@ -162,8 +162,8 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   cluster <- list()
   for (method in clustering_methods) {
     method_args <- switch(method,
-      "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_list = l_dist_hierarch)),
-      "kmeans"   = append(common_clustering_arguments, list(dist_list = l_dist_kmeans)),
+      "hierarch" = append(common_clustering_arguments, list(method_list = l_method_hierarch, dist_vector = l_dist_hierarch)),
+      "kmeans"   = append(common_clustering_arguments, list(dist_vector = l_dist_kmeans)),
       "kkmeans"  = append(common_clustering_arguments, list(kernel_list = l_kernel)),
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
     )

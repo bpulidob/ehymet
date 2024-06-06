@@ -27,7 +27,7 @@ test_that("the 'get_result_names' function is working as expexted for 'clustInd_
   res <- clustInd_kmeans(
     ind_data = data_ind,
     vars_combinations = list(c("dtaEI", "dtaMEI"), c("dtaMEI", "ddtaMEI", "d2dtaMEI")),
-    dist_list = c("euclidean", "mahalanobis")
+    dist_vector = c("euclidean", "mahalanobis")
   )
   expected <- c(
     "kmeans_euclidean_dtaEIdtaMEI",

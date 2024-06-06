@@ -2,8 +2,7 @@
 % Please edit documentation in R/clustering.R
 \name{clustInd_spc}
 \alias{clustInd_spc}
-\title{Perform spectral clustering for a different combinations of indexes
-and kernels}
+\title{Spectral clustering using indices}
 \usage{
 clustInd_spc(
   ind_data,
@@ -11,13 +10,12 @@ clustInd_spc(
   kernel_list = c("rbfdot", "polydot"),
   n_cluster = 2,
   true_labels = NULL,
-  n_cores = 1,
-  ...
+  n_cores = 1
 )
 }
 \arguments{
 \item{ind_data}{Dataframe containing indexes applied to the original data and
-its first and second derivatives}
+its first and second derivatives. See \link{generate_indices}.}
 
 \item{vars_combinations}{\code{list} containing one or more combinations of indexes in
 \code{ind_data}. If it is non-named, the names of the variables are set to
@@ -32,8 +30,6 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 
 \item{n_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution.}
-
-\item{...}{Additional arguments (unused)}
 }
 \value{
 A list containing kkmeans clustering results for each configuration

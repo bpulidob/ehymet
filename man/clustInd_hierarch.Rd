@@ -9,7 +9,7 @@ clustInd_hierarch(
   ind_data,
   vars_combinations,
   method_list = c("single", "complete", "average", "centroid", "ward.D2"),
-  dist_list = c("euclidean", "manhattan"),
+  dist_vector = c("euclidean", "manhattan"),
   n_cluster = 2,
   true_labels = NULL,
   n_cores = 1
@@ -17,7 +17,7 @@ clustInd_hierarch(
 }
 \arguments{
 \item{ind_data}{Dataframe containing indexes applied to the original data and
-its first and second derivatives}
+its first and second derivatives. See \link{generate_indices}.}
 
 \item{vars_combinations}{\code{list} containing one or more combinations of indexes in
 \code{ind_data}. If it is non-named, the names of the variables are set to
@@ -25,7 +25,7 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 
 \item{method_list}{\code{list} of clustering methods.}
 
-\item{dist_list}{\code{list} of distance metrics.}
+\item{dist_vector}{\code{list} of distance metrics.}
 
 \item{n_cluster}{number of clusters to generate.}
 
@@ -36,8 +36,8 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 which mean no parallel execution.}
 }
 \value{
-A list containing hierarchical clustering results
-for each configuration
+A \code{list} containing hierarchical clustering results
+for each configuration.
 }
 \description{
 Perform hierarchical clustering for a different combinations of indexes,

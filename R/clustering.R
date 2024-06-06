@@ -2,15 +2,15 @@
 #' method and distance
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
-#' @param vars vector with a combinations of indexes in \code{ind_data}
-#' @param method The agglomerative method to be used in hierarchical clustering
-#' @param dist The distance method to be used
-#' @param n_cluster Number of clusters to create
+#' its first and second derivatives.
+#' @param vars vector with a combinations of indexes in \code{ind_data}.
+#' @param method The aglomerative method to be used in hierarchical clustering.
+#' @param dist The distance method to be used.
+#' @param n_cluster Number of clusters to create.
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
 #'
-#' @return A list containing clustering results and execution time.
+#' @return A \code{list} containing clustering results and execution time.
 #'
 #' @noRd
 clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
@@ -60,19 +60,20 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
 #' method and distance
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars_combinations \code{list} containing one or more combinations of indexes in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param method_list \code{list} of clustering methods.
-#' @param dist_list \code{list} of distance metrics.
+#' @param dist_vector \code{list} of distance metrics.
 #' @param n_cluster number of clusters to generate.
 #' @param true_labels Vector of true labels for validation
 #' (if it is not known true_labels is set to NULL)
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
-#' @return A list containing hierarchical clustering results
-#' for each configuration
+#'
+#' @return A \code{list} containing hierarchical clustering results
+#' for each configuration.
 #'
 #' @examples
 #' vars1 <- c("dtaEI", "dtaMEI")
@@ -87,7 +88,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
                                 "single", "complete", "average",
                                 "centroid", "ward.D2"
                               ),
-                              dist_list = c("euclidean", "manhattan"),
+                              dist_vector = c("euclidean", "manhattan"),
                               n_cluster = 2, true_labels = NULL,
                               n_cores = 1) {
   # Check if input is a data frame
@@ -110,9 +111,9 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 
   # Check if indices, methods and distances lists are provided
   if (!is.character(method_list) ||
-    !is.character(dist_list) || length(vars_combinations) == 0 ||
-    length(method_list) == 0 || length(dist_list) == 0) {
-    stop("invalid 'method_list' or 'dist_list'. Both must be non-empty character vectors.", call. = FALSE)
+    !is.character(dist_vector) || length(vars_combinations) == 0 ||
+    length(method_list) == 0 || length(dist_vector) == 0) {
+    stop("invalid 'method_list' or 'dist_vector'. Both must be non-empty character vectors.", call. = FALSE)
   }
 
   if (is.null(names(vars_combinations))) {
@@ -122,7 +123,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(
     vars = names(vars_combinations),
-    method = method_list, distance = dist_list
+    method = method_list, distance = dist_vector
   )
 
   tl_null <- is.null(true_labels)
@@ -147,8 +148,8 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 #' k-means clustering with Mahalanobis distance
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
-#' @param n_cluster Number of clusters to create
+#' its first and second derivatives.
+#' @param n_cluster Number of clusters to create.
 #'
 #' @return k-means clustering with Mahalanobis distance output
 #'
@@ -182,11 +183,11 @@ kmeans_mahal <- function(ind_data, n_cluster) {
 #' Perform kmeans clustering for a given combination of indexes and distance
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars vector with a combinations of indexes in \code{ind_data}
-#' @param dist The distance method to be used
-#' @param n_cluster Number of clusters to create
-#' @param true_labels Vector of true labels for validation
+#' @param dist The distance method to be used.
+#' @param n_cluster Number of clusters to create.
+#' @param true_labels Vector of true labels for validation.
 #' (if it is not known true_labels is set to NULL)
 #'
 #' @return A list containing clustering results and execution time.
@@ -231,17 +232,20 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
   return(res)
 }
 
-#' Perform hierarchical clustering for a different combinations of indexes,
-#' method and distance
+#' K-means clustering with indices
+#'
+#' Perform k-means clustering for a different combinations of indexes and
+#' distances.
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars_combinations \code{list} containing one or more combinations of indexes in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
-#' @param dist_list List of distance metrics
-#' @param n_cluster Number of clusters to create
-#' @param true_labels Vector of true labels for validation
+#' @param dist_vector Atomic vector of distance metrics. The possible values are,
+#' "euclidean", "mahalanobis" or both.
+#' @param n_cluster Number of clusters to create.
+#' @param true_labels Vector of true labels for validation.
 #' (if it is not known true_labels is set to NULL)
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
@@ -259,7 +263,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #'
 #' @export
 clustInd_kmeans <- function(ind_data, vars_combinations,
-                            dist_list = c("euclidean", "mahalanobis"),
+                            dist_vector = c("euclidean", "mahalanobis"),
                             n_cluster = 2, true_labels = NULL,
                             n_cores = 1) {
   # Check if input is a data frame
@@ -273,6 +277,9 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
 
   n_cores <- check_n_cores(n_cores)
 
+  DIST_VECTOR <- c("euclidean", "mahalanobis")
+  check_list_parameter(dist_vector, DIST_VECTOR, "dist")
+
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_data)
 
@@ -281,8 +288,8 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
   }
 
   # Check if indices, methods and distances lists are provided
-  if (length(vars_combinations) == 0 || length(dist_list) == 0) {
-    stop("Invalid 'vars_combinations' or 'dist_list'. Both must be non-empty
+  if (length(vars_combinations) == 0 || length(dist_vector) == 0) {
+    stop("Invalid 'vars_combinations' or 'dist_vector'. Both must be non-empty
          character vectors.", call. = FALSE)
   }
 
@@ -293,7 +300,7 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(
     vars = names(vars_combinations),
-    distance = dist_list
+    distance = dist_vector
   )
 
   tl_null <- is.null(true_labels)
@@ -317,10 +324,10 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
 }
 
 #' Perform kernel kmeans clustering for a given combination of indexes
-#' and distance
+#' and distance.
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars vector with a combinations of indexes in \code{ind_data}
 #' @param kernel The kernel method to be used
 #' @param n_cluster Number of clusters to create
@@ -365,11 +372,13 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
   return(res)
 }
 
+#' Kernel k-means clustering using indices
+#'
 #' Perform kernel kmeans clustering for a different combinations of indexes
 #' and kernel
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars_combinations \code{list} containing one or more combinations of indexes in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
@@ -379,7 +388,6 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 #' (if it is not known true_labels is set to NULL)
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
-#' @param ... Additional arguments (unused)
 #'
 #' @return A \code{list} containing kernel-kmeans clustering results for each configuration.
 #'
@@ -394,7 +402,7 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 clustInd_kkmeans <- function(ind_data, vars_combinations,
                              kernel_list = c("rbfdot", "polydot"),
                              n_cluster = 2, true_labels = NULL,
-                             n_cores = 1, ...) {
+                             n_cores = 1) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.", call. = FALSE)
@@ -449,7 +457,7 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
 #' Perform spectral clustering for a given combination of indexes and kernel
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars vector with a combinations of indexes in \code{ind_data}
 #' @param kernel The kernel method to be used
 #' @param n_cluster Number of clusters to create
@@ -492,11 +500,13 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
   return(res)
 }
 
+#' Spectral clustering using indices
+#'
 #' Perform spectral clustering for a different combinations of indexes
 #' and kernels
 #'
 #' @param ind_data Dataframe containing indexes applied to the original data and
-#' its first and second derivatives
+#' its first and second derivatives. See \link{generate_indices}.
 #' @param vars_combinations \code{list} containing one or more combinations of indexes in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
@@ -506,7 +516,6 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 #' (if it is not known true_labels is set to NULL)
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution.
-#' @param ... Additional arguments (unused)
 #'
 #' @return A list containing kkmeans clustering results for each configuration
 #'
@@ -521,7 +530,7 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 clustInd_spc <- function(ind_data, vars_combinations,
                          kernel_list = c("rbfdot", "polydot"),
                          n_cluster = 2, true_labels = NULL,
-                         n_cores = 1, ...) {
+                         n_cores = 1) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.", call. = FALSE)
