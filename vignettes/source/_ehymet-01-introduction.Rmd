@@ -352,7 +352,8 @@ Let's try this function to generate indices with multidimensional data
 generated with `sim_model_ex2`:
 
 ```{r}
-curves <- sim_model_ex2(i_sim = 4)
+n <- 50
+curves <- sim_model_ex2(i_sim = 4, n = n)
 dim(curves)
 ```
 
@@ -434,7 +435,7 @@ ggplot(datos_ind_dMEIMHI, aes(x = ddtaMEI, y = ddtaMHI, color = factor(Cluster))
 
 ```{r plot-MHIvsMEI-second-derivatives, echo=FALSE}
 datos_ind_d2MEIMHI <- indices_mult[, c("d2dtaMEI", "d2dtaMHI")]
-datos_ind_d2MEIMHI["Cluster"] <- c(rep("1", n), rep("2", n))
+datos_ind_d2MEIMHI[["Cluster"]] <- c(rep("1", n), rep("2", n))
 
 ggplot(datos_ind_d2MEIMHI, aes(x = d2dtaMEI, y = d2dtaMHI, color = factor(Cluster))) +
   geom_point() +
@@ -446,9 +447,10 @@ ggplot(datos_ind_d2MEIMHI, aes(x = d2dtaMEI, y = d2dtaMHI, color = factor(Cluste
   theme(legend.position = "none")
 ```
 
-For the original curves and the first derivative, no clear separation can be
-seen. However, in the second derivative we see that the groups are clearly
-differentiated. This may indicate that using the MEI and MHI indices for the
-second derivatives in clustering can give good results.
+For the original curves, no clear separation can be seen. However, both in the
+first and second derivatives we see that the groups are clearly
+differentiated. This may indicate that using the MEI and MHI indices computed
+for the first or second derivatives could yield great results in clustering
+problems.
 
 # References

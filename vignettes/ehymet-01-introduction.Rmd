@@ -150,7 +150,7 @@ library(ggsci)
 library(cowplot)
 
 plot_curves <- function(curves, title = "", subtitle = "") {
-  data <- as.data.frame(curves) |> 
+  data <- as.data.frame(curves) |>
     mutate(curve_id = row_number())
   n <- dim(curves)[1] / 2
 
@@ -159,12 +159,12 @@ plot_curves <- function(curves, title = "", subtitle = "") {
       cols = -curve_id,
       names_to = "point",
       values_to = "value"
-    ) %>% 
+    ) %>%
     mutate(
       point = as.numeric(sub("V", "", point)),
       group = if_else(curve_id %in% 1:n, 1, 2)
     )
-  
+
   ggplot(data_long, aes(x = point, y = value, group = curve_id, color = as.factor(group))) +
     geom_line() +
     labs(
@@ -306,7 +306,7 @@ curves using the `funspline` function, which is an internal function of the
 
 ``` r
 funspline_result <- ehymet:::funspline(curves)
-deriv  <- funspline_result$deriv
+deriv <- funspline_result$deriv
 deriv2 <- funspline_result$deriv2
 ```
 
@@ -342,7 +342,8 @@ generated with `sim_model_ex2`:
 
 
 ``` r
-curves <- sim_model_ex2(i_sim = 4)
+n <- 50
+curves <- sim_model_ex2(i_sim = 4, n = n)
 dim(curves)
 #> [1] 100 150   2
 ```
@@ -385,8 +386,8 @@ indices separately for each dimension and check the first few rows:
 
 
 ``` r
-indices_dim1 <- generate_indices(curves[,,1])
-indices_dim2 <- generate_indices(curves[,,2])
+indices_dim1 <- generate_indices(curves[, , 1])
+indices_dim2 <- generate_indices(curves[, , 2])
 ```
 
 
@@ -441,9 +442,10 @@ Let's plot MHI vs MEI for both the original curves and the first derivatives:
 
 ![](includes/ehymet-01-plot-MHIvsMEI-second-derivatives-1.png)
 
-For the original curves and the first derivative, no clear separation can be
-seen. However, in the second derivative we see that the groups are clearly
-differentiated. This may indicate that using the MEI and MHI indices for the
-second derivatives in clustering can give good results.
+For the original curves, no clear separation can be seen. However, both in the
+first and second derivatives we see that the groups are clearly
+differentiated. This may indicate that using the MEI and MHI indices computed
+for the first or second derivatives could yield great results in clustering
+problems.
 
 # References
