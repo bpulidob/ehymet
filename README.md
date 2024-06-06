@@ -28,7 +28,7 @@ or multiple dimension.
 
 ## Installation
 
-You can install the development version of **ehymet** using the
+You can install the development version of **ehymet** from github using the
 [remotes](https://cran.r-project.org/web/packages/remotes/index.html) package:
 
 ```r

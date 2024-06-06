@@ -5,3 +5,7 @@ Implements methods for functional data analysis based on the epigraph and hypogr
 ## Test environments
 
 macOS-latest (x86 and ARM), windows-latest, ubuntu-latest (on GA), R devel, release, oldrel
+
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
