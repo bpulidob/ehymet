@@ -23,9 +23,6 @@
 #' of basis functions will be automatically selected.
 #' @param bs A two letter character string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
-#' @param indices Names of the indices that need to be generated. They should be
-#' one or more between "EI", "HI", "MEI" and "MHI". Depending on the dimension on the data,
-#' its one-dimensional version or multi-dimensional version is computed.
 #' @param l_method_hierarch \code{list} of clustering methods for hierarchical
 #' clustering.
 #' @param l_dist_hierarch \code{list} of distances for hierarchical clustering.
@@ -53,7 +50,6 @@
 #' @export
 EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = "cr",
                     clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
-                    indices = c("EI", "HI", "MEI", "MHI"),
                     l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
                     l_dist_hierarch = c("euclidean", "manhattan"),
                     l_dist_kmeans = c("euclidean", "mahalanobis"),
@@ -95,7 +91,6 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   )
 
   # Constants definition
-  INDICES <- c("EI", "HI", "MEI", "MHI")
   METHOD_HIERARCH <- c("single", "complete", "average", "centroid", "ward.D2")
   DIST_HIERARCH <- c("euclidean", "manhattan")
   DIST_KMEANS <- c("euclidean", "mahalanobis")
@@ -104,7 +99,6 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
   CLUSTERING_METHODS <- names(default_clustering_methods)
 
   check_list_parameter(clustering_methods, CLUSTERING_METHODS, "clustering_method")
-  check_list_parameter(indices, INDICES, "indices")
   check_list_parameter(l_method_hierarch, METHOD_HIERARCH, "l_method_hierarch")
   check_list_parameter(l_dist_hierarch, DIST_HIERARCH, "l_dist_hierarch")
   check_list_parameter(l_dist_kmeans, DIST_KMEANS, "l_dist_kmeans")
@@ -118,7 +112,7 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
     curves  = curves,
     k       = k,
     bs      = bs,
-    indices = indices
+    indices = c("EI", "HI", "MEI", "MHI")
   )
 
   if (k) {

@@ -5,11 +5,6 @@ test_that("the parameter checking is working as expected", {
   curves <- data$curves
   vars_combinations <- data$vars_combinations
 
-  # Repeated element in 'indices'
-  expect_error(
-    EHyClus(curves, vars_combinations, indices = c("EI", "EI", "HI", "MEI", "MHI"))
-  )
-
   # Empty list in 'l_method_hierarch'
   expect_error(
     EHyClus(curves, vars_combinations, l_method_hierarch = c())
@@ -20,7 +15,7 @@ test_that("the parameter checking is working as expected", {
     EHyClus(curves, vars_combinations, l_dist_hierarch = c("euclidean", "i_do_not_exist"))
   )
 
-  # 'vars_combinations' not being a list (TIENE QUE SER LIST !!!!!)
+  # 'vars_combinations' not being a list
   expect_error(
     EHyClus(curves, unlist(vars_combinations))
   )
@@ -139,16 +134,4 @@ test_that("giving an integer number to 'vars_combinations' works", {
   # Changing the 'vars_combinations' parameter should increase the number of combinations
   res <- EHyClus(curves, vars_combinations = 2, k = 30)
   expect_length(attr(res, "vars_combinations"), 2)
-
-  indices <- c("EI", "MHI")
-  humongous_vars_combinations_number <- 9999999999
-  max_vars_combinations_number <- 2^6 - 6 - 1
-  res <- suppressWarnings(
-    EHyClus(curves,
-      vars_combinations = humongous_vars_combinations_number,
-      indices = indices
-    )
-  )
-
-  expect_true(length(attr(res, "vars_combinations")) <= max_vars_combinations_number)
 })

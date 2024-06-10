@@ -11,7 +11,6 @@ EHyClus(
   n_clusters = 2,
   bs = "cr",
   clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
-  indices = c("EI", "HI", "MEI", "MHI"),
   l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
   l_dist_hierarch = c("euclidean", "manhattan"),
   l_dist_kmeans = c("euclidean", "mahalanobis"),
@@ -48,10 +47,6 @@ basis to use. See \code{\link{smooth.terms}}.}
 
 \item{clustering_methods}{character vector specifying at least one of the following
 clustering methods to be computed: "hierarch", "kmeans", "kkmeans" or "spc".}
-
-\item{indices}{Names of the indices that need to be generated. They should be
-one or more between "EI", "HI", "MEI" and "MHI". Depending on the dimension on the data,
-its one-dimensional version or multi-dimensional version is computed.}
 
 \item{l_method_hierarch}{\code{list} of clustering methods for hierarchical
 clustering.}
