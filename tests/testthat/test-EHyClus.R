@@ -94,3 +94,24 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
   expect_equal(names(res), c("cluster", "metrics"))
   expect_equal(dim(res$metrics), c(32, 4))
 })
+
+test_that("the 'generic_vars_combinations' is returning an object of the expected lenght", {
+  curves_unidimensional <- sim_model_ex2(i_sim = 1)
+  vars_combinations_unidimensional <-
+    generic_vars_combinations(length(dim(curves_unidimensional)) == 3)
+  expect_length(vars_combinations_unidimensional, 18)
+
+  curves_multidimensional <- sim_model_ex2(i_sim = 3)
+  vars_combinations_multidimensional <-
+    generic_vars_combinations(length(dim(curves_multidimensional)) == 3)
+  expect_length(vars_combinations_multidimensional, 15)
+})
+
+test_that("the 'EHyClus' function works without providing 'vars_combinations'", {
+  curves <- sim_model_ex2(n = 5, i_sim = 3)
+  res <- EHyClus(curves)
+
+  vars_combinations <- attr(res, "vars_combinations")
+
+  expect_length(vars_combinations, 15)
+})

@@ -6,7 +6,7 @@
 \usage{
 EHyClus(
   curves,
-  vars_combinations = 1,
+  vars_combinations,
   k = 30,
   n_clusters = 2,
   bs = "cr",
@@ -31,7 +31,9 @@ represents the number of dimensions in the data}
 atomic \code{vector} of strings with the
 names of the variables. Combinations with non-valid variable names will be discarded.
 If the list is non-named, the names of the variables are set to
-vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.}
+vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
+If not provided, generic combinations of variables will be used. They will not be
+the same for uni-dimensional and multi-dimensional problems.}
 
 \item{k}{Number of basis functions for the B-splines. If equals to \code{0}, the number
 of basis functions will be automatically selected.}
@@ -68,7 +70,9 @@ which mean no parallel execution. Must be an integer number greater than 1.}
 \value{
 A \code{list} containing the clustering partition for each method and indices
 combination and, if \code{true_labels} is provided a data frame containing the time elapsed for obtaining a
-clustering partition of the indices dataset for each methodology.
+clustering partition of the indices dataset for each methodology. Also, the number of
+generated clusters and the combinations of variables used can be seen as attributes
+of this object.
 }
 \description{
 It creates a multivariate dataset containing

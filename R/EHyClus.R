@@ -13,6 +13,8 @@
 #' names of the variables. Combinations with non-valid variable names will be discarded.
 #' If the list is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
+#' If not provided, generic combinations of variables will be used. They will not be
+#' the same for uni-dimensional and multi-dimensional problems.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans" or "spc".
 #' @param k Number of basis functions for the B-splines. If equals to \code{0}, the number
@@ -36,7 +38,9 @@
 #'
 #' @return A \code{list} containing the clustering partition for each method and indices
 #' combination and, if \code{true_labels} is provided a data frame containing the time elapsed for obtaining a
-#' clustering partition of the indices dataset for each methodology.
+#' clustering partition of the indices dataset for each methodology. Also, the number of
+#' generated clusters and the combinations of variables used can be seen as attributes
+#' of this object.
 #'
 #' @examples
 #' vars_combinations <- list(c("dtaEI", "dtaMEI"), c("dtaHI", "dtaMHI"))
@@ -44,7 +48,7 @@
 #' EHyClus(curves, vars_combinations = vars_combinations)
 #'
 #' @export
-EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = "cr",
+EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr",
                     clustering_methods = c("hierarch", "kmeans", "kkmeans", "spc"),
                     l_method_hierarch = c("single", "complete", "average", "centroid", "ward.D2"),
                     l_dist_hierarch = c("euclidean", "manhattan"),
@@ -52,11 +56,15 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
                     l_kernel = c("rbfdot", "polydot"),
                     grid,
                     true_labels = NULL, verbose = FALSE, n_cores = 1) {
-  if (!is.list(vars_combinations) && !is.numeric(vars_combinations)) {
+  if (length(dim(curves)) > 3 || length(dim(curves)) < 2) {
+    stop("'curves' should be 2-dimensional or 3-dimensional", call. = FALSE)
+  }
+
+  if (!missing(vars_combinations) && !is.list(vars_combinations) && !is.numeric(vars_combinations)) {
     stop("input 'vars_combinations' must be a list", call. = FALSE)
   }
 
-  if (is.list(vars_combinations) && !length(vars_combinations)) {
+  if (!missing(vars_combinations) && is.list(vars_combinations) && !length(vars_combinations)) {
     stop("input 'vars_combinations' is an empty list", call. = FALSE)
   }
 
@@ -76,6 +84,11 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
     } else if (grid[1] < 1) {
       stop("the first element of 'grid' should be equal or greater than one", call. = FALSE)
     }
+  }
+
+  if (missing(vars_combinations)) {
+    vars_combinations <-
+      generic_vars_combinations(length(dim(curves)) == 3)
   }
 
   # list that maps each clustering method to its corresponding function
@@ -148,11 +161,20 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
     )
 
-    cluster[[method]] <- if (verbose) {
-      do.call(default_clustering_methods[[method]], method_args)
-    } else {
-      suppressMessages(quiet(do.call(default_clustering_methods[[method]], method_args)))
+    cluster_res <- tryCatch({
+      if (verbose) {
+        do.call(default_clustering_methods[[method]], method_args)
+      } else {
+        suppressMessages(quiet(do.call(default_clustering_methods[[method]], method_args)))
+      }
+    },
+    error = function(x) NA
+    )
+
+    if (!all(is.na(cluster_res))) {
+      cluster[[method]] <- cluster_res
     }
+
   }
 
   if (!is.null(true_labels)) {
@@ -263,4 +285,60 @@ check_vars_combinations <- function(vars_combinations, ind_curves) {
   }
 
   vars_combinations_to_remove
+}
+
+
+#' Return the default combinations of variables
+#'
+#' @param multidimensional \code{logical} determining if the vars_combinations
+#' are for a uni-dimensional or multi-dimensional dataset.
+#'
+#' @return \code{list} with combinations of variables.
+#'
+#' @noRd
+generic_vars_combinations <- function(multidimensional = TRUE) {
+  if (multidimensional) {
+    return(
+      list(
+        c("dtaMEI","dtaMHI"),
+        c("ddtaMEI","ddtaMHI"),
+        c("d2dtaMEI","d2dtaMHI"),
+        c("dtaMEI", "dtaMHI", "ddtaMEI", "ddtaMHI"),
+        c("dtaMEI", "dtaMHI", "d2dtaMEI", "d2dtaMHI"),
+        c("ddtaMEI", "ddtaMHI", "d2dtaMEI", "d2dtaMHI"),
+        c("dtaMEI", "dtaMHI", "ddtaMEI", "ddtaMHI", "d2dtaMEI","d2dtaMHI"),
+        c("dtaMEI","ddtaMEI"),
+        c("dtaMEI","d2dtaMEI"),
+        c("ddtaMEI","d2dtaMEI"),
+        c("dtaMEI","ddtaMEI","d2dtaMEI"),
+        c("dtaMHI","ddtaMHI"),
+        c("dtaMHI","d2dtaMHI"),
+        c("ddtaMHI","d2dtaMHI"),
+        c("dtaMHI","ddtaMHI","d2dtaMHI")
+      )
+    )
+  } else {
+    return(
+      list(
+        c("dtaEI","dtaHI"),
+        c("ddtaEI","ddtaHI"),
+        c("d2dtaEI","d2dtaHI"),
+        c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),
+        c(c("dtaEI","dtaHI"),c("d2dtaEI","d2dtaHI")),
+        c(c("ddtaEI","ddtaHI"),c("d2dtaEI","d2dtaHI")),
+        c(c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),c("d2dtaEI","d2dtaHI")),
+        c("dtaMEI","ddtaMEI"),
+        c("dtaMEI","d2dtaMEI"),
+        c("ddtaMEI","d2dtaMEI"),
+        c(c("dtaMEI","ddtaMEI"),"d2dtaMEI"),
+        c(c("dtaEI","dtaHI"),"dtaMEI"),
+        c(c("ddtaEI","ddtaHI"),"ddtaMEI"),
+        c(c("d2dtaEI","d2dtaHI"),"d2dtaMEI"),
+        c(c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),c("dtaMEI","ddtaMEI")),
+        c(c(c("dtaEI","dtaHI"),c("d2dtaEI","d2dtaHI")),c("dtaMEI","d2dtaMEI")),
+        c(c(c("ddtaEI","ddtaHI"),c("d2dtaEI","d2dtaHI")),c("ddtaMEI","d2dtaMEI")),
+        c(c(c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),c("d2dtaEI","d2dtaHI")), c(c("dtaMEI","ddtaMEI"),"d2dtaMEI"))
+      )
+    )
+  }
 }
