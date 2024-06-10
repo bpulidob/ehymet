@@ -8,15 +8,11 @@
 #' The functional dataset can be one dimensional (\eqn{n \times p}) where \eqn{n} is the number of
 #' curves and \code{p} the number of time points, or multidimensional (\eqn{n \times p \times q}) where \eqn{q}
 #' represents the number of dimensions in the data
-#' @param vars_combinations \code{integer} or \code{list}.
-#' If \code{integer}, the method will automatically determine the best combinations
-#' of variables. As many combinations will be selected as the value of the variable.
-#' If \code{list},  each element of the list should be an atomic \code{vector} of strings with the
+#' @param vars_combinations If \code{list},  each element of the list should be an
+#' atomic \code{vector} of strings with the
 #' names of the variables. Combinations with non-valid variable names will be discarded.
 #' If the list is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
-#' Default to an \code{integer} with value \code{1}, i.e. it only uses the theoretically
-#' best combination.
 #' @param clustering_methods character vector specifying at least one of the following
 #' clustering methods to be computed: "hierarch", "kmeans", "kkmeans" or "spc".
 #' @param k Number of basis functions for the B-splines. If equals to \code{0}, the number
@@ -57,7 +53,7 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
                     grid,
                     true_labels = NULL, verbose = FALSE, n_cores = 1) {
   if (!is.list(vars_combinations) && !is.numeric(vars_combinations)) {
-    stop("input 'vars_combinations' must be a list or an integer number", call. = FALSE)
+    stop("input 'vars_combinations' must be a list", call. = FALSE)
   }
 
   if (is.list(vars_combinations) && !length(vars_combinations)) {
@@ -125,16 +121,6 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
 
   ind_curves <- do.call(generate_indices, generate_indices_parameters)
 
-  if (!is.list(vars_combinations)) {
-    max_n <- 2^length(ind_curves) - length(ind_curves) - 1 # power set - 1-variable combinations - empty set
-    if (vars_combinations > max_n) {
-      warning(paste0("The maximum number for 'vars_combinations' in this setting is ", max_n))
-      vars_combinations <- max_n
-    }
-
-    vars_combinations <- get_best_vars_combinations(ind_curves, vars_combinations)
-  }
-
   # Check for correct vars combinations
   vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_curves)
 
@@ -196,30 +182,6 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
 
   result
 }
-
-#' Search for the best combinations of variables
-#'
-#' @param ind_curves Dataset with indexes from a functional dataset in one or multiple
-#' dimensions.
-#' @param top_n Number of desired variable combinations.
-#'
-#' @return \code{top_n} combinations of variables
-#'
-#' @noRd
-get_best_vars_combinations <- function(ind_curves, top_n) {
-  if (top_n %% 1 != 0 || top_n < 1) {
-    stop("'vars_combinations' must be an integer greater than 1", call. = FALSE)
-  }
-
-  vars <- names(ind_curves)
-  all_vars_combinations <- do.call(c, lapply(2:length(vars), utils::combn, x = vars, simplify = FALSE))
-  dets <- lapply(all_vars_combinations, function(combination) det(stats::cov(ind_curves[, combination])))
-
-  best_n <- sort(unlist(dets), index.return = TRUE, decreasing = TRUE)$ix[1:top_n]
-
-  all_vars_combinations[best_n]
-}
-
 
 #' Check all combinations of variables and found the non-valid ones
 #'

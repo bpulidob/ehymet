@@ -29,7 +29,6 @@ Imports:
   kernlab,
   stats,
   tf,
-  utils
 Suggests: 
   ggplot2,
   knitr,
