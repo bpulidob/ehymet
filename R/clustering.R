@@ -1,9 +1,9 @@
-#' Perform hierarchical clustering for a given combination of indexes,
+#' Perform hierarchical clustering for a given combination of indices,
 #' method and distance
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives.
-#' @param vars vector with a combinations of indexes in \code{ind_data}.
+#' @param vars vector with a combinations of indices in \code{ind_data}.
 #' @param method The aglomerative method to be used in hierarchical clustering.
 #' @param dist The distance method to be used.
 #' @param n_cluster Number of clusters to create.
@@ -56,12 +56,12 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
   return(res)
 }
 
-#' Perform hierarchical clustering for a different combinations of indexes,
+#' Perform hierarchical clustering for a different combinations of indices,
 #' method and distance
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars_combinations \code{list} containing one or more combinations of indexes in
+#' @param vars_combinations \code{list} containing one or more combinations of indices in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param method_list \code{list} of clustering methods.
@@ -147,7 +147,7 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 
 #' k-means clustering with Mahalanobis distance
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives.
 #' @param n_cluster Number of clusters to create.
 #'
@@ -180,11 +180,11 @@ kmeans_mahal <- function(ind_data, n_cluster) {
   return(km)
 }
 
-#' Perform kmeans clustering for a given combination of indexes and distance
+#' Perform kmeans clustering for a given combination of indices and distance
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars vector with a combinations of indexes in \code{ind_data}
+#' @param vars vector with a combinations of indices in \code{ind_data}
 #' @param dist The distance method to be used.
 #' @param n_cluster Number of clusters to create.
 #' @param true_labels Vector of true labels for validation.
@@ -234,12 +234,12 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 
 #' K-means clustering with indices
 #'
-#' Perform k-means clustering for a different combinations of indexes and
+#' Perform k-means clustering for a different combinations of indices and
 #' distances.
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars_combinations \code{list} containing one or more combinations of indexes in
+#' @param vars_combinations \code{list} containing one or more combinations of indices in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param dist_vector Atomic vector of distance metrics. The possible values are,
@@ -323,12 +323,12 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
   return(result)
 }
 
-#' Perform kernel kmeans clustering for a given combination of indexes
+#' Perform kernel kmeans clustering for a given combination of indices
 #' and distance.
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars vector with a combinations of indexes in \code{ind_data}
+#' @param vars vector with a combinations of indices in \code{ind_data}
 #' @param kernel The kernel method to be used
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
@@ -374,12 +374,12 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
 
 #' Kernel k-means clustering using indices
 #'
-#' Perform kernel kmeans clustering for a different combinations of indexes
+#' Perform kernel kmeans clustering for a different combinations of indices
 #' and kernel
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars_combinations \code{list} containing one or more combinations of indexes in
+#' @param vars_combinations \code{list} containing one or more combinations of indices in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param kernel_list List of kernels
@@ -454,11 +454,11 @@ clustInd_kkmeans <- function(ind_data, vars_combinations,
   return(result)
 }
 
-#' Perform spectral clustering for a given combination of indexes and kernel
+#' Perform spectral clustering for a given combination of indices and kernel
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars vector with a combinations of indexes in \code{ind_data}
+#' @param vars vector with a combinations of indices in \code{ind_data}
 #' @param kernel The kernel method to be used
 #' @param n_cluster Number of clusters to create
 #' @param true_labels Vector of true labels for validation
@@ -502,12 +502,12 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
 
 #' Spectral clustering using indices
 #'
-#' Perform spectral clustering for a different combinations of indexes
+#' Perform spectral clustering for a different combinations of indices
 #' and kernels
 #'
-#' @param ind_data Dataframe containing indexes applied to the original data and
+#' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives. See \link{generate_indices}.
-#' @param vars_combinations \code{list} containing one or more combinations of indexes in
+#' @param vars_combinations \code{list} containing one or more combinations of indices in
 #' \code{ind_data}. If it is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
 #' @param kernel_list List of kernels

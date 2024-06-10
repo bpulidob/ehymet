@@ -34,9 +34,9 @@
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution. Must be an integer number greater than 1.
 #'
-#' @return A \code{list} containing the clustering partition for each method and indexes
+#' @return A \code{list} containing the clustering partition for each method and indices
 #' combination and, if \code{true_labels} is provided a data frame containing the time elapsed for obtaining a
-#' clustering partition of the indexes dataset for each methodology.
+#' clustering partition of the indices dataset for each methodology.
 #'
 #' @examples
 #' vars_combinations <- list(c("dtaEI", "dtaMEI"), c("dtaHI", "dtaMHI"))
@@ -102,7 +102,7 @@ EHyClus <- function(curves, vars_combinations = 1, k = 30, n_clusters = 2, bs = 
 
   n_cores <- check_n_cores(n_cores)
 
-  # Generate the dataset with the indexes
+  # Generate the dataset with the indices
 
   generate_indices_parameters <- list(
     curves  = curves,

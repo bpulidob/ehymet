@@ -1,5 +1,5 @@
 Package: ehymet
-Title: Methodologies for functional data based on the epigraph and hypograph indexes
+Title: Methodologies for functional data based on the epigraph and hypograph indices
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Belen", family = "Pulido", role = c("aut", "cre"),

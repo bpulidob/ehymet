@@ -7,9 +7,9 @@
 <!-- badges: end -->
 
 The **ehymet** (Methodologies for functional data based on the epigraph
-and hypograph indexes) package define the epigraph, the hypograph and
+and hypograph indices) package define the epigraph, the hypograph and
 their modified versions for functional datasets in one and multiple
-dimensions. These indexes allow to transform a functional dataset into a
+dimensions. These indices allow to transform a functional dataset into a
 multivariate one, where usual clustering techniques can be applied. This
 package implements EHyClus method for clustering functional data in one
 or multiple dimension.
@@ -22,7 +22,7 @@ or multiple dimension.
   [10.1007/s11222-023-10213-7](https://doi.org/10.1007/s11222-023-10213-7)
 
 - Belén Pulido, Alba M. Franco-Pereira, Rosa E. Lillo (2023). “The
-  epigraph and the hypograph indexes as useful tools for clustering
+  epigraph and the hypograph indices as useful tools for clustering
   multivariate functional data.” doi:
   [10.48550/arXiv.2307.16720](https://doi.org/10.48550/arXiv.2307.16720)
 

@@ -66,9 +66,9 @@ some clustering methods. Defaults to \code{FALSE}.}
 which mean no parallel execution. Must be an integer number greater than 1.}
 }
 \value{
-A \code{list} containing the clustering partition for each method and indexes
+A \code{list} containing the clustering partition for each method and indices
 combination and, if \code{true_labels} is provided a data frame containing the time elapsed for obtaining a
-clustering partition of the indexes dataset for each methodology.
+clustering partition of the indices dataset for each methodology.
 }
 \description{
 It creates a multivariate dataset containing

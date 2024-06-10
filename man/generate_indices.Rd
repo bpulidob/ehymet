@@ -2,7 +2,7 @@
 % Please edit documentation in R/indices.R
 \name{generate_indices}
 \alias{generate_indices}
-\title{Create a dataset with indexes from a functional dataset in one or multiple
+\title{Create a dataset with indices from a functional dataset in one or multiple
 dimensions}
 \usage{
 generate_indices(
@@ -36,11 +36,11 @@ any between EI, HI, MEI and MHI.}
 \item{...}{Additional arguments (unused)}
 }
 \value{
-A dataframe containing the indexes provided in \code{indices} for
+A dataframe containing the indices provided in \code{indices} for
 original data, first and second derivatives
 }
 \description{
-Create a dataset with indexes from a functional dataset in one or multiple
+Create a dataset with indices from a functional dataset in one or multiple
 dimensions
 }
 \examples{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/clustering.R
 \name{clustInd_hierarch}
 \alias{clustInd_hierarch}
-\title{Perform hierarchical clustering for a different combinations of indexes,
+\title{Perform hierarchical clustering for a different combinations of indices,
 method and distance}
 \usage{
 clustInd_hierarch(
@@ -16,10 +16,10 @@ clustInd_hierarch(
 )
 }
 \arguments{
-\item{ind_data}{Dataframe containing indexes applied to the original data and
+\item{ind_data}{Dataframe containing indices applied to the original data and
 its first and second derivatives. See \link{generate_indices}.}
 
-\item{vars_combinations}{\code{list} containing one or more combinations of indexes in
+\item{vars_combinations}{\code{list} containing one or more combinations of indices in
 \code{ind_data}. If it is non-named, the names of the variables are set to
 vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.}
 
@@ -40,7 +40,7 @@ A \code{list} containing hierarchical clustering results
 for each configuration.
 }
 \description{
-Perform hierarchical clustering for a different combinations of indexes,
+Perform hierarchical clustering for a different combinations of indices,
 method and distance
 }
 \examples{

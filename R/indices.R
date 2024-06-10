@@ -255,7 +255,7 @@ MHI.default <- function(curves, ...) {
   stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
 }
 
-#' Create a dataset with indexes from a functional dataset in one or multiple
+#' Create a dataset with indices from a functional dataset in one or multiple
 #' dimensions
 #'
 #' @param curves \code{matrix} with dimension \eqn{n \times p} in the case of a
@@ -273,7 +273,7 @@ MHI.default <- function(curves, ...) {
 #' any between EI, HI, MEI and MHI.
 #' @param ... Additional arguments (unused)
 #'
-#' @return A dataframe containing the indexes provided in \code{indices} for
+#' @return A dataframe containing the indices provided in \code{indices} for
 #' original data, first and second derivatives
 #' @export
 #'

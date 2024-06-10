@@ -14,10 +14,10 @@ clustInd_kmeans(
 )
 }
 \arguments{
-\item{ind_data}{Dataframe containing indexes applied to the original data and
+\item{ind_data}{Dataframe containing indices applied to the original data and
 its first and second derivatives. See \link{generate_indices}.}
 
-\item{vars_combinations}{\code{list} containing one or more combinations of indexes in
+\item{vars_combinations}{\code{list} containing one or more combinations of indices in
 \code{ind_data}. If it is non-named, the names of the variables are set to
 vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.}
 
@@ -39,7 +39,7 @@ for each configuration
 A list containing kmeans clustering results for each configuration
 }
 \description{
-Perform k-means clustering for a different combinations of indexes and
+Perform k-means clustering for a different combinations of indices and
 distances.
 }
 \examples{
