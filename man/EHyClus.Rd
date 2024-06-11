@@ -60,7 +60,7 @@ clustering.}
 limit of the evaluation grid. If not provided, it will be selected automatically.}
 
 \item{true_labels}{Numeric vector of true labels for validation. If provided,
-more metrics are computed in the final result.}
+evaluation metrics are computed in the final result.}
 
 \item{only_best}{\code{logical} value. If \code{TRUE} and \code{true_labels}
 is provided, the function will return only the result for the best clustering
@@ -85,8 +85,20 @@ the epigraph, hypograph and/or its modified versions on the curves and derivativ
 and then perform hierarchical clustering, kmeans, kernel kmeans, and spectral clustering
 }
 \examples{
-vars_combinations <- list(c("dtaEI", "dtaMEI"), c("dtaHI", "dtaMHI"))
+# univarariate data without labels
 curves <- sim_model_ex1(n = 10)
+vars_combinations <- list(c("dtaEI", "dtaMEI"), c("dtaHI", "dtaMHI"))
 EHyClus(curves, vars_combinations = vars_combinations)
+
+# multivariate data with labels
+curves <- sim_model_ex2(n = 5)
+true_labels <- c(rep(1, 5), rep(2, 5))
+vars_combinations <- list(c("dtaMEI", "ddtaMEI"), c("dtaMEI", "d2dtaMEI"))
+res <- EHyClus(curves, vars_combinations = vars_combinations, true_labels = true_labels)
+res$cluster # clustering results
+
+# multivariate data and generic (default) vars_combinations
+curves <- sim_model_ex2(n = 5)
+EHyClus(curves)
 
 }
