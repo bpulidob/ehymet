@@ -320,14 +320,14 @@ deriv2 <- funspline_result$deriv2
 The plot for first dimension of the derivative is the following one:
 
 ```{r plot-sim-2-3-1dimension-deriv, echo=FALSE}
-plot_curves(deriv[, , 1], title = "Type 2 DGPs", subtitle = "i_sim = 4; 
+plot_curves(deriv[, , 1], title = "Type 2 DGPs", subtitle = "i_sim = 4;
             first dimension (first derivative)")
 ```
 
 And for the second dimensions:
 
 ```{r plot-sim-2-3-2dimension-deriv, echo=FALSE}
-plot_curves(deriv[, , 2], title = "Type 2 DGPs", subtitle = "i_sim = 4; 
+plot_curves(deriv[, , 2], title = "Type 2 DGPs", subtitle = "i_sim = 4;
             second dimension (first derivative)")
 ```
 

@@ -176,20 +176,20 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
       "spc"      = append(common_clustering_arguments, list(kernel_list = l_kernel))
     )
 
-    cluster_res <- tryCatch({
-      if (verbose) {
-        do.call(default_clustering_methods[[method]], method_args)
-      } else {
-        suppressMessages(quiet(do.call(default_clustering_methods[[method]], method_args)))
-      }
-    },
-    error = function(x) NA
+    cluster_res <- tryCatch(
+      {
+        if (verbose) {
+          do.call(default_clustering_methods[[method]], method_args)
+        } else {
+          suppressMessages(quiet(do.call(default_clustering_methods[[method]], method_args)))
+        }
+      },
+      error = function(x) NA
     )
 
     if (!all(is.na(cluster_res))) {
       cluster[[method]] <- cluster_res
     }
-
   }
 
   if (!is.null(true_labels)) {
@@ -207,10 +207,10 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
     names(metrics) <- c("Purity", "Fmeasure", "RI", "Time")
     rownames(metrics) <- methods
 
-    metrics <- metrics[order(metrics$RI, decreasing = TRUE),]
+    metrics <- metrics[order(metrics$RI, decreasing = TRUE), ]
 
     if (only_best) {
-      metrics <- metrics[1,]
+      metrics <- metrics[1, ]
       best_clustering <- NA
 
       for (clustering_method in cluster) {
@@ -331,44 +331,44 @@ generic_vars_combinations <- function(multidimensional = TRUE) {
   if (multidimensional) {
     return(
       list(
-        c("dtaMEI","dtaMHI"),
-        c("ddtaMEI","ddtaMHI"),
-        c("d2dtaMEI","d2dtaMHI"),
+        c("dtaMEI", "dtaMHI"),
+        c("ddtaMEI", "ddtaMHI"),
+        c("d2dtaMEI", "d2dtaMHI"),
         c("dtaMEI", "dtaMHI", "ddtaMEI", "ddtaMHI"),
         c("dtaMEI", "dtaMHI", "d2dtaMEI", "d2dtaMHI"),
         c("ddtaMEI", "ddtaMHI", "d2dtaMEI", "d2dtaMHI"),
-        c("dtaMEI", "dtaMHI", "ddtaMEI", "ddtaMHI", "d2dtaMEI","d2dtaMHI"),
-        c("dtaMEI","ddtaMEI"),
-        c("dtaMEI","d2dtaMEI"),
-        c("ddtaMEI","d2dtaMEI"),
-        c("dtaMEI","ddtaMEI","d2dtaMEI"),
-        c("dtaMHI","ddtaMHI"),
-        c("dtaMHI","d2dtaMHI"),
-        c("ddtaMHI","d2dtaMHI"),
-        c("dtaMHI","ddtaMHI","d2dtaMHI")
+        c("dtaMEI", "dtaMHI", "ddtaMEI", "ddtaMHI", "d2dtaMEI", "d2dtaMHI"),
+        c("dtaMEI", "ddtaMEI"),
+        c("dtaMEI", "d2dtaMEI"),
+        c("ddtaMEI", "d2dtaMEI"),
+        c("dtaMEI", "ddtaMEI", "d2dtaMEI"),
+        c("dtaMHI", "ddtaMHI"),
+        c("dtaMHI", "d2dtaMHI"),
+        c("ddtaMHI", "d2dtaMHI"),
+        c("dtaMHI", "ddtaMHI", "d2dtaMHI")
       )
     )
   } else {
     return(
       list(
-        c("dtaEI","dtaHI"),
-        c("ddtaEI","ddtaHI"),
-        c("d2dtaEI","d2dtaHI"),
-        c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),
-        c(c("dtaEI","dtaHI"),c("d2dtaEI","d2dtaHI")),
-        c(c("ddtaEI","ddtaHI"),c("d2dtaEI","d2dtaHI")),
-        c(c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),c("d2dtaEI","d2dtaHI")),
-        c("dtaMEI","ddtaMEI"),
-        c("dtaMEI","d2dtaMEI"),
-        c("ddtaMEI","d2dtaMEI"),
-        c(c("dtaMEI","ddtaMEI"),"d2dtaMEI"),
-        c(c("dtaEI","dtaHI"),"dtaMEI"),
-        c(c("ddtaEI","ddtaHI"),"ddtaMEI"),
-        c(c("d2dtaEI","d2dtaHI"),"d2dtaMEI"),
-        c(c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),c("dtaMEI","ddtaMEI")),
-        c(c(c("dtaEI","dtaHI"),c("d2dtaEI","d2dtaHI")),c("dtaMEI","d2dtaMEI")),
-        c(c(c("ddtaEI","ddtaHI"),c("d2dtaEI","d2dtaHI")),c("ddtaMEI","d2dtaMEI")),
-        c(c(c(c("dtaEI","dtaHI"),c("ddtaEI","ddtaHI")),c("d2dtaEI","d2dtaHI")), c(c("dtaMEI","ddtaMEI"),"d2dtaMEI"))
+        c("dtaEI", "dtaHI"),
+        c("ddtaEI", "ddtaHI"),
+        c("d2dtaEI", "d2dtaHI"),
+        c(c("dtaEI", "dtaHI"), c("ddtaEI", "ddtaHI")),
+        c(c("dtaEI", "dtaHI"), c("d2dtaEI", "d2dtaHI")),
+        c(c("ddtaEI", "ddtaHI"), c("d2dtaEI", "d2dtaHI")),
+        c(c(c("dtaEI", "dtaHI"), c("ddtaEI", "ddtaHI")), c("d2dtaEI", "d2dtaHI")),
+        c("dtaMEI", "ddtaMEI"),
+        c("dtaMEI", "d2dtaMEI"),
+        c("ddtaMEI", "d2dtaMEI"),
+        c(c("dtaMEI", "ddtaMEI"), "d2dtaMEI"),
+        c(c("dtaEI", "dtaHI"), "dtaMEI"),
+        c(c("ddtaEI", "ddtaHI"), "ddtaMEI"),
+        c(c("d2dtaEI", "d2dtaHI"), "d2dtaMEI"),
+        c(c(c("dtaEI", "dtaHI"), c("ddtaEI", "ddtaHI")), c("dtaMEI", "ddtaMEI")),
+        c(c(c("dtaEI", "dtaHI"), c("d2dtaEI", "d2dtaHI")), c("dtaMEI", "d2dtaMEI")),
+        c(c(c("ddtaEI", "ddtaHI"), c("d2dtaEI", "d2dtaHI")), c("ddtaMEI", "d2dtaMEI")),
+        c(c(c(c("dtaEI", "dtaHI"), c("ddtaEI", "ddtaHI")), c("d2dtaEI", "d2dtaHI")), c(c("dtaMEI", "ddtaMEI"), "d2dtaMEI"))
       )
     )
   }
