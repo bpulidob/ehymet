@@ -31,6 +31,9 @@
 #' @param n_clusters Number of clusters to generate.
 #' @param true_labels Numeric vector of true labels for validation. If provided,
 #' more metrics are computed in the final result.
+#' @param only_best \code{logical} value. If \code{TRUE} and \code{true_labels}
+#' is provided, the function will return only the result for the best clustering
+#' method based on the Rand Index. Defaults to \code{FALSE}.
 #' @param verbose If \code{TRUE}, the function will print logs for about the execution of
 #' some clustering methods. Defaults to \code{FALSE}.
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
@@ -55,7 +58,7 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
                     l_dist_kmeans = c("euclidean", "mahalanobis"),
                     l_kernel = c("rbfdot", "polydot"),
                     grid,
-                    true_labels = NULL, verbose = FALSE, n_cores = 1) {
+                    true_labels = NULL, only_best = FALSE, verbose = FALSE, n_cores = 1) {
   if (length(dim(curves)) > 3 || length(dim(curves)) < 2) {
     stop("'curves' should be 2-dimensional or 3-dimensional", call. = FALSE)
   }
@@ -191,6 +194,22 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
     }
     names(metrics) <- c("Purity", "Fmeasure", "RI", "Time")
     rownames(metrics) <- methods
+
+    metrics <- metrics[order(metrics$RI, decreasing = TRUE),]
+
+    if (only_best) {
+      metrics <- metrics[1,]
+      best_clustering <- NA
+
+      for (clustering_method in cluster) {
+        if (rownames(metrics)[[1]] %in% names(clustering_method)) {
+          best_clustering <- clustering_method[rownames(metrics)[[1]]]
+          break
+        }
+      }
+
+      cluster <- best_clustering
+    }
 
     result <- list("cluster" = cluster, "metrics" = metrics)
   } else {

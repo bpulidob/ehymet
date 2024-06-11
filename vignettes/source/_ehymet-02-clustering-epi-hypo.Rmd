@@ -174,11 +174,10 @@ clustering_validation(true_labels, res$cluster$hierarch$hierarch_single_euclidea
 ```
 
 Note that we are only taking a look at some of the result. Let's see if some
-of them have given us better metrics. We are going to sort all the results
-based on the RI:
+of them have given us better metrics. Results are sorted based on the RI:
 
 ```{r}
-head(res_with_labels$metrics[order(res_with_labels$metrics$RI, decreasing = TRUE), ], 5)
+head(res_with_labels$metrics, 5)
 ```
 
 Indeed, we can see that some methods have given us excellent results,

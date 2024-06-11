@@ -17,6 +17,7 @@ EHyClus(
   l_kernel = c("rbfdot", "polydot"),
   grid,
   true_labels = NULL,
+  only_best = FALSE,
   verbose = FALSE,
   n_cores = 1
 )
@@ -60,6 +61,10 @@ limit of the evaluation grid. If not provided, it will be selected automatically
 
 \item{true_labels}{Numeric vector of true labels for validation. If provided,
 more metrics are computed in the final result.}
+
+\item{only_best}{\code{logical} value. If \code{TRUE} and \code{true_labels}
+is provided, the function will return only the result for the best clustering
+method based on the Rand Index. Defaults to \code{FALSE}.}
 
 \item{verbose}{If \code{TRUE}, the function will print logs for about the execution of
 some clustering methods. Defaults to \code{FALSE}.}

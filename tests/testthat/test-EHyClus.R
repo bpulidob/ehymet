@@ -115,3 +115,20 @@ test_that("the 'EHyClus' function works without providing 'vars_combinations'", 
 
   expect_length(vars_combinations, 15)
 })
+
+test_that("the 'only_best' parameter works", {
+  set.seed(32)
+
+  n <- 5
+  labels <- rep(c(1, 2), each = n)
+
+  vars1 <- c("dtaMEI", "ddtaMEI")
+  vars2 <- c("dtaMEI", "d2dtaMEI")
+
+  curves <- sim_model_ex2(n = n)
+  res <- EHyClus(curves, vars_combinations = list(vars1, vars2), true_labels = labels,
+                 only_best = TRUE)
+
+  expect_equal(dim(res$metrics), c(1, 4))
+  expect_equal(length(res$cluster), 1)
+})
