@@ -31,16 +31,27 @@ library(ehymet)
 # The EHyClus function
 
 One of the main utilities of the epigraph and the hypograph index is to be
-able to use classical clustering methods with them. is to be able to use
-classical clustering methods with them. In the package, the function that
-allows us to perform this process is `EHyClus`.
+able to measure ``extremality'' of a curve with respect to a bunch of curves
+and to provide and ordination of the curves from top to bottom or viceversa. 
 
-The EHyClus function is designed for clustering multivariate datasets that
-contain curves, where the input data can be one-dimensional (n x p) or
-multi-dimensional (n x p x q). The function constructs a dataset using the
-different indices discussed on the first vignette such as the epigraph,
-hypograph, and their modified versions, and then applies various clustering
-algorithms to this dataset.
+EHyClus is a methodology for clustering functional data which is based in four 
+steps:
+
+1. Smooth the functional dataset.
+2. Apply the indices to data, first and second derivatives.
+3. Apply classical multivariate clustering technique.
+4. Obtain a clustering partition in $k$ groups ($k$ fixed in advanced).
+
+In `ehymet`, the function that allows us to perform this process is `EHyClus`.
+
+EHyClus function is designed for clustering functional datasets. The input data 
+can be a one-dimensional dataset, $n \times p$ matrix, or a multidimensional 
+one, $n \times p \times q$ array. The function transforms the initial dataset 
+by first smoothing the data and then applying different indices analyzed 
+on the first vignette such as the epigraph, hypograph, and their modified 
+versions, and then applies various clustering algorithms to this dataset. 
+Indices for one or multiple dimension are applied depending on the size of the 
+input data.
 
 It supports multiple clustering methods: **hierarchical clustering**
 ("hierarch"), **k-means** ("kmeans"), **kernel k-means** ("kkmeans"), and
@@ -55,7 +66,7 @@ To check the quality of the results, if true labels are provided, the function
 can validate the clustering results and compute performance metrics such as
 purity, F-measure, and Rand Index (RI). Also, it records the time taken for
 each clustering method, in case you want to measure it in case of wanting to
-know the tradeoff between results and execution time
+know the trade-off between results and execution time
 
 ## Parameters
 
@@ -141,7 +152,7 @@ executed. Let's take a look at `valid`:
 head(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI$valid)
 ```
 
-It gives us 3 metrics: Purity, Fmeasure and the Rand Index (RI). However, we
+It gives us 3 metrics: Purity, F-measure and the Rand Index (RI). However, we
 can obtain this information in another way. Going back to the second element
 of `res_with_labels`: `metrics` give us a summary of all metrics:
 
@@ -149,7 +160,7 @@ of `res_with_labels`: `metrics` give us a summary of all metrics:
 head(res_with_labels$metrics, 3)
 ```
 
-It gives us the Purity, Fmeasure, RI and Time for every clustering method with
+It gives us the Purity, F-measure, RI and Time for every clustering method with
 every combination of parameters that has been executed. We can search for
 "hierarch_single_euclidean_d2dtaMEId2dtaMHI" and see that it yields the same
 results as seen previously:
