@@ -15,7 +15,7 @@ editor_options:
 
 
 
-```r
+``` r
 set.seed(42)
 
 library(ehymet)
@@ -24,27 +24,27 @@ library(ehymet)
 # The EHyClus function
 
 One of the main utilities of the epigraph and the hypograph index is to be
-able to measure ``extremality'' of a curve with respect to a bunch of curves
-and to provide and ordination of the curves from top to bottom or viceversa. 
+able to measure \`\`extremality'' of a curve with respect to a bunch of curves
+and to provide and ordination of the curves from top to bottom or viceversa.
 
-EHyClus is a methodology for clustering functional data which is based in four 
+EHyClus is a methodology for clustering functional data which is based in four
 steps:
 
-1. Smooth the functional dataset.
-2. Apply the indices to data, first and second derivatives.
-3. Apply classical multivariate clustering technique.
-4. Obtain a clustering partition in $k$ groups ($k$ fixed in advanced).
+1.  Smooth the functional dataset.
+2.  Apply the indices to data, first and second derivatives.
+3.  Apply classical multivariate clustering technique.
+4.  Obtain a clustering partition in $k$ groups ($k$ fixed in advanced).
 
 In `ehymet`, the function that allows us to perform this process is `EHyClus`.
 
-EHyClus function is designed for clustering functional datasets. The input data 
-can be a one-dimensional dataset, $n \times p$ matrix, or a multidimensional 
-one, $n \times p \times q$ array. The function transforms the initial dataset 
-by first smoothing the data and then applying different indices analyzed 
-on the first vignette such as the epigraph, hypograph, and their modified 
-versions, and then applies various clustering algorithms to this dataset. 
-Indices for one or multiple dimension are applied depending on the size of the 
-input data.
+EHyClus function is designed for clustering functional datasets. The input
+data can be a one-dimensional dataset, $n \times p$ matrix, or a
+multidimensional one, $n \times p \times q$ array. The function transforms the
+initial dataset by first smoothing the data and then applying different
+indices analyzed on the first vignette such as the epigraph, hypograph, and
+their modified versions, and then applies various clustering algorithms to
+this dataset. Indices for one or multiple dimension are applied depending on
+the size of the input data.
 
 It supports multiple clustering methods: **hierarchical clustering**
 ("hierarch"), **k-means** ("kmeans"), **kernel k-means** ("kkmeans"), and
@@ -71,9 +71,12 @@ documentation, but arguably the most important ones are:
     to use. If not provided, generic combinations of variables will be used.
 -   **clustering_methods**: A vector specifying which clustering methods to
     apply.
--   **k**: Number of basis functions for B-splines.
+-   **n_clusters** Number of clusters to generate.
+-   **k**: Number of basis functions for B-splines. Not to be confused with
+    **n_clusters**.
 -   **bs**: Type of penalized smoothing basis to use.
--   **indices**: Indices to generate for clustering.
+-   **true_labels**: If provided, evaluation metrics are provided along the
+    result.
 
 ## Example of usage and validation
 
@@ -82,7 +85,7 @@ In this subsection, we are going to display how to obtain the results of the
 are going to generate multidimensional data using `sim_model_ex2`:
 
 
-```r
+``` r
 n <- 50
 curves <- sim_model_ex2(n = n, i_sim = 4)
 ```
@@ -91,7 +94,7 @@ And, as we are generating $n = 50$ curves per group and there are two groups,
 the true labels are:
 
 
-```r
+``` r
 true_labels <- c(rep(1, n), rep(2, n))
 ```
 
@@ -99,7 +102,7 @@ We can run the algorithm with or without the true labels. For the combinations
 of variables, we will use "d2dtaMEI" with "d2dtaMHI".
 
 
-```r
+``` r
 res <- EHyClus(curves, vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")))
 res_with_labels <- EHyClus(curves,
   vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")),
@@ -111,7 +114,7 @@ For the result without labels, it can be seen that we only have the generated
 clusters:
 
 
-```r
+``` r
 names(res)
 #> [1] "cluster"
 ```
@@ -119,7 +122,7 @@ names(res)
 Whereas the one we generated with labels has both `cluster` and `metrics`:
 
 
-```r
+``` r
 names(res_with_labels)
 #> [1] "cluster" "metrics"
 ```
@@ -162,14 +165,14 @@ Looking in particular at some of the elements, we see that it contains the
 following:
 
 
-```r
+``` r
 str(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI)
 #> List of 3
 #>  $ cluster: int [1:100] 1 1 1 1 1 1 1 1 1 1 ...
 #>  $ valid  : 'table' num [1:3(1d)] 0.93 0.868 0.869
 #>   ..- attr(*, "dimnames")=List of 1
 #>   .. ..$ : chr [1:3] "Purity" "Fmeasure" "RI"
-#>  $ time   : num 0.00129
+#>  $ time   : num 0.128
 ```
 
 On the one hand we have `cluster` which is the vector that assigns each of the
@@ -178,7 +181,7 @@ finally `time`, which is the time that this particular method has taken to be
 executed. Let's take a look at `valid`:
 
 
-```r
+``` r
 head(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI$valid)
 #>   Purity Fmeasure       RI 
 #>   0.9300   0.8678   0.8685
@@ -189,24 +192,30 @@ can obtain this information in another way. Going back to the second element
 of `res_with_labels`: `metrics` give us a summary of all metrics:
 
 
-```r
+``` r
 head(res_with_labels$metrics, 3)
-#>                                             Purity Fmeasure     RI        Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000 0.010613918
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000 0.011297941
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685 0.001285076
+#>                                             Purity Fmeasure
+#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678
+#>                                                 RI        Time
+#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 0.001685858
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 0.001659155
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.8685 0.128189087
 ```
 
-It gives us the Purity, F-measure, RI and Time for every clustering method with
-every combination of parameters that has been executed. We can search for
+It gives us the Purity, F-measure, RI and Time for every clustering method
+with every combination of parameters that has been executed. We can search for
 "hierarch_single_euclidean_d2dtaMEId2dtaMHI" and see that it yields the same
 results as seen previously:
 
 
-```r
+``` r
 res_with_labels$metrics["hierarch_single_euclidean_d2dtaMEId2dtaMHI", ]
-#>                                            Purity Fmeasure     RI        Time
-#> hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535 0.4958 0.001327038
+#>                                            Purity Fmeasure
+#> hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535
+#>                                                RI         Time
+#> hierarch_single_euclidean_d2dtaMEId2dtaMHI 0.4958 0.0002379417
 ```
 
 But now imagine that we executed `EHyClus` without giving the `true_labels`
@@ -215,7 +224,7 @@ parameter but we want to compute the metrics. For that purpose, we can use the
 and the ones generated by the clustering method as the second one:
 
 
-```r
+``` r
 clustering_validation(true_labels, res$cluster$hierarch$hierarch_single_euclidean_d2dtaMEId2dtaMHI$cluster)
 #>   Purity Fmeasure       RI 
 #>   0.5200   0.6535   0.4958
@@ -225,15 +234,63 @@ Note that we are only taking a look at some of the result. Let's see if some
 of them have given us better metrics. Results are sorted based on the RI:
 
 
-```r
+``` r
 head(res_with_labels$metrics, 5)
-#>                                             Purity Fmeasure     RI        Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000 0.010613918
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000 0.011297941
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685 0.001285076
-#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685 0.8685 0.001348972
-#> kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684 0.6422 0.120132923
+#>                                             Purity Fmeasure
+#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678
+#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685
+#> kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684
+#>                                                 RI         Time
+#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 0.0016858578
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 0.0016591549
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.8685 0.1281890869
+#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.8685 0.0001909733
+#> kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.6422 0.0079019070
 ```
 
 Indeed, we can see that some methods have given us excellent results,
 performing an almost perfect clustering.
+
+In addition, if we only want to obtain the results for the best clustering method, we can use the `only_best` parameter. Note that this parameter only works when
+`true_labels` is provided.
+
+
+``` r
+res_only_best <- EHyClus(curves,
+  vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")),
+  true_labels = true_labels,
+  only_best = TRUE
+)
+```
+
+If we inspect the object, we see that in fact it only contains the results of the clustering method that has obtained the best results.
+
+
+``` r
+res_only_best$cluster
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$cluster
+#>   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+#>  [31] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
+#>  [61] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#>  [91] 1 1 1 1 1 1 1 1 1 1
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$valid
+#>   Purity Fmeasure       RI 
+#>        1        1        1 
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$time
+#> [1] 0.001784801
+```
+
+
+
+``` r
+res_only_best$metrics
+#>                                   Purity Fmeasure RI        Time
+#> kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1 0.001784801
+```
+
+This can be useful if you want to use the function as if it were a typical clustering method.

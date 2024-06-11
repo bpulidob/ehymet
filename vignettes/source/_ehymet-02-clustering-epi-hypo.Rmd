@@ -31,27 +31,27 @@ library(ehymet)
 # The EHyClus function
 
 One of the main utilities of the epigraph and the hypograph index is to be
-able to measure ``extremality'' of a curve with respect to a bunch of curves
-and to provide and ordination of the curves from top to bottom or viceversa. 
+able to measure \`\`extremality'' of a curve with respect to a bunch of curves
+and to provide and ordination of the curves from top to bottom or viceversa.
 
-EHyClus is a methodology for clustering functional data which is based in four 
+EHyClus is a methodology for clustering functional data which is based in four
 steps:
 
-1. Smooth the functional dataset.
-2. Apply the indices to data, first and second derivatives.
-3. Apply classical multivariate clustering technique.
-4. Obtain a clustering partition in $k$ groups ($k$ fixed in advanced).
+1.  Smooth the functional dataset.
+2.  Apply the indices to data, first and second derivatives.
+3.  Apply classical multivariate clustering technique.
+4.  Obtain a clustering partition in $k$ groups ($k$ fixed in advanced).
 
 In `ehymet`, the function that allows us to perform this process is `EHyClus`.
 
-EHyClus function is designed for clustering functional datasets. The input data 
-can be a one-dimensional dataset, $n \times p$ matrix, or a multidimensional 
-one, $n \times p \times q$ array. The function transforms the initial dataset 
-by first smoothing the data and then applying different indices analyzed 
-on the first vignette such as the epigraph, hypograph, and their modified 
-versions, and then applies various clustering algorithms to this dataset. 
-Indices for one or multiple dimension are applied depending on the size of the 
-input data.
+EHyClus function is designed for clustering functional datasets. The input
+data can be a one-dimensional dataset, $n \times p$ matrix, or a
+multidimensional one, $n \times p \times q$ array. The function transforms the
+initial dataset by first smoothing the data and then applying different
+indices analyzed on the first vignette such as the epigraph, hypograph, and
+their modified versions, and then applies various clustering algorithms to
+this dataset. Indices for one or multiple dimension are applied depending on
+the size of the input data.
 
 It supports multiple clustering methods: **hierarchical clustering**
 ("hierarch"), **k-means** ("kmeans"), **kernel k-means** ("kkmeans"), and
@@ -78,9 +78,12 @@ documentation, but arguably the most important ones are:
     to use. If not provided, generic combinations of variables will be used.
 -   **clustering_methods**: A vector specifying which clustering methods to
     apply.
--   **k**: Number of basis functions for B-splines.
+-   **n_clusters** Number of clusters to generate.
+-   **k**: Number of basis functions for B-splines. Not to be confused with
+    **n_clusters**.
 -   **bs**: Type of penalized smoothing basis to use.
--   **indices**: Indices to generate for clustering.
+-   **true_labels**: If provided, evaluation metrics are provided along the
+    result.
 
 ## Example of usage and validation
 
@@ -160,8 +163,8 @@ of `res_with_labels`: `metrics` give us a summary of all metrics:
 head(res_with_labels$metrics, 3)
 ```
 
-It gives us the Purity, F-measure, RI and Time for every clustering method with
-every combination of parameters that has been executed. We can search for
+It gives us the Purity, F-measure, RI and Time for every clustering method
+with every combination of parameters that has been executed. We can search for
 "hierarch_single_euclidean_d2dtaMEId2dtaMHI" and see that it yields the same
 results as seen previously:
 
@@ -187,3 +190,27 @@ head(res_with_labels$metrics, 5)
 
 Indeed, we can see that some methods have given us excellent results,
 performing an almost perfect clustering.
+
+In addition, if we only want to obtain the results for the best clustering method, we can use the `only_best` parameter. Note that this parameter only works when
+`true_labels` is provided.
+
+```{r}
+res_only_best <- EHyClus(curves,
+  vars_combinations = list(c("d2dtaMEI", "d2dtaMHI")),
+  true_labels = true_labels,
+  only_best = TRUE
+)
+```
+
+If we inspect the object, we see that in fact it only contains the results of the clustering method that has obtained the best results.
+
+```{r}
+res_only_best$cluster
+```
+
+
+```{r}
+res_only_best$metrics
+```
+
+This can be useful if you want to use the function as if it were a typical clustering method.
