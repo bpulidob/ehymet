@@ -42,10 +42,6 @@ different indices discussed on the first vignette such as the epigraph,
 hypograph, and their modified versions, and then applies various clustering
 algorithms to this dataset.
 
-The function can automatically determine the best combinations of variables
-for clustering (any number can be selected but the default is one) or use
-specified combinations provided by the user.
-
 It supports multiple clustering methods: **hierarchical clustering**
 ("hierarch"), **k-means** ("kmeans"), **kernel k-means** ("kkmeans"), and
 **spectral clustering** ("spc"). Also, it allows customization of hierarchical
@@ -67,9 +63,8 @@ All the parameters and its functionality can be found on the function
 documentation, but arguably the most important ones are:
 
 -   **curves**: The dataset containing the curves to be clustered.
--   **vars_combinations**: Determines the combinations of variables to use.
-    Can be an integer for automatic selection or a list of specific
-    combinations.
+-   **vars_combinations**: List that determines the combination of variables
+    to use. If not provided, generic combinations of variables will be used.
 -   **clustering_methods**: A vector specifying which clustering methods to
     apply.
 -   **k**: Number of basis functions for B-splines.
@@ -125,11 +120,10 @@ Let's explore both components of the latter. We're going to start with
 data.tree::FromListSimple(res_with_labels$cluster, nodeName = "cluster")
 ```
 
-The first thing that stands out is that the combination of variables used,
-i.e. the one chosen as the best, is "dtaMEIdtaMHI". This can be seen in the
-prefix of the different elements. We can also see the different parameters
-used. For example, for the kmeans it is easy to see that it has been performed
-with both the Euclidean and the Mahalanobis distance.
+In the suffix of the names we can see the combination of variables used, that
+is "d2dtaMEI" with "d2dtaMHI". We can also see the different parameters used.
+For example, for the kmeans it is easy to see that it has been performed with
+both the Euclidean and the Mahalanobis distances.
 
 Looking in particular at some of the elements, we see that it contains the
 following:
@@ -148,8 +142,8 @@ head(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMH
 ```
 
 It gives us 3 metrics: Purity, Fmeasure and the Rand Index (RI). However, we
-can obtain this information in another way. Going back to the second element of
-`res_with_labels`: `metrics` give us a summary of all metrics:
+can obtain this information in another way. Going back to the second element
+of `res_with_labels`: `metrics` give us a summary of all metrics:
 
 ```{r}
 head(res_with_labels$metrics, 3)
