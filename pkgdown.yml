@@ -1,0 +1,11 @@
+pandoc: 3.1.11
+pkgdown: 2.0.9
+pkgdown_sha: ~
+articles:
+  ehymet-01-introduction: ehymet-01-introduction.html
+  ehymet-02-clustering-epi-hypo: ehymet-02-clustering-epi-hypo.html
+last_built: 2024-06-12T20:37Z
+urls:
+  reference: https://bpulidob.github.io/ehymet/reference
+  article: https://bpulidob.github.io/ehymet/articles
+
