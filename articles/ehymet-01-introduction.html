@@ -91,7 +91,7 @@
 <p>The <strong>ehymet</strong> package
 (<strong>E</strong>pigraph-<strong>Hy</strong>pograph based
 <strong>met</strong>hodologies for functional data) is an <code>R</code>
-package designed to extend popular multivariate data analysisi
+package designed to extend popular multivariate data analysis
 methodologies to functional data using various indices. The package
 introduces the <strong>epigraph</strong> and <strong>hypograph</strong>
 indices, along with their modified versions for functional datasets in
@@ -123,7 +123,7 @@ dimensions first introduced by <span class="citation">(Martino et al.
 <p>These functions are useful for simulating functional data to test
 statistical methods or to understand the behavior of different models
 under controlled conditions. Each of the two functions display different
-DGPs depending on the given parameters, each of them with diferent
+DGPs depending on the given parameters, each of them with different
 characteristics.</p>
 <div class="section level3">
 <h3 id="type-1-dgps">Type 1 DGPs<a class="anchor" aria-label="anchor" href="#type-1-dgps"></a>
@@ -441,20 +441,15 @@ data generated with <code>sim_model_ex2</code>:</p>
 its first and second derivative:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">indices_mult</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"  </span></span>
-<span><span class="co">#&gt;  [6] "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"  </span></span>
-<span><span class="co">#&gt; [11] "ddtaMHI"  "d2dtaMHI"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"   "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"   "ddtaMHI" </span></span>
+<span><span class="co">#&gt; [12] "d2dtaMHI"</span></span></code></pre></div>
 <p>We can also take a quick look to the generated indices:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">indices_mult</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI dtaMEI   ddtaMEI</span></span>
-<span><span class="co">#&gt; 1  0.99   0.99    0.99  0.01   0.01    0.01 0.8068 0.7372667</span></span>
-<span><span class="co">#&gt; 2  0.99   0.99    0.99  0.01   0.01    0.01 0.7458 0.7348667</span></span>
-<span><span class="co">#&gt; 3  0.98   0.99    0.99  0.01   0.01    0.01 0.5360 0.7300000</span></span>
-<span><span class="co">#&gt;    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI</span></span>
-<span><span class="co">#&gt; 1 0.6912667 0.2582667 0.3046000 0.2504667</span></span>
-<span><span class="co">#&gt; 2 0.6760667 0.2315333 0.2957333 0.2698667</span></span>
-<span><span class="co">#&gt; 3 0.6956000 0.1463333 0.2895333 0.2426000</span></span></code></pre></div>
+<span><span class="co">#&gt;   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI</span></span>
+<span><span class="co">#&gt; 1  0.99   0.99    0.99  0.01   0.01    0.01 0.8068 0.7372667 0.6912667 0.2582667 0.3046000 0.2504667</span></span>
+<span><span class="co">#&gt; 2  0.99   0.99    0.99  0.01   0.01    0.01 0.7458 0.7348667 0.6760667 0.2315333 0.2957333 0.2698667</span></span>
+<span><span class="co">#&gt; 3  0.98   0.99    0.99  0.01   0.01    0.01 0.5360 0.7300000 0.6956000 0.1463333 0.2895333 0.2426000</span></span></code></pre></div>
 <p>Now, for the sake of comparison, let’s see what happens if we
 calculate the indices separately for each dimension and check the first
 few rows:</p>
@@ -463,24 +458,16 @@ few rows:</p>
 <span><span class="va">indices_dim2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/generate_indices.html">generate_indices</a></span><span class="op">(</span><span class="va">curves</span><span class="op">[</span>, , <span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">indices_dim1</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI</span></span>
-<span><span class="co">#&gt; 1  0.94   0.99    0.99  0.03   0.01    0.01 0.4260000 0.5051333</span></span>
-<span><span class="co">#&gt; 2  0.91   0.99    0.99  0.01   0.01    0.01 0.3576667 0.5132667</span></span>
-<span><span class="co">#&gt; 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3458000 0.5030667</span></span>
-<span><span class="co">#&gt;    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI</span></span>
-<span><span class="co">#&gt; 1 0.4685333 0.4360000 0.5151333 0.4785333</span></span>
-<span><span class="co">#&gt; 2 0.4755333 0.3676667 0.5232667 0.4855333</span></span>
-<span><span class="co">#&gt; 3 0.4674667 0.3558000 0.5130667 0.4774667</span></span></code></pre></div>
+<span><span class="co">#&gt;   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI</span></span>
+<span><span class="co">#&gt; 1  0.94   0.99    0.99  0.03   0.01    0.01 0.4260000 0.5051333 0.4685333 0.4360000 0.5151333 0.4785333</span></span>
+<span><span class="co">#&gt; 2  0.91   0.99    0.99  0.01   0.01    0.01 0.3576667 0.5132667 0.4755333 0.3676667 0.5232667 0.4855333</span></span>
+<span><span class="co">#&gt; 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3458000 0.5030667 0.4674667 0.3558000 0.5130667 0.4774667</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">indices_dim2</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI</span></span>
-<span><span class="co">#&gt; 1  0.99   0.99    0.99  0.04   0.01    0.01 0.6290667 0.5267333</span></span>
-<span><span class="co">#&gt; 2  0.99   0.99    0.99  0.01   0.01    0.01 0.6096667 0.5073333</span></span>
-<span><span class="co">#&gt; 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3265333 0.5064667</span></span>
-<span><span class="co">#&gt;    d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI</span></span>
-<span><span class="co">#&gt; 1 0.4632000 0.6390667 0.5367333 0.4732000</span></span>
-<span><span class="co">#&gt; 2 0.4604000 0.6196667 0.5173333 0.4704000</span></span>
-<span><span class="co">#&gt; 3 0.4607333 0.3365333 0.5164667 0.4707333</span></span></code></pre></div>
+<span><span class="co">#&gt;   dtaEI ddtaEI d2dtaEI dtaHI ddtaHI d2dtaHI    dtaMEI   ddtaMEI  d2dtaMEI    dtaMHI   ddtaMHI  d2dtaMHI</span></span>
+<span><span class="co">#&gt; 1  0.99   0.99    0.99  0.04   0.01    0.01 0.6290667 0.5267333 0.4632000 0.6390667 0.5367333 0.4732000</span></span>
+<span><span class="co">#&gt; 2  0.99   0.99    0.99  0.01   0.01    0.01 0.6096667 0.5073333 0.4604000 0.6196667 0.5173333 0.4704000</span></span>
+<span><span class="co">#&gt; 3  0.95   0.99    0.99  0.01   0.01    0.01 0.3265333 0.5064667 0.4607333 0.3365333 0.5164667 0.4707333</span></span></code></pre></div>
 <p>One difference that is readily apparent is, for example, for
 “dtaMHI”. Let’s take a look at it:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
