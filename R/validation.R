@@ -61,10 +61,30 @@ clustering_validation <- function(true_labels, clusters) {
 
   # (Purity, Fmeasure, RI)
   res <- c(
-    round(res_purity, 4), round(2 * ((prec * rec) / (prec + rec)), 4),
+    round(res_purity, 4),
+    round(2 * ((prec * rec) / (prec + rec)), 4),
     round((tp + tn) / (tp + fp + fn + tn), 4)
   )
   names(res) <- c("Purity", "Fmeasure", "RI")
 
+  # Adjusted Rand Index (ARI)
+  n <- length(true_labels)
+  total_pairs <- choose(n, 2)
+
+  a_i <- rowSums(conv_df)
+  b_j <- colSums(conv_df)
+
+  index_sum <- sum(choose(a_i, 2)) + sum(choose(b_j, 2))
+  product_sum <- sum(choose(as.vector(as.matrix(conv_df)), 2))
+
+  expected_ri <- (sum(choose(a_i, 2)) * sum(choose(b_j, 2))) / total_pairs
+  max_ri <- 0.5 * (sum(choose(a_i, 2)) + sum(choose(b_j, 2)))
+
+  ari <- (product_sum - expected_ri) / (max_ri - expected_ri)
+
+  res <- c(res, round(ari, 4))
+  names(res) <- c("Purity", "Fmeasure", "RI", "ARI")
+
   as.table(res)
 }
+
