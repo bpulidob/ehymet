@@ -24,7 +24,6 @@ or an array of dimensions
 The function can generate one-dimensional or multi-dimensional curves.
 For \code{i_sim} 1 or 2, one-dimensional curves are generated.
 For \code{i_sim} 3 or 4, multi-dimensional curves are generated.
-ADD REFERENCES
 }
 \examples{
 sm1 <- sim_model_ex2()
