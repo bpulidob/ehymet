@@ -18,7 +18,8 @@ Description: Implements methods for functional data analysis based on the epigra
   data analysis techniques to the functional data setting. A key application of 
   this package is the EHyClus method, which enhances clustering analysis for 
   functional data across one or multiple dimensions using the epigraph and 
-  hypograph indices.
+  hypograph indices. See Pulido et al. 2023 <doi:10.1007/s11222-023-10213-7>,
+  and 2023 <doi:10.48550/arXiv.2307.16720>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 URL: https://github.com/bpulidob/ehymet, https://bpulidob.github.io/ehymet/
