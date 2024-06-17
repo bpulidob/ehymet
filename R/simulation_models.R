@@ -86,7 +86,6 @@ sim_model_ex1 <- function(n = 50, p = 30, i_sim = 1) {
 #' The function can generate one-dimensional or multi-dimensional curves.
 #' For \code{i_sim} 1 or 2, one-dimensional curves are generated.
 #' For \code{i_sim} 3 or 4, multi-dimensional curves are generated.
-#' ADD REFERENCES
 #'
 #' @param n Number of curves to generate for each of the two groups. Set to 50 by default.
 #' @param p Number of grid points of the curves.
