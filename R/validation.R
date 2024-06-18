@@ -3,6 +3,7 @@
 #'
 #' @param true_labels Atomic vector with the true labels of the data.
 #' @param clusters The clusters predicted by the clustering method.
+#' @param digits Number of digits for rounding
 #'
 #' @return A \code{table} containing values for Purity, F-measure and RI.
 #'
@@ -17,7 +18,7 @@
 #' clustering_validation(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
 #'
 #' @export
-clustering_validation <- function(true_labels, clusters) {
+clustering_validation <- function(true_labels, clusters, digits = 4) {
   if (is.integer(true_labels)) {
     true_labels <- as.numeric(true_labels)
   }
@@ -39,50 +40,47 @@ clustering_validation <- function(true_labels, clusters) {
   }
 
   tbl <- table(clusters, true_labels) # contingency table
-  conv_df <- as.data.frame.matrix(tbl)
 
   # Purity
-  res_purity <- sum(apply(conv_df, 1, max)) / length(true_labels)
+  res_purity <- sum(apply(tbl, 1, max)) / length(true_labels)
 
   # True positives(tp), false positives(fp), true negatives(tn),
   # and false negatives(fn)
 
   # (needed for calculating RI)
-  tp_plus_fp <- sum(choose(rowSums(conv_df), 2))
-  tp_plus_fn <- sum(choose(colSums(conv_df), 2))
-  tp <- sum(choose(as.vector(as.matrix(conv_df)), 2))
+  tp_plus_fp <- sum(choose(rowSums(tbl), 2))
+  tp_plus_fn <- sum(choose(colSums(tbl), 2))
+  tp <- sum(choose(as.vector(as.matrix(tbl)), 2))
   fp <- tp_plus_fp - tp
   fn <- tp_plus_fn - tp
-  tn <- choose(sum(as.vector(as.matrix(conv_df))), 2) - tp - fp - fn
+  tn <- choose(sum(as.vector(as.matrix(tbl))), 2) - tp - fp - fn
 
   # Precision and recall (needed for calculating Fmeasure)
   prec <- tp / (tp + fp) # Precision
   rec <- tp / (tp + fn) # Recall
 
-  # (Purity, Fmeasure, RI)
-  res <- c(
-    round(res_purity, 4),
-    round(2 * ((prec * rec) / (prec + rec)), 4),
-    round((tp + tn) / (tp + fp + fn + tn), 4)
-  )
-  names(res) <- c("Purity", "Fmeasure", "RI")
+  # F1 score
+  res_fmeasure <- 2 * ((prec * rec) / (prec + rec))
+
+  # RI
+  res_ri <- (tp + tn) / (tp + fp + fn + tn)
 
   # Adjusted Rand Index (ARI)
-  n <- length(true_labels)
-  total_pairs <- choose(n, 2)
+  n_pairs <- choose(length(true_labels),2)
+  nij_sum <- sum(choose(tbl, 2))
+  ai_sum <- sum(choose(rowSums(tbl),2))
+  bj_sum <- sum(choose(colSums(tbl),2))
+  aibj_term <- (ai_sum*bj_sum)/n_pairs
 
-  a_i <- rowSums(conv_df)
-  b_j <- colSums(conv_df)
+  res_ari <- (nij_sum-aibj_term)/(0.5*(ai_sum+bj_sum)-aibj_term)
 
-  index_sum <- sum(choose(a_i, 2)) + sum(choose(b_j, 2))
-  product_sum <- sum(choose(as.vector(as.matrix(conv_df)), 2))
+  # res <- list(Purity = round(res_purity, digits),
+  #             Fmeasure = round(res_fmeasure, digits),
+  #             RI = round(res_ri, digits),
+  #             ARI = round(res_ari, digits))
 
-  expected_ri <- (sum(choose(a_i, 2)) * sum(choose(b_j, 2))) / total_pairs
-  max_ri <- 0.5 * (sum(choose(a_i, 2)) + sum(choose(b_j, 2)))
-
-  ari <- (product_sum - expected_ri) / (max_ri - expected_ri)
-
-  res <- c(res, round(ari, 4))
+  res <- c(round(res_purity, digits), round(res_fmeasure, digits),
+           round(res_ri, digits), round(res_ari, digits))
   names(res) <- c("Purity", "Fmeasure", "RI", "ARI")
 
   as.table(res)

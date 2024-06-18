@@ -5,12 +5,14 @@
 \title{Create a table containing three validation metrics for clustering: Purity, F-measure
 and Rand Index (RI)}
 \usage{
-clustering_validation(true_labels, clusters)
+clustering_validation(true_labels, clusters, digits = 4)
 }
 \arguments{
 \item{true_labels}{Atomic vector with the true labels of the data.}
 
 \item{clusters}{The clusters predicted by the clustering method.}
+
+\item{digits}{Number of digits for rounding}
 }
 \value{
 A \code{table} containing values for Purity, F-measure and RI.
