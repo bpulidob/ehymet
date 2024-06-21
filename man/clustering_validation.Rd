@@ -2,8 +2,8 @@
 % Please edit documentation in R/validation.R
 \name{clustering_validation}
 \alias{clustering_validation}
-\title{Create a table containing three validation metrics for clustering: Purity, F-measure
-and Rand Index (RI)}
+\title{Create a table containing three validation metrics for clustering: Purity, F-measure,
+Rand Index (RI) and Adjusted Rand Index (ARI)}
 \usage{
 clustering_validation(clusters, true_labels, digits = 4)
 }
@@ -12,22 +12,22 @@ clustering_validation(clusters, true_labels, digits = 4)
 
 \item{true_labels}{Atomic vector with the true labels of the data.}
 
-\item{digits}{Number of digits for rounding}
+\item{digits}{Number of digits for rounding.}
 }
 \value{
-A \code{table} containing values for Purity, F-measure and RI.
+A \code{list} containing values for Purity, F-measure, RI and ARI.
 }
 \description{
-Create a table containing three validation metrics for clustering: Purity, F-measure
-and Rand Index (RI)
+Create a table containing three validation metrics for clustering: Purity, F-measure,
+Rand Index (RI) and Adjusted Rand Index (ARI)
 }
 \examples{
 set.seed(1221)
-vars1 <- c("dtaEI", "dtaMEI")
-data <- ehymet::sim_model_ex1()
+vars <- list(c("dtaEI", "dtaMEI"))
+data <- sim_model_ex1()
 true_labels <- c(rep(1, 50), rep(2, 50))
 data_ind <- generate_indices(data)
-clus_kmeans <- ehymet::clustInd_kmeans(data_ind, list(vars1))
+clus_kmeans <- clustInd_kmeans(data_ind, vars)
 cluskmeans_mahalanobis_dtaEIdtaMEI <- clus_kmeans$kmeans_mahalanobis_dtaEIdtaMEI$cluster
 clustering_validation(cluskmeans_mahalanobis_dtaEIdtaMEI, true_labels)
 

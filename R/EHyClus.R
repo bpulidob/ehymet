@@ -194,17 +194,16 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
 
   if (!is.null(true_labels)) {
     methods <- c()
-    metrics <- data.frame(Purity = numeric(0), Fmeasure = numeric(0), RI = numeric(0), Time = numeric(0))
+    metrics <- data.frame(Purity = numeric(0), Fmeasure = numeric(0), RI = numeric(0), ARI = numeric(0), Time = numeric(0))
     for (clustering_method in names(cluster)) {
       for (method in names(cluster[[clustering_method]])) {
         methods <- c(methods, method)
         metrics <- rbind(
           metrics,
-          c(cluster[[clustering_method]][[method]][["valid"]], cluster[[clustering_method]][[method]][["time"]])
+          append(cluster[[clustering_method]][[method]][["valid"]], list(Time = cluster[[clustering_method]][[method]][["time"]]))
         )
       }
     }
-    names(metrics) <- c("Purity", "Fmeasure", "RI", "Time")
     rownames(metrics) <- methods
 
     metrics <- metrics[order(metrics$RI, decreasing = TRUE), ]
