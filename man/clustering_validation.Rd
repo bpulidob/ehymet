@@ -5,12 +5,12 @@
 \title{Create a table containing three validation metrics for clustering: Purity, F-measure
 and Rand Index (RI)}
 \usage{
-clustering_validation(true_labels, clusters, digits = 4)
+clustering_validation(clusters, true_labels, digits = 4)
 }
 \arguments{
-\item{true_labels}{Atomic vector with the true labels of the data.}
-
 \item{clusters}{The clusters predicted by the clustering method.}
+
+\item{true_labels}{Atomic vector with the true labels of the data.}
 
 \item{digits}{Number of digits for rounding}
 }
@@ -29,6 +29,6 @@ true_labels <- c(rep(1, 50), rep(2, 50))
 data_ind <- generate_indices(data)
 clus_kmeans <- ehymet::clustInd_kmeans(data_ind, list(vars1))
 cluskmeans_mahalanobis_dtaEIdtaMEI <- clus_kmeans$kmeans_mahalanobis_dtaEIdtaMEI$cluster
-clustering_validation(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
+clustering_validation(cluskmeans_mahalanobis_dtaEIdtaMEI, true_labels)
 
 }

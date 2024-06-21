@@ -15,10 +15,10 @@
 #' data_ind <- generate_indices(data)
 #' clus_kmeans <- ehymet::clustInd_kmeans(data_ind, list(vars1))
 #' cluskmeans_mahalanobis_dtaEIdtaMEI <- clus_kmeans$kmeans_mahalanobis_dtaEIdtaMEI$cluster
-#' clustering_validation(true_labels, cluskmeans_mahalanobis_dtaEIdtaMEI)
+#' clustering_validation(cluskmeans_mahalanobis_dtaEIdtaMEI, true_labels)
 #'
 #' @export
-clustering_validation <- function(true_labels, clusters, digits = 4) {
+clustering_validation <- function(clusters, true_labels, digits = 4) {
   if (is.integer(true_labels)) {
     true_labels <- as.numeric(true_labels)
   }
