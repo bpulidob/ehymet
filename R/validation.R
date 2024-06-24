@@ -66,13 +66,13 @@ clustering_validation <- function(clusters, true_labels, digits = 4) {
   res_ri <- (tp + tn) / (tp + fp + fn + tn)
 
   # Adjusted Rand Index (ARI)
-  n_pairs <- choose(length(true_labels),2)
+  n_pairs <- choose(length(true_labels), 2)
   nij_sum <- sum(choose(tbl, 2))
-  ai_sum <- sum(choose(rowSums(tbl),2))
-  bj_sum <- sum(choose(colSums(tbl),2))
-  aibj_term <- (ai_sum*bj_sum)/n_pairs
+  ai_sum <- sum(choose(rowSums(tbl), 2))
+  bj_sum <- sum(choose(colSums(tbl), 2))
+  aibj_term <- (ai_sum * bj_sum) / n_pairs
 
-  res_ari <- (nij_sum-aibj_term)/(0.5*(ai_sum+bj_sum)-aibj_term)
+  res_ari <- (nij_sum - aibj_term) / (0.5 * (ai_sum + bj_sum) - aibj_term)
 
   list(
     Purity = round(res_purity, digits),
@@ -80,6 +80,4 @@ clustering_validation <- function(clusters, true_labels, digits = 4) {
     RI = round(res_ri, digits),
     ARI = round(res_ari, digits)
   )
-
 }
-
