@@ -92,7 +92,7 @@ test_that("metrics are correctly created when 'true_labels' is given to 'EHyClus
   res <- EHyClus(curves, vars_combinations = list(vars1, vars2), true_labels = labels)
 
   expect_equal(names(res), c("cluster", "metrics"))
-  expect_equal(dim(res$metrics), c(32, 4))
+  expect_equal(dim(res$metrics), c(32, 5))
 })
 
 test_that("the 'generic_vars_combinations' is returning an object of the expected lenght", {
@@ -131,6 +131,6 @@ test_that("the 'only_best' parameter works", {
     only_best = TRUE
   )
 
-  expect_equal(dim(res$metrics), c(1, 4))
+  expect_equal(dim(res$metrics), c(1, 5))
   expect_equal(length(res$cluster), 1)
 })
