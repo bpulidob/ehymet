@@ -145,20 +145,53 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
 }
 
 
+init_kplus2 <- function(ind_data, n_cluster){
+  init_center <- rep(0, n_cluster)
+  # Choose the first center at random from data points
+  init_center[1] <- sample(1:nrow(ind_data), 1)
+
+  for(i in 2:n_cluster) {
+    # For each data point x not choosen yet, compute D(x), the distance between
+    # x and the nearest center that has already been chosen
+    dist_center_min <- apply(ind_data,1,function(row){
+      dist_centers = sapply(init_center[1:(i-1)],
+                            function(center) {
+                              sqrt(sum((row - ind_data[center,])^2))
+                            })
+      min(dist_centers)
+    })
+
+    # Choose one new data point at random as a new center, using a weighted
+    # probability distribution where a point x is chosen with probability
+    # proportional to D(x)^2
+    probabilities <- dist_center_min^2/sum(dist_center_min)
+    zero_prob = which(dist_center_min == 0)
+    init_center[i] = sample(seq_along(probabilities)[-zero_prob], 1,
+                            prob=probabilities[-zero_prob])
+  }
+  return(ind_data[init_center,])
+}
+
 #' k-means clustering with Mahalanobis distance
 #'
 #' @param ind_data Dataframe containing indices applied to the original data and
 #' its first and second derivatives.
 #' @param n_cluster Number of clusters to create.
+#' @param init Initialization strategy.
 #'
 #' @return k-means clustering with Mahalanobis distance output
 #'
 #' @noRd
-kmeans_mahal <- function(ind_data, n_cluster) {
+kmeans_mahal <- function(ind_data, n_cluster, init = "random") {
   # Check if input is numeric matrix or array
   if (!(is.numeric(ind_data) || is.matrix(ind_data) || is.array(ind_data) ||
     is.data.frame(ind_data))) {
     stop("Input must be a numeric matrix, array or data frame.")
+  }
+
+  # Check if the initialization method given can be used
+  if (!init %in% c("random", "kmeans++")) {
+    stop("Invalid initialization method.")
   }
 
   # Convert data to matrix
@@ -173,12 +206,15 @@ kmeans_mahal <- function(ind_data, n_cluster) {
   data_transform <- data_matrix %*% solve(c)
 
   # vector containing the clustering partition
+  centers_init <- if (init == "random") n_cluster else
+    init_kplus2(data_transform, n_cluster)
   km <- stats::kmeans(data_transform,
-    centers = n_cluster, iter.max = 1000,
+    centers = centers_init, iter.max = 1000,
     nstart = 100
   )$cluster
   return(km)
 }
+
 
 #' Perform kmeans clustering for a given combination of indices and distance
 #'
@@ -194,7 +230,8 @@ kmeans_mahal <- function(ind_data, n_cluster) {
 #'
 #' @noRd
 clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
-                                n_cluster = 2, true_labels = NULL) {
+                                n_cluster = 2, init = "random",
+                                true_labels = NULL) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
     stop("Input 'ind_data' must be a data frame.")
@@ -210,15 +247,22 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
     stop("Invalid distance.")
   }
 
+  # Check if the initialization method given can be used
+  if (!init %in% c("random", "kmeans++")) {
+    stop("Invalid initialization method.")
+  }
+
   t0 <- Sys.time()
 
   if (dist == "euclidean") {
+    centers_init <- if (init == "random") n_cluster else
+      init_kplus2(ind_data[, vars], n_cluster)
     clus <- stats::kmeans(ind_data[, vars],
-      centers = n_cluster,
+      centers = centers_init,
       iter.max = 1000, nstart = 100
     )$cluster
   } else {
-    clus <- kmeans_mahal(ind_data[, vars], n_cluster)
+    clus <- kmeans_mahal(ind_data[, vars], n_cluster, init)
   }
   t1 <- Sys.time()
   t <- data.frame(difftime(t1, t0, "secs"))
@@ -264,7 +308,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' @export
 clustInd_kmeans <- function(ind_data, vars_combinations,
                             dist_vector = c("euclidean", "mahalanobis"),
-                            n_cluster = 2, true_labels = NULL,
+                            n_cluster = 2, init = "random", true_labels = NULL,
                             n_cores = 1) {
   # Check if input is a data frame
   if (!is.data.frame(ind_data)) {
@@ -313,7 +357,7 @@ clustInd_kmeans <- function(ind_data, vars_combinations,
 
     clustInd_kmeans_aux(
       ind_data = ind_data, vars = vars, dist = dist,
-      n_cluster = n_cluster, true_labels = true_labels
+      n_cluster = n_cluster, init = init, true_labels = true_labels
     )
   }, mc.cores = n_cores)
 

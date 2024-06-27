@@ -1,5 +1,5 @@
 #' Create a table containing three validation metrics for clustering: Purity, F-measure
-#' and Rand Index (RI)
+#' and Rand Index (RI). This function considers pairs of points
 #'
 #' @param true_labels Atomic vector with the true labels of the data.
 #' @param clusters The clusters predicted by the clustering method.
@@ -50,10 +50,10 @@ clustering_validation <- function(true_labels, clusters, digits = 4) {
   # (needed for calculating RI)
   tp_plus_fp <- sum(choose(rowSums(tbl), 2))
   tp_plus_fn <- sum(choose(colSums(tbl), 2))
-  tp <- sum(choose(as.vector(as.matrix(tbl)), 2))
-  fp <- tp_plus_fp - tp
-  fn <- tp_plus_fn - tp
-  tn <- choose(sum(as.vector(as.matrix(tbl))), 2) - tp - fp - fn
+  tp <- sum(choose(as.vector(as.matrix(tbl)), 2)) #a
+  fp <- tp_plus_fp - tp #c
+  fn <- tp_plus_fn - tp #b
+  tn <- choose(sum(as.vector(as.matrix(tbl))), 2) - tp - fp - fn #d
 
   # Precision and recall (needed for calculating Fmeasure)
   prec <- tp / (tp + fp) # Precision
