@@ -27,9 +27,10 @@ BugReports: https://github.com/bpulidob/ehymet/issues
 Depends:
   R (>= 4.1)
 Imports: 
+  clusterCrit,
   kernlab,
   stats,
-  tf,
+  tf
 Suggests: 
   ggplot2,
   knitr,
@@ -38,6 +39,6 @@ Suggests:
   testthat (>= 3.0.0),
   tidyr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3
 VignetteBuilder: knitr

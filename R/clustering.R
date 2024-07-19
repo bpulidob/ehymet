@@ -46,11 +46,13 @@ clustInd_hierarch_aux <- function(ind_data, vars, method = "single",
   # Calculate execution time
   et <- data.frame(difftime(t1, t0, "secs"))
 
+  internal_metrics <- get_internal_clustering_criteria(as.matrix(ind_data[, vars]), clus)
+
   if (is.null(true_labels)) {
-    res <- list("cluster" = clus, "time" = as.numeric(et))
+    res <- list("cluster" = clus, "internal_metrics" = internal_metrics, "time" = as.numeric(et))
   } else {
     valid <- clustering_validation(clus, true_labels)
-    res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(et))
+    res <- list("cluster" = clus, "valid" = valid, "internal_metrics" = internal_metrics, "time" = as.numeric(et))
   }
 
   return(res)
@@ -190,7 +192,7 @@ kmeans_mahal <- function(ind_data, n_cluster, init = "random") {
   }
 
   # Check if the initialization method given can be used
-  if (!init %in% c("random", "kmeans++")) {
+  if (!init %in% c("random", "kmeanspp")) {
     stop("Invalid initialization method.")
   }
 
@@ -248,7 +250,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
   }
 
   # Check if the initialization method given can be used
-  if (!init %in% c("random", "kmeans++")) {
+  if (!init %in% c("random", "kmeanspp")) {
     stop("Invalid initialization method.")
   }
 
@@ -265,13 +267,15 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
     clus <- kmeans_mahal(ind_data[, vars], n_cluster, init)
   }
   t1 <- Sys.time()
+
   t <- data.frame(difftime(t1, t0, "secs"))
+  internal_metrics <- get_internal_clustering_criteria(as.matrix(ind_data[, vars]), clus)
 
   if (is.null(true_labels)) {
-    res <- list("cluster" = clus, "time" = as.numeric(t))
+    res <- list("cluster" = clus, "internal_metrics" = internal_metrics, "time" = as.numeric(t))
   } else {
     valid <- clustering_validation(clus, true_labels)
-    res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(t))
+    res <- list("cluster" = clus, "valid" = valid, "internal_metrics" = internal_metrics, "time" = as.numeric(t))
   }
   return(res)
 }
@@ -289,6 +293,7 @@ clustInd_kmeans_aux <- function(ind_data, vars, dist = "euclidean",
 #' @param dist_vector Atomic vector of distance metrics. The possible values are,
 #' "euclidean", "mahalanobis" or both.
 #' @param n_cluster Number of clusters to create.
+#' @param init Centroids initialization meathod. It can be "random" or "kmeanspp".
 #' @param true_labels Vector of true labels for validation.
 #' (if it is not known true_labels is set to NULL)
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
@@ -407,11 +412,13 @@ clustInd_kkmeans_aux <- function(ind_data, vars, kernel = "rbfdot",
   t1 <- Sys.time()
   t <- data.frame(difftime(t1, t0, "secs"))
 
+  internal_metrics <- get_internal_clustering_criteria(as.matrix(ind_data[, vars]), clus)
+
   if (is.null(true_labels)) {
-    res <- list("cluster" = clus, "time" = as.numeric(t))
+    res <- list("cluster" = clus, "internal_metrics" = internal_metrics, "time" = as.numeric(t))
   } else {
     valid <- clustering_validation(clus, true_labels)
-    res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(t))
+    res <- list("cluster" = clus, "valid" = valid, "internal_metrics" = internal_metrics, "time" = as.numeric(t))
   }
   return(res)
 }
@@ -535,11 +542,13 @@ clustInd_spc_aux <- function(ind_data, vars, kernel = "rbfdot", n_cluster = 2,
   t1 <- Sys.time()
   t <- data.frame(difftime(t1, t0, "secs"))
 
+  internal_metrics <- get_internal_clustering_criteria(as.matrix(ind_data[, vars]), clus)
+
   if (is.null(true_labels)) {
-    res <- list("cluster" = clus, "time" = as.numeric(t))
+    res <- list("cluster" = clus, "internal_metrics" = internal_metrics, "time" = as.numeric(t))
   } else {
     valid <- clustering_validation(clus, true_labels)
-    res <- list("cluster" = clus, "valid" = valid, "time" = as.numeric(t))
+    res <- list("cluster" = clus, "valid" = valid, "internal_metrics" = internal_metrics, "time" = as.numeric(t))
   }
   return(res)
 }

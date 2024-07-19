@@ -81,3 +81,33 @@ clustering_validation <- function(clusters, true_labels, digits = 4) {
     ARI = round(res_ari, digits)
   )
 }
+
+
+#' Infomax metric
+#'
+#' @param cluster_labels Results of a clustering algorithm.
+#'
+#' @return The infomax value.
+#'
+#' @noRd
+infomax_metric <- function(cluster_labels) {
+  # Calculate the frequency of each cluster
+  cluster_freq <- table(cluster_labels)
+
+  # Total number of data points
+  n <- length(cluster_labels)
+
+  # Calculate the probabilities of each cluster
+  p <- cluster_freq / n
+
+  # Calculate the entropy
+  -sum(p * log2(p))
+}
+
+
+get_internal_clustering_criteria <- function(traj, part) {
+  c(
+    clusterCrit::intCriteria(traj, part, c("Davies_Bouldin", "Dunn", "Silhouette")),
+    list(infomax = infomax_metric(part))
+  )
+}

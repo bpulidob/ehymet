@@ -9,6 +9,7 @@ clustInd_kmeans(
   vars_combinations,
   dist_vector = c("euclidean", "mahalanobis"),
   n_cluster = 2,
+  init = "random",
   true_labels = NULL,
   n_cores = 1
 )
@@ -25,6 +26,8 @@ vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}
 "euclidean", "mahalanobis" or both.}
 
 \item{n_cluster}{Number of clusters to create.}
+
+\item{init}{Centroids initialization meathod. It can be "random" or "kmeanspp".}
 
 \item{true_labels}{Vector of true labels for validation.
 (if it is not known true_labels is set to NULL)}
