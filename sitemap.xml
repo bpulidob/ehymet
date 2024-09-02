@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/404.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/articles/ehymet-01-introduction.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/articles/ehymet-02-clustering-epi-hypo.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/index.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/EHyClus.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/EI.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/HI.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/MEI.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/MHI.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/clustInd_hierarch.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/clustInd_kkmeans.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/clustInd_kmeans.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/clustInd_spc.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/clustering_validation.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/generate_indices.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/sim_model_ex1.html</loc>
-  </url>
-  <url>
-    <loc>https://bpulidob.github.io/ehymet/reference/sim_model_ex2.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://bpulidob.github.io/ehymet/404.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/LICENSE-text.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/LICENSE.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/articles/ehymet-01-introduction.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/articles/ehymet-02-clustering-epi-hypo.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/articles/index.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/authors.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/index.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/news/index.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/EHyClus.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/EI.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/HI.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/MEI.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/MHI.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/clustInd_hierarch.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/clustInd_kkmeans.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/clustInd_kmeans.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/clustInd_spc.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/clustering_validation.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/generate_indices.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/index.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/sim_model_ex1.html</loc></url>
+<url><loc>https://bpulidob.github.io/ehymet/reference/sim_model_ex2.html</loc></url>
 </urlset>
+
