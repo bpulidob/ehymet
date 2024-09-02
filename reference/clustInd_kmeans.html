@@ -52,6 +52,7 @@ distances.</p>
 <span>  <span class="va">vars_combinations</span>,</span>
 <span>  dist_vector <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>,</span>
 <span>  n_cluster <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  init <span class="op">=</span> <span class="st">"random"</span>,</span>
 <span>  true_labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_cores <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -79,6 +80,10 @@ vars1, ..., varsk, where k is the number of elements in <code>vars_combinations<
 
 <dt id="arg-n-cluster">n_cluster<a class="anchor" aria-label="anchor" href="#arg-n-cluster"></a></dt>
 <dd><p>Number of clusters to create.</p></dd>
+
+
+<dt id="arg-init">init<a class="anchor" aria-label="anchor" href="#arg-init"></a></dt>
+<dd><p>Centroids initialization meathod. It can be "random" or "kmeanspp".</p></dd>
 
 
 <dt id="arg-true-labels">true_labels<a class="anchor" aria-label="anchor" href="#arg-true-labels"></a></dt>
@@ -118,8 +123,22 @@ for each configuration</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   1   1   1   2   1   1   1   1   1   1   1   2   1   1   1   1   1   1   2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaEIdtaMEI$internal_metrics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaEIdtaMEI$internal_metrics$davies_bouldin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6352604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaEIdtaMEI$internal_metrics$dunn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.05614307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaEIdtaMEI$internal_metrics$silhouette</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5431761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaEIdtaMEI$internal_metrics$infomax</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9765005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003074646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002932072</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI</span>
@@ -135,8 +154,22 @@ for each configuration</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2   2   2   1   1   2   2   2   2   2   1   2   1   2   2   2   1   2   2   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI$internal_metrics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI$internal_metrics$davies_bouldin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6362897</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI$internal_metrics$dunn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.07705545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI$internal_metrics$silhouette</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5440438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI$internal_metrics$infomax</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9647995</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002907515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0027771</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI</span>
@@ -152,8 +185,22 @@ for each configuration</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1   1   1   2   2   1   1   2   1   1   2   1   2   1   1   1   2   1   1   2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI$internal_metrics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI$internal_metrics$davies_bouldin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6094513</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI$internal_metrics$dunn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.05358602</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI$internal_metrics$silhouette</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5534391</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI$internal_metrics$infomax</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.958042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003049612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00483036</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI</span>
@@ -169,8 +216,22 @@ for each configuration</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   2   1   2   1   1   1   2   1   1   1   1   1   1   1   2   1   1   1   1   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI$internal_metrics</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI$internal_metrics$davies_bouldin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5811685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI$internal_metrics$dunn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.09571253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI$internal_metrics$silhouette</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5719493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI$internal_metrics$infomax</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4364698</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans_mahalanobis_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003072262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00494647</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
