@@ -125,7 +125,8 @@ clustInd_hierarch <- function(ind_data, vars_combinations,
   # Generate all the possible combinations of indices, methods and distances
   parameter_combinations <- expand.grid(
     vars = names(vars_combinations),
-    method = method_list, distance = dist_vector
+    method = method_list,
+    distance = dist_vector
   )
 
   tl_null <- is.null(true_labels)

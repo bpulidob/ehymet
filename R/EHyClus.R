@@ -26,8 +26,6 @@
 #' @param l_dist_hierarch \code{list} of distances for hierarchical clustering.
 #' @param l_dist_kmeans \code{list} of distances for kmeans clustering.
 #' @param l_kernel \code{list} of kernels for kkmeans or spc.
-#' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
-#' limit of the evaluation grid. If not provided, it will be selected automatically.
 #' @param n_clusters Number of clusters to generate.
 #' @param true_labels Numeric vector of true labels for validation. If provided,
 #' evaluation metrics are computed in the final result.
@@ -69,7 +67,6 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
                     l_dist_hierarch = c("euclidean", "manhattan"),
                     l_dist_kmeans = c("euclidean", "mahalanobis"),
                     l_kernel = c("rbfdot", "polydot"),
-                    grid,
                     true_labels = NULL, only_best = FALSE, verbose = FALSE, n_cores = 1) {
   if (length(dim(curves)) > 3 || length(dim(curves)) < 2) {
     stop("'curves' should be 2-dimensional or 3-dimensional", call. = FALSE)
@@ -89,16 +86,6 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
 
   if (!is.numeric(k) || k %% 1 != 0) {
     stop("'k' should be an integer number", call. = FALSE)
-  }
-
-  if (!missing(grid)) {
-    if (length(grid) != 2 && !is.numeric(grid)) {
-      stop("'grid' should be a numeric atomic vector with two elements", call. = FALSE)
-    } else if (diff(grid) <= 0) {
-      stop("the second element of 'grid' should be greater than the first one", call. = FALSE)
-    } else if (grid[1] < 1) {
-      stop("the first element of 'grid' should be equal or greater than one", call. = FALSE)
-    }
   }
 
   if (missing(vars_combinations)) {
@@ -141,10 +128,6 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
 
   if (k) {
     generate_indices_parameters[["k"]] <- k
-  }
-
-  if (!missing(grid)) {
-    generate_indices_parameters[["grid"]] <- grid
   }
 
   ind_curves <- do.call(generate_indices, generate_indices_parameters)

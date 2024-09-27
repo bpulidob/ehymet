@@ -267,8 +267,6 @@ MHI.default <- function(curves, ...) {
 #' of basis functions will be automatically selected.
 #' @param bs A two letter character string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
-#' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
-#' limit of the evaluation grid. If not provided, it will be selected automatically.
 #' @param indices Set of indices to be applied to the dataset. They should be
 #' any between EI, HI, MEI and MHI.
 #' @param ... Additional arguments (unused)
@@ -287,8 +285,11 @@ MHI.default <- function(curves, ...) {
 #' generate_indices(x2, k = 4)
 #'
 #' @export
-generate_indices <- function(curves, k, grid, bs = "cr",
-                             indices = c("EI", "HI", "MEI", "MHI"), ...) {
+generate_indices <- function(curves,
+                             k,
+                             bs = "cr",
+                             indices = c("EI", "HI", "MEI", "MHI"),
+                             ...) {
   # define indices constant
   INDICES <- c("EI", "HI", "MEI", "MHI")
   curves_dim <- length(dim(curves))
@@ -307,10 +308,6 @@ generate_indices <- function(curves, k, grid, bs = "cr",
 
   if (!missing(k)) {
     funspline_parameters[["k"]] <- k
-  }
-
-  if (!missing(grid)) {
-    funspline_parameters[["grid"]] <- grid
   }
 
   fun_data <- do.call(funspline, funspline_parameters)
