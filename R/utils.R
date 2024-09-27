@@ -9,24 +9,17 @@
 #' of basis functions will be automatically selected.
 #' @param bs A two letter character string indicating the (penalized) smoothing
 #' basis to use. See \code{\link{smooth.terms}}.
-#' @param grid Atomic vector of type numeric with two elements: the lower limit and the upper
-#' limit of the evaluation grid. If not provided, it will be selected automatically.
 #'
 #' @return A list containing smoothed data, first and second derivatives
 #'
 #' @noRd
-funspline <- function(curves, k, bs = "cr", grid) {
+funspline <- function(curves, k, bs = "cr") {
   curves_dim <- length(dim(curves))
 
   tfb_params <- list(bs = bs)
 
   if (!missing(k)) {
     tfb_params[["k"]] <- k
-  }
-
-  if (!missing(grid)) {
-    grid <- seq(grid[1], grid[2], length.out = dim(curves)[2])
-    tfb_params[["arg"]] <- grid
   }
 
   if (curves_dim == 2) {
@@ -37,13 +30,9 @@ funspline <- function(curves, k, bs = "cr", grid) {
     # Evaluate smoothed data and derivatives
     smooth <- as.matrix(ys) # smoothed data
 
-    if (!missing(grid)) {
-      deriv <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
-      deriv2 <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
-    } else {
-      deriv <- as.matrix(tf::tf_derive(ys, order = 1))
-      deriv2 <- as.matrix(tf::tf_derive(ys, order = 2))
-    }
+    deriv <- as.matrix(tf::tf_derive(ys, order = 1))
+    deriv2 <- as.matrix(tf::tf_derive(ys, order = 2))
+
   } else {
     n_curves <- dim(curves)[1]
     l_curves <- dim(curves)[2]
@@ -62,13 +51,9 @@ funspline <- function(curves, k, bs = "cr", grid) {
 
       # Evaluate smoothed data and derivatives
       smooth[, , d] <- as.matrix(ys) # smoothed data
-      if (!missing(grid)) {
-        deriv[, , d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 1))
-        deriv2[, , d] <- as.matrix(tf::tf_derive(ys, arg = grid, order = 2))
-      } else {
-        deriv[, , d] <- as.matrix(tf::tf_derive(ys, order = 1))
-        deriv2[, , d] <- as.matrix(tf::tf_derive(ys, order = 2))
-      }
+      deriv[, , d]  <- as.matrix(tf::tf_derive(ys, order = 1))
+      deriv2[, , d] <- as.matrix(tf::tf_derive(ys, order = 2))
+
     }
   }
 

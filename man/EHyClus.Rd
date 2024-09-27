@@ -15,7 +15,6 @@ EHyClus(
   l_dist_hierarch = c("euclidean", "manhattan"),
   l_dist_kmeans = c("euclidean", "mahalanobis"),
   l_kernel = c("rbfdot", "polydot"),
-  grid,
   true_labels = NULL,
   only_best = FALSE,
   verbose = FALSE,
@@ -55,9 +54,6 @@ clustering.}
 \item{l_dist_kmeans}{\code{list} of distances for kmeans clustering.}
 
 \item{l_kernel}{\code{list} of kernels for kkmeans or spc.}
-
-\item{grid}{Atomic vector of type numeric with two elements: the lower limit and the upper
-limit of the evaluation grid. If not provided, it will be selected automatically.}
 
 \item{true_labels}{Numeric vector of true labels for validation. If provided,
 evaluation metrics are computed in the final result.}
