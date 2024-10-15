@@ -269,6 +269,8 @@ MHI.default <- function(curves, ...) {
 #' basis to use. See \code{\link{smooth.terms}}.
 #' @param indices Set of indices to be applied to the dataset. They should be
 #' any between EI, HI, MEI and MHI.
+#' @param n_cores Number of cores to do parallel computation. 1 by default,
+#' which mean no parallel execution. Must be an integer number greater than 1.
 #' @param ... Additional arguments (unused)
 #'
 #' @return A dataframe containing the indices provided in \code{indices} for
@@ -289,18 +291,19 @@ generate_indices <- function(curves,
                              k,
                              bs = "cr",
                              indices = c("EI", "HI", "MEI", "MHI"),
+                             n_cores = 1,
                              ...) {
   # define indices constant
   INDICES <- c("EI", "HI", "MEI", "MHI")
   curves_dim <- length(dim(curves))
-
   # stop conditions
   if (!(curves_dim %in% c(2, 3)) || is.null(curves_dim)) {
     stop("'curves' should be a matrix or a 3-dimensional array", call. = FALSE)
   }
 
-  check_list_parameter(indices, INDICES, "indices")
+  n_cores <- check_n_cores(n_cores)
 
+  check_list_parameter(indices, INDICES, "indices")
   funspline_parameters <- list(
     curves  = curves,
     bs      = bs
@@ -312,27 +315,22 @@ generate_indices <- function(curves,
 
   fun_data <- do.call(funspline, funspline_parameters)
 
-  ind_data <- as.data.frame(matrix(NA, nrow = dim(fun_data$smooth)[1], ncol = 0))
-
-  # Loop through the list of functions and apply them to the smoothed and
-  # its first and second derivatives
-  for (index in indices) {
+  # Parallelize the processing of indices
+  ind_data_list <- parallel::mclapply(indices, function(index) {
     smooth_col <- paste0("dta", index)
     deriv_col <- paste0("ddta", index)
     deriv2_col <- paste0("d2dta", index)
-
     smooth_result <- map_index_name_to_function(index)(fun_data$smooth)
     deriv_result <- map_index_name_to_function(index)(fun_data$deriv)
     deriv2_result <- map_index_name_to_function(index)(fun_data$deriv2)
-
-    ind_data <- cbind(
-      ind_data,
-      stats::setNames(
-        data.frame(smooth_result, deriv_result, deriv2_result),
-        c(smooth_col, deriv_col, deriv2_col)
-      )
+    stats::setNames(
+      data.frame(smooth_result, deriv_result, deriv2_result),
+      c(smooth_col, deriv_col, deriv2_col)
     )
-  }
+  }, mc.cores = n_cores)
+
+  # Combine the results
+  ind_data <- do.call(cbind, ind_data_list)
 
   ind_data
 }

@@ -75,3 +75,12 @@ test_that("'generate_indices' works for a 3-dimnensional array", {
   expect_equal(dim(res), c(3, 6))
   expect_equal(res[2, 1], 0.666666666666666740681)
 })
+
+test_that("'generate_indices' works in parallel", {
+  curves <- array(c(1, 0, 1, 0, 0, 1, 0, 1), dim = c(2, 4))
+
+  res <- generate_indices(curves, indices = c("EI", "MHI"), n_cores = 2)
+
+  expect_equal(dim(res), c(2, 6))
+  expect_equal(res[2, 1], 0.5)
+})

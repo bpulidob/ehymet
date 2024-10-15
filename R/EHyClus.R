@@ -123,7 +123,8 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
     curves  = curves,
     k       = k,
     bs      = bs,
-    indices = c("EI", "HI", "MEI", "MHI")
+    indices = c("EI", "HI", "MEI", "MHI"),
+    n_cores = n_cores
   )
 
   if (k) {

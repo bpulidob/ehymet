@@ -10,6 +10,7 @@ generate_indices(
   k,
   bs = "cr",
   indices = c("EI", "HI", "MEI", "MHI"),
+  n_cores = 1,
   ...
 )
 }
@@ -28,6 +29,9 @@ basis to use. See \code{\link{smooth.terms}}.}
 
 \item{indices}{Set of indices to be applied to the dataset. They should be
 any between EI, HI, MEI and MHI.}
+
+\item{n_cores}{Number of cores to do parallel computation. 1 by default,
+which mean no parallel execution. Must be an integer number greater than 1.}
 
 \item{...}{Additional arguments (unused)}
 }
