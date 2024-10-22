@@ -32,6 +32,7 @@ atomic \code{vector} of strings with the
 names of the variables. Combinations with non-valid variable names will be discarded.
 If the list is non-named, the names of the variables are set to
 vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
+If "auto" is provided, an unique combination of variable will be found.
 If not provided, generic combinations of variables will be used. They will not be
 the same for uni-dimensional and multi-dimensional problems.}
 

@@ -134,3 +134,24 @@ test_that("the 'only_best' parameter works", {
   expect_equal(dim(res$metrics), c(1, 5))
   expect_equal(length(res$cluster), 1)
 })
+
+test_that("the 'auto' value for vars_combinations works as expected", {
+  set.seed(33)
+
+  data <- ehyclus_example_data(n = 10)
+  curves <- data$curves
+
+  res_auto <- EHyClus(curves, vars_combinations = "auto")
+
+  # Check that the result has the expected structure
+  expect_type(res_auto, "list")
+  expect_named(res_auto, "cluster")
+
+  # Check that vars_combinations attribute exists and has length 1
+  vars_auto <- attr(res_auto, "vars_combinations")
+  expect_true(!is.null(vars_auto))
+  expect_length(vars_auto, 1)  # Should be a list with one combination
+
+  # Check that the selected variables are character vectors
+  expect_type(vars_auto[[1]], "character")
+})

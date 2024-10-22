@@ -92,6 +92,7 @@ check_list_parameter <- function(argument, parameter_values, parameter_name) {
 }
 
 #' Generate the name for the results of the clustering methods
+#'
 #' @noRd
 get_result_names <- function(method_name, parameter_combinations, vars_combinations) {
   args <- list(method_name)
@@ -129,6 +130,7 @@ map_index_name_to_function <- function(index) {
 }
 
 #' Disable multicore on windows without killing the execution
+#'
 #' @noRd
 check_n_cores <- function(n_cores) {
   if (n_cores < 1 || n_cores %% 1 != 0) {
@@ -143,5 +145,91 @@ check_n_cores <- function(n_cores) {
     return(1)
   }
 
-  return(n_cores)
+  n_cores
 }
+
+#' Replacement for caret::findCorrelation
+#'
+#' @noRd
+findCorrelation <- function(cor_matrix, cutoff = 0.75) {
+  # Get the average absolute correlation for each variable
+  avg_cor <- colMeans(abs(cor_matrix - diag(rep(1, ncol(cor_matrix)))))
+  var_names <- colnames(cor_matrix)
+  remove_vars <- integer()
+
+  # While there are still correlations above the cutoff
+  while(TRUE) {
+    # Get absolute correlations excluding diagonal
+    cor_tri <- abs(cor_matrix)
+    diag(cor_tri) <- 0
+
+    # Find maximum correlation
+    max_cor <- max(cor_tri, na.rm = TRUE)
+    if(max_cor < cutoff) break
+
+    # Find variable pairs with maximum correlation
+    max_indices <- which(cor_tri == max_cor, arr.ind = TRUE)
+
+    # If no more high correlations found, break
+    if(nrow(max_indices) == 0) break
+
+    # For each pair, compare mean correlations
+    for(i in 1:nrow(max_indices)) {
+      rows <- max_indices[i, 1]
+      cols <- max_indices[i, 2]
+
+      # Remove variable with higher average correlation
+      if(avg_cor[rows] > avg_cor[cols]) {
+        if(!(rows %in% remove_vars)) {
+          remove_vars <- c(remove_vars, rows)
+          # Zero out correlations for removed variable
+          cor_matrix[rows, ] <- cor_matrix[, rows] <- 0
+        }
+      } else {
+        if(!(cols %in% remove_vars)) {
+          remove_vars <- c(remove_vars, cols)
+          # Zero out correlations for removed variable
+          cor_matrix[cols, ] <- cor_matrix[, cols] <- 0
+        }
+      }
+    }
+  }
+
+  sort(remove_vars)
+}
+
+
+select_var_ind <- function(curves,
+                           k,
+                           bs = "cr",
+                           indices = c("EI", "HI", "MEI", "MHI"),
+                           n_cores = 1,
+                           ...) {
+  # Calculate indices
+  data_ind <- generate_indices(curves = curves, k = k)
+
+  # Calculate ratio of distinct values
+  rat <- sapply(data_ind, \(x) length(unique(x)) / length(x))
+  rat_var <- names(rat)[rat > 0.5]
+
+  data_ind_f_rat <- data_ind[, rat_var, drop = FALSE]
+
+  cor_data <- stats::cor(data_ind_f_rat)
+
+  # Get positions of highly correlated variables
+  cor_var_pos <- findCorrelation(cor_data)
+
+  # Get the names of variables to remove
+  if (length(cor_var_pos) > 0) {
+    cor_var <- colnames(data_ind_f_rat)[cor_var_pos]
+  } else {
+    cor_var <- character(0)
+  }
+
+  # Get final selected variable names
+  ind_f_rat_cor_var <- setdiff(colnames(data_ind_f_rat), cor_var)
+
+  # Return the final indices
+  data_ind_f_rat[, ind_f_rat_cor_var, drop = FALSE]
+}
+

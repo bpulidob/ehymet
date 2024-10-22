@@ -13,6 +13,7 @@
 #' names of the variables. Combinations with non-valid variable names will be discarded.
 #' If the list is non-named, the names of the variables are set to
 #' vars1, ..., varsk, where k is the number of elements in \code{vars_combinations}.
+#' If "auto" is provided, an unique combination of variable will be found.
 #' If not provided, generic combinations of variables will be used. They will not be
 #' the same for uni-dimensional and multi-dimensional problems.
 #' @param clustering_methods character vector specifying at least one of the following
@@ -68,16 +69,25 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
                     l_dist_kmeans = c("euclidean", "mahalanobis"),
                     l_kernel = c("rbfdot", "polydot"),
                     true_labels = NULL, only_best = FALSE, verbose = FALSE, n_cores = 1) {
+  if (missing(vars_combinations)) {
+    vars_combinations <-
+      generic_vars_combinations(length(dim(curves)) == 3)
+  }
+
   if (length(dim(curves)) > 3 || length(dim(curves)) < 2) {
     stop("'curves' should be 2-dimensional or 3-dimensional", call. = FALSE)
   }
 
-  if (!missing(vars_combinations) && !is.list(vars_combinations) && !is.numeric(vars_combinations)) {
-    stop("input 'vars_combinations' must be a list", call. = FALSE)
+  if (!missing(vars_combinations) && !is.list(vars_combinations) && !is.character(vars_combinations)) {
+    stop("input 'vars_combinations' must be a list or 'auto'", call. = FALSE)
   }
 
   if (!missing(vars_combinations) && is.list(vars_combinations) && !length(vars_combinations)) {
     stop("input 'vars_combinations' is an empty list", call. = FALSE)
+  }
+
+  if (is.character(vars_combinations) && vars_combinations != "auto") {
+    stop("input 'vars_combinations' must be a list or 'auto'", call. = FALSE)
   }
 
   if (!is.null(true_labels) && length(true_labels) != dim(curves)[1]) {
@@ -86,11 +96,6 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
 
   if (!is.numeric(k) || k %% 1 != 0) {
     stop("'k' should be an integer number", call. = FALSE)
-  }
-
-  if (missing(vars_combinations)) {
-    vars_combinations <-
-      generic_vars_combinations(length(dim(curves)) == 3)
   }
 
   # list that maps each clustering method to its corresponding function
@@ -131,15 +136,19 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
     generate_indices_parameters[["k"]] <- k
   }
 
-  ind_curves <- do.call(generate_indices, generate_indices_parameters)
+  if (!is.list(vars_combinations) && vars_combinations == "auto") {
+    ind_curves <- do.call(select_var_ind, generate_indices_parameters)
+    vars_combinations <- list(names(ind_curves))
+  } else {
+    ind_curves <- do.call(generate_indices, generate_indices_parameters)
 
-  # Check for correct vars combinations
-  vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_curves)
+    # Check for correct vars combinations
+    vars_combinations_to_remove <- check_vars_combinations(vars_combinations, ind_curves)
 
-  if (length(vars_combinations_to_remove)) {
-    vars_combinations <- vars_combinations[-vars_combinations_to_remove]
+    if (length(vars_combinations_to_remove)) {
+      vars_combinations <- vars_combinations[-vars_combinations_to_remove]
+    }
   }
-
 
   # common arguments for all the clustering methods that are implemented
   # in the package
