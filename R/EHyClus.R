@@ -137,7 +137,7 @@ EHyClus <- function(curves, vars_combinations, k = 30, n_clusters = 2, bs = "cr"
   }
 
   if (!is.list(vars_combinations) && vars_combinations == "auto") {
-    ind_curves <- do.call(select_var_ind, generate_indices_parameters)
+    ind_curves <- select_var_ind(do.call(generate_indices, generate_indices_parameters))
     vars_combinations <- list(names(ind_curves))
   } else {
     ind_curves <- do.call(generate_indices, generate_indices_parameters)
