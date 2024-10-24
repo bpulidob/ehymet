@@ -202,12 +202,7 @@ findCorrelation <- function(cor_matrix, cutoff = 0.75) {
 #' Select an unique combination of indices
 #'
 #' @noRd
-select_var_ind <- function(data_ind,
-                           k,
-                           bs = "cr",
-                           indices = c("EI", "HI", "MEI", "MHI"),
-                           n_cores = 1,
-                           ...) {
+select_var_ind <- function(data_ind) {
   # Calculate ratio of distinct values
   rat <- sapply(data_ind, \(x) length(unique(x)) / length(x))
   rat_var <- names(rat)[rat > 0.5]
