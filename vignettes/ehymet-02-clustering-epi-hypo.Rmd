@@ -136,24 +136,56 @@ Let's explore both components of the latter. We're going to start with
 #> 1  cluster                                             
 #> 2   ¦--hierarch                                        
 #> 3   ¦   ¦--hierarch_single_euclidean_d2dtaMEId2dtaMHI  
-#> 4   ¦   ¦--hierarch_complete_euclidean_d2dtaMEId2dtaMHI
-#> 5   ¦   ¦--hierarch_average_euclidean_d2dtaMEId2dtaMHI 
-#> 6   ¦   ¦--hierarch_centroid_euclidean_d2dtaMEId2dtaMHI
-#> 7   ¦   ¦--hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 
-#> 8   ¦   ¦--hierarch_single_manhattan_d2dtaMEId2dtaMHI  
-#> 9   ¦   ¦--hierarch_complete_manhattan_d2dtaMEId2dtaMHI
-#> 10  ¦   ¦--hierarch_average_manhattan_d2dtaMEId2dtaMHI 
-#> 11  ¦   ¦--hierarch_centroid_manhattan_d2dtaMEId2dtaMHI
-#> 12  ¦   °--hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 
-#> 13  ¦--kmeans                                          
-#> 14  ¦   ¦--kmeans_euclidean_d2dtaMEId2dtaMHI           
-#> 15  ¦   °--kmeans_mahalanobis_d2dtaMEId2dtaMHI         
-#> 16  ¦--kkmeans                                         
-#> 17  ¦   ¦--kkmeans_rbfdot_d2dtaMEId2dtaMHI             
-#> 18  ¦   °--kkmeans_polydot_d2dtaMEId2dtaMHI            
-#> 19  °--spc                                             
-#> 20      ¦--spc_rbfdot_d2dtaMEId2dtaMHI                 
-#> 21      °--spc_polydot_d2dtaMEId2dtaMHI
+#> 4   ¦   ¦   ¦--valid                                   
+#> 5   ¦   ¦   °--internal_metrics                        
+#> 6   ¦   ¦--hierarch_complete_euclidean_d2dtaMEId2dtaMHI
+#> 7   ¦   ¦   ¦--valid                                   
+#> 8   ¦   ¦   °--internal_metrics                        
+#> 9   ¦   ¦--hierarch_average_euclidean_d2dtaMEId2dtaMHI 
+#> 10  ¦   ¦   ¦--valid                                   
+#> 11  ¦   ¦   °--internal_metrics                        
+#> 12  ¦   ¦--hierarch_centroid_euclidean_d2dtaMEId2dtaMHI
+#> 13  ¦   ¦   ¦--valid                                   
+#> 14  ¦   ¦   °--internal_metrics                        
+#> 15  ¦   ¦--hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 
+#> 16  ¦   ¦   ¦--valid                                   
+#> 17  ¦   ¦   °--internal_metrics                        
+#> 18  ¦   ¦--hierarch_single_manhattan_d2dtaMEId2dtaMHI  
+#> 19  ¦   ¦   ¦--valid                                   
+#> 20  ¦   ¦   °--internal_metrics                        
+#> 21  ¦   ¦--hierarch_complete_manhattan_d2dtaMEId2dtaMHI
+#> 22  ¦   ¦   ¦--valid                                   
+#> 23  ¦   ¦   °--internal_metrics                        
+#> 24  ¦   ¦--hierarch_average_manhattan_d2dtaMEId2dtaMHI 
+#> 25  ¦   ¦   ¦--valid                                   
+#> 26  ¦   ¦   °--internal_metrics                        
+#> 27  ¦   ¦--hierarch_centroid_manhattan_d2dtaMEId2dtaMHI
+#> 28  ¦   ¦   ¦--valid                                   
+#> 29  ¦   ¦   °--internal_metrics                        
+#> 30  ¦   °--hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 
+#> 31  ¦       ¦--valid                                   
+#> 32  ¦       °--internal_metrics                        
+#> 33  ¦--kmeans                                          
+#> 34  ¦   ¦--kmeans_euclidean_d2dtaMEId2dtaMHI           
+#> 35  ¦   ¦   ¦--valid                                   
+#> 36  ¦   ¦   °--internal_metrics                        
+#> 37  ¦   °--kmeans_mahalanobis_d2dtaMEId2dtaMHI         
+#> 38  ¦       ¦--valid                                   
+#> 39  ¦       °--internal_metrics                        
+#> 40  ¦--kkmeans                                         
+#> 41  ¦   ¦--kkmeans_rbfdot_d2dtaMEId2dtaMHI             
+#> 42  ¦   ¦   ¦--valid                                   
+#> 43  ¦   ¦   °--internal_metrics                        
+#> 44  ¦   °--kkmeans_polydot_d2dtaMEId2dtaMHI            
+#> 45  ¦       ¦--valid                                   
+#> 46  ¦       °--internal_metrics                        
+#> 47  °--spc                                             
+#> 48      ¦--spc_rbfdot_d2dtaMEId2dtaMHI                 
+#> 49      ¦   ¦--valid                                   
+#> 50      ¦   °--internal_metrics                        
+#> 51      °--spc_polydot_d2dtaMEId2dtaMHI                
+#> 52          ¦--valid                                   
+#> 53          °--internal_metrics
 ```
 
 In the suffix of the names we can see the combination of variables used, that
@@ -167,12 +199,19 @@ following:
 
 ``` r
 str(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI)
-#> List of 3
-#>  $ cluster: int [1:100] 1 1 1 1 1 1 1 1 1 1 ...
-#>  $ valid  : 'table' num [1:4(1d)] 0.93 0.868 0.869 0.737
-#>   ..- attr(*, "dimnames")=List of 1
-#>   .. ..$ : chr [1:4] "Purity" "Fmeasure" "RI" "ARI"
-#>  $ time   : num 0.000191
+#> List of 4
+#>  $ cluster         : int [1:100] 1 1 1 1 1 1 1 1 1 1 ...
+#>  $ valid           :List of 4
+#>   ..$ Purity  : num 0.93
+#>   ..$ Fmeasure: num 0.868
+#>   ..$ RI      : num 0.869
+#>   ..$ ARI     : num 0.737
+#>  $ internal_metrics:List of 4
+#>   ..$ davies_bouldin: num 1.01
+#>   ..$ dunn          : num 0.06
+#>   ..$ silhouette    : num 0.409
+#>   ..$ infomax       : num 0.993
+#>  $ time            : num 0.000195
 ```
 
 On the one hand we have `cluster` which is the vector that assigns each of the
@@ -183,8 +222,17 @@ executed. Let's take a look at `valid`:
 
 ``` r
 head(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI$valid)
-#>   Purity Fmeasure       RI      ARI 
-#>   0.9300   0.8678   0.8685   0.7370
+#> $Purity
+#> [1] 0.93
+#> 
+#> $Fmeasure
+#> [1] 0.8678
+#> 
+#> $RI
+#> [1] 0.8685
+#> 
+#> $ARI
+#> [1] 0.737
 ```
 
 It gives us 3 metrics: Purity, F-measure and the Rand Index (RI). However, we
@@ -194,18 +242,14 @@ of `res_with_labels`: `metrics` give us a summary of all metrics:
 
 ``` r
 head(res_with_labels$metrics, 3)
-#>                                             Purity Fmeasure
-#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678
-#>                                                 RI  Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 1.000
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 1.000
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.8685 0.737
-#>                                                       NA
-#> kmeans_euclidean_d2dtaMEId2dtaMHI           0.0017430782
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         0.0017268658
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.0001909733
+#>                                             Purity Fmeasure     RI
+#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685
+#>                                               ARI         Time
+#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.000 0.0017449856
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.000 0.0017850399
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.737 0.0001950264
 ```
 
 It gives us the Purity, F-measure, RI and Time for every clustering method
@@ -216,12 +260,10 @@ results as seen previously:
 
 ``` r
 res_with_labels$metrics["hierarch_single_euclidean_d2dtaMEId2dtaMHI", ]
-#>                                            Purity Fmeasure
-#> hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535
-#>                                                RI  Time
-#> hierarch_single_euclidean_d2dtaMEId2dtaMHI 0.4958 8e-04
-#>                                                     NA
-#> hierarch_single_euclidean_d2dtaMEId2dtaMHI 0.000221014
+#>                                            Purity Fmeasure     RI
+#> hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535 0.4958
+#>                                              ARI         Time
+#> hierarch_single_euclidean_d2dtaMEId2dtaMHI 8e-04 0.0002198219
 ```
 
 But now imagine that we executed `EHyClus` without giving the `true_labels`
@@ -232,8 +274,17 @@ and the ones generated by the clustering method as the second one:
 
 ``` r
 clustering_validation(res$cluster$hierarch$hierarch_single_euclidean_d2dtaMEId2dtaMHI$cluster, true_labels)
-#>   Purity Fmeasure       RI      ARI 
-#>   0.5200   0.6535   0.4958   0.0008
+#> $Purity
+#> [1] 0.52
+#> 
+#> $Fmeasure
+#> [1] 0.6535
+#> 
+#> $RI
+#> [1] 0.4958
+#> 
+#> $ARI
+#> [1] 8e-04
 ```
 
 Note that we are only taking a look at some of the result. Let's see if some
@@ -242,31 +293,26 @@ of them have given us better metrics. Results are sorted based on the RI:
 
 ``` r
 head(res_with_labels$metrics, 5)
-#>                                             Purity Fmeasure
-#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678
-#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685
-#> kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684
-#>                                                 RI   Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 1.0000
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 1.0000
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.8685 0.7370
-#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.8685 0.7370
-#> kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.6422 0.2857
-#>                                                       NA
-#> kmeans_euclidean_d2dtaMEId2dtaMHI           0.0017430782
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         0.0017268658
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.0001909733
-#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.0001881123
-#> kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.0211019516
+#>                                             Purity Fmeasure     RI
+#> kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685
+#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685 0.8685
+#> kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684 0.6422
+#>                                                ARI         Time
+#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 0.0017449856
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 0.0017850399
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.7370 0.0001950264
+#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.7370 0.0001831055
+#> kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.2857 0.0213799477
 ```
 
 Indeed, we can see that some methods have given us excellent results,
 performing an almost perfect clustering.
 
-In addition, if we only want to obtain the results for the best clustering method, we can use the `only_best` parameter. Note that this parameter only works when
-`true_labels` is provided.
+In addition, if we only want to obtain the results for the best clustering
+method, we can use the `only_best` parameter. Note that this parameter only
+works when `true_labels` is provided.
 
 
 ``` r
@@ -277,34 +323,99 @@ res_only_best <- EHyClus(curves,
 )
 ```
 
-If we inspect the object, we see that in fact it only contains the results of the clustering method that has obtained the best results.
+If we inspect the object, we see that in fact it only contains the results of
+the clustering method that has obtained the best results.
 
 
 ``` r
 res_only_best$cluster
 #> $kmeans_euclidean_d2dtaMEId2dtaMHI
 #> $kmeans_euclidean_d2dtaMEId2dtaMHI$cluster
-#>   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-#>  [31] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
-#>  [61] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-#>  [91] 1 1 1 1 1 1 1 1 1 1
+#>   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+#>  [33] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#>  [65] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#>  [97] 1 1 1 1
 #> 
 #> $kmeans_euclidean_d2dtaMEId2dtaMHI$valid
-#>   Purity Fmeasure       RI      ARI 
-#>        1        1        1        1 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$valid$Purity
+#> [1] 1
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$valid$Fmeasure
+#> [1] 1
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$valid$RI
+#> [1] 1
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$valid$ARI
+#> [1] 1
+#> 
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$internal_metrics
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$internal_metrics$davies_bouldin
+#> [1] 0.9024109
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$internal_metrics$dunn
+#> [1] 0.07203434
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$internal_metrics$silhouette
+#> [1] 0.4593925
+#> 
+#> $kmeans_euclidean_d2dtaMEId2dtaMHI$internal_metrics$infomax
+#> [1] 1
+#> 
 #> 
 #> $kmeans_euclidean_d2dtaMEId2dtaMHI$time
-#> [1] 0.001726866
+#> [1] 0.001747131
 ```
-
 
 
 ``` r
 res_only_best$metrics
-#>                                   Purity Fmeasure RI Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1    1
-#>                                            NA
-#> kmeans_euclidean_d2dtaMEId2dtaMHI 0.001726866
+#>                                   Purity Fmeasure RI ARI        Time
+#> kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1   1 0.001747131
 ```
 
-This can be useful if you want to use the function as if it were a typical clustering method.
+This can be useful if you want to use the function as if it were a typical
+clustering method.
+
+## Automatic variable selection
+
+When `vars_combinations = "auto"` is provided, `EHyClus` will automatically
+select an optimal combination of variables through a data-driven approach.
+This process works is comprised of two main steps:
+
+The first step focuses on identifying variables that show enough variation to
+be meaningful discriminators. For each variable, the function calculates how
+many unique values it contains relative to its total number of observations.
+Only variables where this ratio exceeds 50% are retained. This ensures that we
+focus on variables that have sufficient variation to be useful in
+distinguishing between different groups.
+
+The second step deals with redundancy in our selected variables. After all,
+having multiple variables that essentially contain the same information won't
+improve our clustering results. To address this, the function examines how
+correlated our remaining variables are with each other. If two variables show
+a correlation higher than 0.75, we keep only one of them. Specifically, we
+look at how correlated each variable is with all other variables on average,
+and remove the one that shows higher average correlation. This helps ensure
+our final set of variables provides unique, non-redundant information for
+clustering.
+
+Here's an example using automatic variable selection:
+
+
+``` r
+# Generate sample data
+n <- 50
+curves <- sim_model_ex2(n = n, i_sim = 4)
+true_labels <- c(rep(1, n), rep(2, n))
+
+# Use automatic variable selection
+res_auto <- EHyClus(curves, 
+                    vars_combinations = "auto",
+                    true_labels = true_labels)
+
+# Look at which variables were selected
+names(attr(res_auto, "vars_combinations")[[1]])
+#> NULL
+```

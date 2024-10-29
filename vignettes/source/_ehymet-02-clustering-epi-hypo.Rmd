@@ -191,8 +191,9 @@ head(res_with_labels$metrics, 5)
 Indeed, we can see that some methods have given us excellent results,
 performing an almost perfect clustering.
 
-In addition, if we only want to obtain the results for the best clustering method, we can use the `only_best` parameter. Note that this parameter only works when
-`true_labels` is provided.
+In addition, if we only want to obtain the results for the best clustering
+method, we can use the `only_best` parameter. Note that this parameter only
+works when `true_labels` is provided.
 
 ```{r}
 res_only_best <- EHyClus(curves,
@@ -202,15 +203,56 @@ res_only_best <- EHyClus(curves,
 )
 ```
 
-If we inspect the object, we see that in fact it only contains the results of the clustering method that has obtained the best results.
+If we inspect the object, we see that in fact it only contains the results of
+the clustering method that has obtained the best results.
 
 ```{r}
 res_only_best$cluster
 ```
 
-
 ```{r}
 res_only_best$metrics
 ```
 
-This can be useful if you want to use the function as if it were a typical clustering method.
+This can be useful if you want to use the function as if it were a typical
+clustering method.
+
+## Automatic variable selection
+
+When `vars_combinations = "auto"` is provided, `EHyClus` will automatically
+select an optimal combination of variables through a data-driven approach.
+This process works is comprised of two main steps:
+
+The first step focuses on identifying variables that show enough variation to
+be meaningful discriminators. For each variable, the function calculates how
+many unique values it contains relative to its total number of observations.
+Only variables where this ratio exceeds 50% are retained. This ensures that we
+focus on variables that have sufficient variation to be useful in
+distinguishing between different groups.
+
+The second step deals with redundancy in our selected variables. After all,
+having multiple variables that essentially contain the same information won't
+improve our clustering results. To address this, the function examines how
+correlated our remaining variables are with each other. If two variables show
+a correlation higher than 0.75, we keep only one of them. Specifically, we
+look at how correlated each variable is with all other variables on average,
+and remove the one that shows higher average correlation. This helps ensure
+our final set of variables provides unique, non-redundant information for
+clustering.
+
+Here's an example using automatic variable selection:
+
+```{r}
+# Generate sample data
+n <- 50
+curves <- sim_model_ex2(n = n, i_sim = 4)
+true_labels <- c(rep(1, n), rep(2, n))
+
+# Use automatic variable selection
+res_auto <- EHyClus(curves, 
+                    vars_combinations = "auto",
+                    true_labels = true_labels)
+
+# Look at which variables were selected
+names(attr(res_auto, "vars_combinations")[[1]])
+```

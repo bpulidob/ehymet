@@ -108,6 +108,7 @@ get_result_names <- function(method_name, parameter_combinations, vars_combinati
 }
 
 #' Suppress outputs from cat (by Hadley Wickham)
+#'
 #' @noRd
 quiet <- function(x) {
   sink(tempfile())

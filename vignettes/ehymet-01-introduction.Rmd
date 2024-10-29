@@ -361,9 +361,8 @@ first and second derivative:
 
 ``` r
 names(indices_mult)
-#>  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"  
-#>  [6] "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"  
-#> [11] "ddtaMHI"  "d2dtaMHI"
+#>  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"   "d2dtaHI" 
+#>  [7] "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"   "ddtaMHI"  "d2dtaMHI"
 ```
 
 We can also take a quick look to the generated indices:
