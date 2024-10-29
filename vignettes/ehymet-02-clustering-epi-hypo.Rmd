@@ -211,7 +211,7 @@ str(res_with_labels$cluster$hierarch$hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI
 #>   ..$ dunn          : num 0.06
 #>   ..$ silhouette    : num 0.409
 #>   ..$ infomax       : num 0.993
-#>  $ time            : num 0.000195
+#>  $ time            : num 0.000243
 ```
 
 On the one hand we have `cluster` which is the vector that assigns each of the
@@ -247,9 +247,9 @@ head(res_with_labels$metrics, 3)
 #> kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000
 #> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685
 #>                                               ARI         Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.000 0.0017449856
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.000 0.0017850399
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.737 0.0001950264
+#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.000 0.0018219948
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.000 0.0018479824
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.737 0.0002429485
 ```
 
 It gives us the Purity, F-measure, RI and Time for every clustering method
@@ -263,7 +263,7 @@ res_with_labels$metrics["hierarch_single_euclidean_d2dtaMEId2dtaMHI", ]
 #>                                            Purity Fmeasure     RI
 #> hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535 0.4958
 #>                                              ARI         Time
-#> hierarch_single_euclidean_d2dtaMEId2dtaMHI 8e-04 0.0002198219
+#> hierarch_single_euclidean_d2dtaMEId2dtaMHI 8e-04 0.0002450943
 ```
 
 But now imagine that we executed `EHyClus` without giving the `true_labels`
@@ -300,11 +300,11 @@ head(res_with_labels$metrics, 5)
 #> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685 0.8685
 #> kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684 0.6422
 #>                                                ARI         Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 0.0017449856
-#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 0.0017850399
-#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.7370 0.0001950264
-#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.7370 0.0001831055
-#> kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.2857 0.0213799477
+#> kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 0.0018219948
+#> kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 0.0018479824
+#> hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.7370 0.0002429485
+#> hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.7370 0.0002019405
+#> kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.2857 0.0084631443
 ```
 
 Indeed, we can see that some methods have given us excellent results,
@@ -365,14 +365,14 @@ res_only_best$cluster
 #> 
 #> 
 #> $kmeans_euclidean_d2dtaMEId2dtaMHI$time
-#> [1] 0.001747131
+#> [1] 0.001803875
 ```
 
 
 ``` r
 res_only_best$metrics
 #>                                   Purity Fmeasure RI ARI        Time
-#> kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1   1 0.001747131
+#> kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1   1 0.001803875
 ```
 
 This can be useful if you want to use the function as if it were a typical
@@ -416,6 +416,6 @@ res_auto <- EHyClus(curves,
                     true_labels = true_labels)
 
 # Look at which variables were selected
-names(attr(res_auto, "vars_combinations")[[1]])
-#> NULL
+attr(res_auto, "vars_combinations")[[1]]
+#> [1] "ddtaMEI"  "dtaMHI"   "ddtaMHI"  "d2dtaMHI"
 ```
