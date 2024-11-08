@@ -263,10 +263,10 @@ user can do it the way they want.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu">plot_curves</span><span class="op">(</span><span class="va">curves</span>, title <span class="op">=</span> <span class="st">"Type 1 DGPs"</span>, subtitle <span class="op">=</span> <span class="st">"i_sim = 1"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="includes/ehymet-01-plot-sim-1-1-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-sim-1-1-1.png"></p>
 <p>The case for <code>i_sim = 7</code> has the following graph
 representation:</p>
-<p><img src="includes/ehymet-01-plot-sim-1-7-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-sim-1-7-1.png"></p>
 <p>Clear differences can be seen between both plots. We leave it up to
 the end user to experiment as they see fit with the simulations.</p>
 </div>
@@ -420,9 +420,9 @@ dataset with <code>i_sim = 3</code> or <code>i_sim = 4</code>.</p>
 <span><span class="co">#&gt; [1]  10 150   2</span></span></code></pre></div>
 <p>As can be seen, now we don’t have a matrix but a 3-dimensional array.
 We are going to plot the first dimension:</p>
-<p><img src="includes/ehymet-01-plot-sim-2-3-1dimension-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-sim-2-3-1dimension-1.png"></p>
 <p>And now the second dimension:</p>
-<p><img src="includes/ehymet-01-plot-sim-2-3-2dimension-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-sim-2-3-2dimension-1.png"></p>
 <p>For the sake of visualization, we can also obtain the derivatives of
 the curves using the <code>funspline</code> function, which is an
 internal function of the <code>ehymet</code> package. It can be used
@@ -433,9 +433,9 @@ with <code>ehymet:::</code>.</p>
 <span><span class="va">deriv2</span> <span class="op">&lt;-</span> <span class="va">funspline_result</span><span class="op">$</span><span class="va">deriv2</span></span></code></pre></div>
 <p>The plot for first dimension of the derivative is the following
 one:</p>
-<p><img src="includes/ehymet-01-plot-sim-2-3-1dimension-deriv-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-sim-2-3-1dimension-deriv-1.png"></p>
 <p>And for the second dimensions:</p>
-<p><img src="includes/ehymet-01-plot-sim-2-3-2dimension-deriv-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-sim-2-3-2dimension-deriv-1.png"></p>
 <p>We can observe a clear overlapping between first derivatives curves
 on both dimensions.</p>
 </div>
@@ -476,9 +476,8 @@ data generated with <code>sim_model_ex2</code>:</p>
 its first and second derivative:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">indices_mult</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"  </span></span>
-<span><span class="co">#&gt;  [6] "d2dtaHI"  "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"  </span></span>
-<span><span class="co">#&gt; [11] "ddtaMHI"  "d2dtaMHI"</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1] "dtaEI"    "ddtaEI"   "d2dtaEI"  "dtaHI"    "ddtaHI"   "d2dtaHI" </span></span>
+<span><span class="co">#&gt;  [7] "dtaMEI"   "ddtaMEI"  "d2dtaMEI" "dtaMHI"   "ddtaMHI"  "d2dtaMHI"</span></span></code></pre></div>
 <p>We can also take a quick look to the generated indices:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">indices_mult</span>, <span class="fl">3</span><span class="op">)</span></span>
@@ -532,9 +531,9 @@ few rows:</p>
 <span><span class="co">#&gt; 5 0.3574000 0.5160000 0.1821333</span></span></code></pre></div>
 <p>Let’s plot MHI vs MEI for both the original curves and both first and
 second derivatives:</p>
-<p><img src="includes/ehymet-01-plot-MHIvsMEI-original-curves-1.png"></p>
-<p><img src="includes/ehymet-01-plot-MHIvsMEI-first-derivatives-1.png"></p>
-<p><img src="includes/ehymet-01-plot-MHIvsMEI-second-derivatives-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-MHIvsMEI-original-curves-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-MHIvsMEI-first-derivatives-1.png"></p>
+<p><img src="includes%2Fehymet-01-plot-MHIvsMEI-second-derivatives-1.png"></p>
 <p>For the original curves, no clear separation is evidenced. However,
 both in the first and second derivatives we see that the groups are
 clearly differentiated. This may indicate that using the MEI and MHI
@@ -569,7 +568,7 @@ Functional Data.”</span> <em>Stat Methods Appl</em> 28 (2): 301–22. <a href=
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
