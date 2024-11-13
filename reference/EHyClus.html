@@ -64,7 +64,8 @@ and then perform hierarchical clustering, kmeans, kernel kmeans, and spectral cl
 <span>  true_labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  only_best <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  n_cores <span class="op">=</span> <span class="fl">1</span></span>
+<span>  n_cores <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -146,6 +147,10 @@ some clustering methods. Defaults to <code>FALSE</code>.</p></dd>
 <dd><p>Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution. Must be an integer number greater than 1.</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments for tfb. See <code>tfb</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -184,7 +189,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0004634857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0004997253</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaHIdtaMHI</span>
@@ -207,7 +212,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001792908</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002160072</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaEIdtaMEI</span>
@@ -230,7 +235,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001623631</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001702309</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaHIdtaMHI</span>
@@ -253,7 +258,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001633167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001621246</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaEIdtaMEI</span>
@@ -276,7 +281,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001671314</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001602173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaHIdtaMHI</span>
@@ -299,7 +304,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001568794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001571178</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaEIdtaMEI</span>
@@ -322,7 +327,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001642704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001602173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaHIdtaMHI</span>
@@ -345,7 +350,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001525879</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001573563</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaEIdtaMEI</span>
@@ -368,7 +373,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001559258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001826286</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaHIdtaMHI</span>
@@ -391,7 +396,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001525879</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001587868</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaEIdtaMEI</span>
@@ -414,7 +419,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000150919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001571178</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaHIdtaMHI</span>
@@ -437,7 +442,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001621246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001602173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaEIdtaMEI</span>
@@ -460,7 +465,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001578331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000161171</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaHIdtaMHI</span>
@@ -483,7 +488,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001564026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001606941</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaEIdtaMEI</span>
@@ -506,7 +511,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001499653</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001513958</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaHIdtaMHI</span>
@@ -529,7 +534,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001521111</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001530647</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaEIdtaMEI</span>
@@ -552,7 +557,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001506805</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001585484</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaHIdtaMHI</span>
@@ -575,7 +580,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001513958</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001544952</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaEIdtaMEI</span>
@@ -598,7 +603,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001487732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000181675</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaHIdtaMHI</span>
@@ -621,7 +626,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001556873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000156641</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -646,7 +651,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002812386</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002918243</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaHIdtaMHI</span>
@@ -669,7 +674,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002147675</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002221823</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaEIdtaMEI</span>
@@ -692,7 +697,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003010988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004512787</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaHIdtaMHI</span>
@@ -715,7 +720,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002188683</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003733873</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -739,7 +744,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4488282</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4742737</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaHIdtaMHI</span>
@@ -761,7 +766,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1322231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1686645</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaEIdtaMEI</span>
@@ -783,7 +788,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005405188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005509853</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaHIdtaMHI</span>
@@ -805,7 +810,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003895521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004018784</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -829,7 +834,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_rbfdot_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01888967</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02173376</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_rbfdot_dtaHIdtaMHI</span>
@@ -851,7 +856,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_rbfdot_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1459541</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1518457</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_polydot_dtaEIdtaMEI</span>
@@ -873,7 +878,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_polydot_dtaEIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01472044</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01529574</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_polydot_dtaHIdtaMHI</span>
@@ -895,7 +900,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$spc$spc_polydot_dtaHIdtaMHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01465416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01538491</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -953,7 +958,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001921654</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002076626</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_euclidean_dtaMEId2dtaMEI</span>
@@ -990,7 +995,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001657009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001680851</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_euclidean_dtaMEIddtaMEI</span>
@@ -1027,7 +1032,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001590252</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001783371</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_euclidean_dtaMEId2dtaMEI</span>
@@ -1064,7 +1069,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001556873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001587868</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_euclidean_dtaMEIddtaMEI</span>
@@ -1101,7 +1106,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001556873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00015378</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_euclidean_dtaMEId2dtaMEI</span>
@@ -1138,7 +1143,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001552105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001516342</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_euclidean_dtaMEIddtaMEI</span>
@@ -1175,7 +1180,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001552105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001504421</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_euclidean_dtaMEId2dtaMEI</span>
@@ -1212,7 +1217,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001478195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001523495</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_euclidean_dtaMEIddtaMEI</span>
@@ -1249,7 +1254,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001547337</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001506805</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_euclidean_dtaMEId2dtaMEI</span>
@@ -1286,7 +1291,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001513958</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001533031</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_manhattan_dtaMEIddtaMEI</span>
@@ -1323,7 +1328,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001490116</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001525879</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_manhattan_dtaMEId2dtaMEI</span>
@@ -1360,7 +1365,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_single_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001523495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001490116</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_manhattan_dtaMEIddtaMEI</span>
@@ -1397,7 +1402,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001513958</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001554489</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_manhattan_dtaMEId2dtaMEI</span>
@@ -1434,7 +1439,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_complete_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001621246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001559258</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_manhattan_dtaMEIddtaMEI</span>
@@ -1471,7 +1476,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001559258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001506805</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_manhattan_dtaMEId2dtaMEI</span>
@@ -1508,7 +1513,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_average_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001504421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001528263</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_manhattan_dtaMEIddtaMEI</span>
@@ -1545,7 +1550,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001530647</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001516342</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_manhattan_dtaMEId2dtaMEI</span>
@@ -1582,7 +1587,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_centroid_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001647472</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001592636</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_manhattan_dtaMEIddtaMEI</span>
@@ -1619,7 +1624,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001466274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001513958</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_manhattan_dtaMEId2dtaMEI</span>
@@ -1656,7 +1661,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hierarch$hierarch_ward.D2_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001487732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001482964</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1695,7 +1700,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002251148</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002350807</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_euclidean_dtaMEId2dtaMEI</span>
@@ -1732,7 +1737,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002179146</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002318144</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_mahalanobis_dtaMEIddtaMEI</span>
@@ -1769,7 +1774,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_mahalanobis_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002250195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00383091</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_mahalanobis_dtaMEId2dtaMEI</span>
@@ -1806,7 +1811,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kmeans$kmeans_mahalanobis_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002207518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003726721</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1844,7 +1849,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_rbfdot_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00436902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.006659031</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_rbfdot_dtaMEId2dtaMEI</span>
@@ -1880,7 +1885,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_rbfdot_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004097462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.006267309</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_polydot_dtaMEIddtaMEI</span>
@@ -1916,7 +1921,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_polydot_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003378868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005303383</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_polydot_dtaMEId2dtaMEI</span>
@@ -1952,7 +1957,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $kkmeans$kkmeans_polydot_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003340483</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004890919</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1990,7 +1995,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_rbfdot_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.009064913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.009566545</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_rbfdot_dtaMEId2dtaMEI</span>
@@ -2026,7 +2031,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_rbfdot_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.009235144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01302958</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_polydot_dtaMEIddtaMEI</span>
@@ -2062,7 +2067,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_polydot_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008538246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01209402</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_polydot_dtaMEId2dtaMEI</span>
@@ -2098,7 +2103,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $spc$spc_polydot_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.009052992</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01299071</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -2130,7 +2135,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001935959</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002865791</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaMEIddtaMEI</span>
@@ -2153,7 +2158,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001535416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001564026</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaMEId2dtaMEI</span>
@@ -2176,7 +2181,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001466274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001497269</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_ddtaMEId2dtaMEI</span>
@@ -2199,7 +2204,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000143528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000159502</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaMEIddtaMEId2dtaMEI</span>
@@ -2222,7 +2227,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001661777</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002374649</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaEIdtaHIdtaMEI</span>
@@ -2245,7 +2250,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_euclidean_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001504421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002036095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaEIdtaHI</span>
@@ -2268,7 +2273,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001449585</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001666546</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaMEIddtaMEI</span>
@@ -2291,7 +2296,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001442432</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001468658</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaMEId2dtaMEI</span>
@@ -2314,7 +2319,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001420975</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001490116</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_ddtaMEId2dtaMEI</span>
@@ -2337,7 +2342,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001418591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00014925</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaMEIddtaMEId2dtaMEI</span>
@@ -2360,7 +2365,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001437664</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001506805</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaEIdtaHIdtaMEI</span>
@@ -2383,7 +2388,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_euclidean_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001447201</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001721382</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaEIdtaHI</span>
@@ -2406,7 +2411,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001475811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001456738</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaMEIddtaMEI</span>
@@ -2429,7 +2434,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001425743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001451969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaMEId2dtaMEI</span>
@@ -2452,7 +2457,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001404285</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001420975</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_ddtaMEId2dtaMEI</span>
@@ -2475,7 +2480,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001425743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001411438</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaMEIddtaMEId2dtaMEI</span>
@@ -2498,7 +2503,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001471043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001447201</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaEIdtaHIdtaMEI</span>
@@ -2521,7 +2526,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_euclidean_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001428127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001430511</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaEIdtaHI</span>
@@ -2544,7 +2549,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001428127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001454353</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaMEIddtaMEI</span>
@@ -2567,7 +2572,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001869202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001802444</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaMEId2dtaMEI</span>
@@ -2590,7 +2595,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001444817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001490116</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_ddtaMEId2dtaMEI</span>
@@ -2613,7 +2618,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001420975</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001471043</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaMEIddtaMEId2dtaMEI</span>
@@ -2636,7 +2641,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001473427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001461506</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaEIdtaHIdtaMEI</span>
@@ -2659,7 +2664,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_euclidean_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001516342</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001447201</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaEIdtaHI</span>
@@ -2682,7 +2687,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001401901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001404285</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaMEIddtaMEI</span>
@@ -2705,7 +2710,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001382828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001440048</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaMEId2dtaMEI</span>
@@ -2728,7 +2733,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001423359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001738071</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_ddtaMEId2dtaMEI</span>
@@ -2751,7 +2756,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001471043</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001442432</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaMEIddtaMEId2dtaMEI</span>
@@ -2774,7 +2779,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001468658</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001475811</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaEIdtaHIdtaMEI</span>
@@ -2797,7 +2802,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_euclidean_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001473427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001444817</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaEIdtaHI</span>
@@ -2820,7 +2825,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001387596</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001425743</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaMEIddtaMEI</span>
@@ -2843,7 +2848,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001399517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001411438</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaMEId2dtaMEI</span>
@@ -2866,7 +2871,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001385212</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001401901</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_ddtaMEId2dtaMEI</span>
@@ -2889,7 +2894,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001363754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001418591</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaMEIddtaMEId2dtaMEI</span>
@@ -2912,7 +2917,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001401901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001471043</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaEIdtaHIdtaMEI</span>
@@ -2935,7 +2940,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_single_manhattan_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001475811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001478195</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaEIdtaHI</span>
@@ -2958,7 +2963,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001392365</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001420975</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaMEIddtaMEI</span>
@@ -2981,7 +2986,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000138998</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001409054</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaMEId2dtaMEI</span>
@@ -3004,7 +3009,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001416206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001397133</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_ddtaMEId2dtaMEI</span>
@@ -3027,7 +3032,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001494884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001428127</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaMEIddtaMEId2dtaMEI</span>
@@ -3050,7 +3055,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001482964</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001692772</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaEIdtaHIdtaMEI</span>
@@ -3073,7 +3078,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_complete_manhattan_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001418591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000169754</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaEIdtaHI</span>
@@ -3096,7 +3101,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001373291</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001475811</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaMEIddtaMEI</span>
@@ -3119,7 +3124,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001523495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001437664</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaMEId2dtaMEI</span>
@@ -3142,7 +3147,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001413822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001451969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_ddtaMEId2dtaMEI</span>
@@ -3165,7 +3170,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001425743</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001394749</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaMEIddtaMEId2dtaMEI</span>
@@ -3188,7 +3193,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000146389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001432896</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaEIdtaHIdtaMEI</span>
@@ -3211,7 +3216,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_average_manhattan_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001442432</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001413822</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaEIdtaHI</span>
@@ -3234,7 +3239,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001399517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001397133</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaMEIddtaMEI</span>
@@ -3257,7 +3262,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001385212</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000143528</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaMEId2dtaMEI</span>
@@ -3280,7 +3285,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001723766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001413822</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_ddtaMEId2dtaMEI</span>
@@ -3303,7 +3308,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001444817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001442432</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaMEIddtaMEId2dtaMEI</span>
@@ -3326,7 +3331,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001451969</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001442432</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaEIdtaHIdtaMEI</span>
@@ -3349,7 +3354,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_centroid_manhattan_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001447201</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001423359</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaEIdtaHI</span>
@@ -3372,7 +3377,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001399517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001401901</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaMEIddtaMEI</span>
@@ -3395,7 +3400,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001385212</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001394749</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaMEId2dtaMEI</span>
@@ -3418,7 +3423,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001411438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000140667</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_ddtaMEId2dtaMEI</span>
@@ -3441,7 +3446,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001382828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001447201</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaMEIddtaMEId2dtaMEI</span>
@@ -3464,7 +3469,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001556873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001442432</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaEIdtaHIdtaMEI</span>
@@ -3487,7 +3492,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$hierarch$hierarch_ward.D2_manhattan_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001475811</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001451969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -3512,7 +3517,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002183914</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00220418</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaMEIddtaMEI</span>
@@ -3535,7 +3540,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002048254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002088785</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaMEId2dtaMEI</span>
@@ -3558,7 +3563,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002078533</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002099991</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_ddtaMEId2dtaMEI</span>
@@ -3581,7 +3586,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002023935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002102613</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaMEIddtaMEId2dtaMEI</span>
@@ -3604,7 +3609,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002133131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002058029</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaEIdtaHIdtaMEI</span>
@@ -3627,7 +3632,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_euclidean_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00218153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002090454</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaEIdtaHI</span>
@@ -3650,7 +3655,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002268553</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002379656</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaMEIddtaMEI</span>
@@ -3673,7 +3678,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002254725</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002307415</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaMEId2dtaMEI</span>
@@ -3696,7 +3701,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002268076</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002373695</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_ddtaMEId2dtaMEI</span>
@@ -3719,7 +3724,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002222776</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002321243</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaMEIddtaMEId2dtaMEI</span>
@@ -3742,7 +3747,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002697945</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00276947</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaEIdtaHIdtaMEI</span>
@@ -3765,7 +3770,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kmeans$kmeans_mahalanobis_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00237751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002402306</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -3789,7 +3794,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004641294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004745245</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaMEIddtaMEI</span>
@@ -3811,7 +3816,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005648375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005728006</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaMEId2dtaMEI</span>
@@ -3833,7 +3838,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.009229898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01020694</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_ddtaMEId2dtaMEI</span>
@@ -3855,7 +3860,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002752304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003004789</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaMEIddtaMEId2dtaMEI</span>
@@ -3877,7 +3882,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003935575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004024267</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaEIdtaHIdtaMEI</span>
@@ -3899,7 +3904,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_rbfdot_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00401926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004052877</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaEIdtaHI</span>
@@ -3921,7 +3926,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaEIdtaHI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003302097</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003384113</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaMEIddtaMEI</span>
@@ -3943,7 +3948,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaMEIddtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003309965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003416061</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaMEId2dtaMEI</span>
@@ -3965,7 +3970,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003320217</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003442526</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_ddtaMEId2dtaMEI</span>
@@ -3987,7 +3992,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_ddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003310919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003569841</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaMEIddtaMEId2dtaMEI</span>
@@ -4009,7 +4014,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaMEIddtaMEId2dtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003415823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003535986</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaEIdtaHIdtaMEI</span>
@@ -4031,7 +4036,7 @@ of this object.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cluster$kkmeans$kkmeans_polydot_dtaEIdtaHIdtaMEI$time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003421307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00353694</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

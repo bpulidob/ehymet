@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   ehymet-01-introduction: ehymet-01-introduction.html
   ehymet-02-clustering-epi-hypo: ehymet-02-clustering-epi-hypo.html
-last_built: 2024-11-08T12:06Z
+last_built: 2024-11-13T18:39Z
 urls:
   reference: https://bpulidob.github.io/ehymet/reference
   article: https://bpulidob.github.io/ehymet/articles
