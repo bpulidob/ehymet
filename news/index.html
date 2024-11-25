@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ehymet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,10 +38,46 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0" id="ehymet-010">ehymet 0.1.0<a class="anchor" aria-label="anchor" href="#ehymet-010"></a></h2><p class="text-muted">CRAN release: 2024-06-14</p>
-<ul><li>Initial CRAN submission.</li>
+<h2 class="pkg-version" data-toc-text="0.1.1" id="ehymet-011">ehymet 0.1.1<a class="anchor" aria-label="anchor" href="#ehymet-011"></a></h2>
+<div class="section level3">
+<h3 id="major-changes-0-1-1">Major Changes<a class="anchor" aria-label="anchor" href="#major-changes-0-1-1"></a></h3>
+<ul><li>Implemented automatic variable selection functionality
+<ul><li>Added new <code>vars_combinations = "auto"</code> option in <code>EHyClus</code>
+</li>
+<li>Integrated <code>findCorrelation</code> and <code>select_var_ind</code> functions in <code>utils.R</code>
+</li>
+</ul></li>
+<li>Enhanced clustering validation metrics
+<ul><li>Added Adjusted Rand Index (ARI) to <code>clustering_validation</code>
+</li>
+<li>Added internal validations metrics such as Davies-Bouldin, Dunn and Silhouette indices available in <code>get_internal_clustering_criteria</code> function</li>
+<li>Reordered parameters to <code>clusters</code> then <code>true_labels</code> for better intuitive use</li>
+<li>Modified output to return results as a list</li>
+</ul></li>
 </ul></div>
-  </main></div>
+<div class="section level3">
+<h3 id="performance-improvements-0-1-1">Performance Improvements<a class="anchor" aria-label="anchor" href="#performance-improvements-0-1-1"></a></h3>
+<ul><li>Added parallel execution support for the <code>generate_indices</code> function</li>
+<li>Implemented kmeans++ initialization for improved clustering</li>
+<li>Added support for additional parameters in <code>EHyClus</code>, <code>generate_indices</code>, and <code>funspline</code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="removals-0-1-1">Removals<a class="anchor" aria-label="anchor" href="#removals-0-1-1"></a></h3>
+<ul><li>Removed the grid parameter (evaluation grid) as it wasn’t affecting results</li>
+<li>Removed unused parameters for code cleanliness</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-updates-0-1-1">Documentation Updates<a class="anchor" aria-label="anchor" href="#documentation-updates-0-1-1"></a></h3>
+<ul><li>Updated citations and added inst/CITATION</li>
+<li>Enhanced vignettes
+<ul><li>Added section for automatic variable selection in second vignette</li>
+<li>Updated examples and documentation</li>
+</ul></li>
+</ul></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
