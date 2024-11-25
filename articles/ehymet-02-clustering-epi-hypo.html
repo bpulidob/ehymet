@@ -8,8 +8,8 @@
 <title>Clustering through the epigraph and hypograph indices • ehymet</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Clustering through the epigraph and hypograph indices">
 </head>
 <body>
@@ -126,9 +126,11 @@ documentation, but arguably the most important ones are:</p>
 <strong>curves</strong>: The dataset containing the curves to be
 clustered.</li>
 <li>
-<strong>vars_combinations</strong>: List that determines the
-combination of variables to use. If not provided, generic combinations
-of variables will be used.</li>
+<strong>vars_combinations</strong>: This parameter can be provided
+or not. In case it is provided, it can be a list that determines the
+combination of variables to use or “auto”, where a one combination of
+data and indices is set trying to optimize the results. If not provided,
+a default list with generic combinations of variables is used.</li>
 <li>
 <strong>clustering_methods</strong>: A vector specifying which
 clustering methods to apply.</li>
@@ -396,10 +398,10 @@ typical clustering method.</p>
 <div class="section level3">
 <h3 id="automatic-variable-selection">Automatic variable selection<a class="anchor" aria-label="anchor" href="#automatic-variable-selection"></a>
 </h3>
-<p>When <code>vars_combinations = "auto"</code> is provided,
-<code>EHyClus</code> will automatically select an optimal combination of
-variables through a data-driven approach. This process works is
-comprised of two main steps:</p>
+<p>When <code>vars_combinations = "auto"</code>, <code>EHyClus</code>
+will automatically select a combination of variables through a
+data-driven approach. This process works is comprised of two main
+steps:</p>
 <p>The first step focuses on identifying variables that show enough
 variation to be meaningful discriminators. For each variable, the
 function calculates how many unique values it contains relative to its
