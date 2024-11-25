@@ -256,7 +256,7 @@ contains the following:</p>
 <span><span class="co">#&gt;   ..$ dunn          : num 0.06</span></span>
 <span><span class="co">#&gt;   ..$ silhouette    : num 0.409</span></span>
 <span><span class="co">#&gt;   ..$ infomax       : num 0.993</span></span>
-<span><span class="co">#&gt;  $ time            : num 0.000243</span></span></code></pre></div>
+<span><span class="co">#&gt;  $ time            : num 0.000373</span></span></code></pre></div>
 <p>On the one hand we have <code>cluster</code> which is the vector that
 assigns each of the curves to a cluster. Then we have
 <code>valid</code>, which is the validation data. And finally
@@ -281,24 +281,18 @@ the second element of <code>res_with_labels</code>: <code>metrics</code>
 give us a summary of all metrics:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_with_labels</span><span class="op">$</span><span class="va">metrics</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                             Purity Fmeasure     RI</span></span>
-<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000</span></span>
-<span><span class="co">#&gt; kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000</span></span>
-<span><span class="co">#&gt; hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685</span></span>
-<span><span class="co">#&gt;                                               ARI         Time</span></span>
-<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI           1.000 0.0018219948</span></span>
-<span><span class="co">#&gt; kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.000 0.0018479824</span></span>
-<span><span class="co">#&gt; hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.737 0.0002429485</span></span></code></pre></div>
+<span><span class="co">#&gt;                                             Purity Fmeasure     RI   ARI         Time</span></span>
+<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000 1.000 0.0032920837</span></span>
+<span><span class="co">#&gt; kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000 1.000 0.0038609505</span></span>
+<span><span class="co">#&gt; hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685 0.737 0.0003728867</span></span></code></pre></div>
 <p>It gives us the Purity, F-measure, RI and Time for every clustering
 method with every combination of parameters that has been executed. We
 can search for “hierarch_single_euclidean_d2dtaMEId2dtaMHI” and see that
 it yields the same results as seen previously:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_with_labels</span><span class="op">$</span><span class="va">metrics</span><span class="op">[</span><span class="st">"hierarch_single_euclidean_d2dtaMEId2dtaMHI"</span>, <span class="op">]</span></span>
-<span><span class="co">#&gt;                                            Purity Fmeasure     RI</span></span>
-<span><span class="co">#&gt; hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535 0.4958</span></span>
-<span><span class="co">#&gt;                                              ARI         Time</span></span>
-<span><span class="co">#&gt; hierarch_single_euclidean_d2dtaMEId2dtaMHI 8e-04 0.0002450943</span></span></code></pre></div>
+<span><span class="co">#&gt;                                            Purity Fmeasure     RI   ARI         Time</span></span>
+<span><span class="co">#&gt; hierarch_single_euclidean_d2dtaMEId2dtaMHI   0.52   0.6535 0.4958 8e-04 0.0004339218</span></span></code></pre></div>
 <p>But now imagine that we executed <code>EHyClus</code> without giving
 the <code>true_labels</code> parameter but we want to compute the
 metrics. For that purpose, we can use the
@@ -323,18 +317,12 @@ if some of them have given us better metrics. Results are sorted based
 on the RI:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_with_labels</span><span class="op">$</span><span class="va">metrics</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                             Purity Fmeasure     RI</span></span>
-<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000</span></span>
-<span><span class="co">#&gt; kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000</span></span>
-<span><span class="co">#&gt; hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685</span></span>
-<span><span class="co">#&gt; hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685 0.8685</span></span>
-<span><span class="co">#&gt; kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684 0.6422</span></span>
-<span><span class="co">#&gt;                                                ARI         Time</span></span>
-<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI           1.0000 0.0018219948</span></span>
-<span><span class="co">#&gt; kmeans_mahalanobis_d2dtaMEId2dtaMHI         1.0000 0.0018479824</span></span>
-<span><span class="co">#&gt; hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI 0.7370 0.0002429485</span></span>
-<span><span class="co">#&gt; hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI 0.7370 0.0002019405</span></span>
-<span><span class="co">#&gt; kkmeans_rbfdot_d2dtaMEId2dtaMHI             0.2857 0.0084631443</span></span></code></pre></div>
+<span><span class="co">#&gt;                                             Purity Fmeasure     RI    ARI         Time</span></span>
+<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI             1.00   1.0000 1.0000 1.0000 0.0032920837</span></span>
+<span><span class="co">#&gt; kmeans_mahalanobis_d2dtaMEId2dtaMHI           1.00   1.0000 1.0000 1.0000 0.0038609505</span></span>
+<span><span class="co">#&gt; hierarch_ward.D2_euclidean_d2dtaMEId2dtaMHI   0.93   0.8678 0.8685 0.7370 0.0003728867</span></span>
+<span><span class="co">#&gt; hierarch_ward.D2_manhattan_d2dtaMEId2dtaMHI   0.93   0.8685 0.8685 0.7370 0.0005681515</span></span>
+<span><span class="co">#&gt; kkmeans_rbfdot_d2dtaMEId2dtaMHI               0.77   0.6684 0.6422 0.2857 0.0494818687</span></span></code></pre></div>
 <p>Indeed, we can see that some methods have given us excellent results,
 performing an almost perfect clustering.</p>
 <p>In addition, if we only want to obtain the results for the best
@@ -353,10 +341,8 @@ results of the clustering method that has obtained the best results.</p>
 <code class="sourceCode R"><span><span class="va">res_only_best</span><span class="op">$</span><span class="va">cluster</span></span>
 <span><span class="co">#&gt; $kmeans_euclidean_d2dtaMEId2dtaMHI</span></span>
 <span><span class="co">#&gt; $kmeans_euclidean_d2dtaMEId2dtaMHI$cluster</span></span>
-<span><span class="co">#&gt;   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</span></span>
-<span><span class="co">#&gt;  [33] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span>
-<span><span class="co">#&gt;  [65] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span>
-<span><span class="co">#&gt;  [97] 1 1 1 1</span></span>
+<span><span class="co">#&gt;   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1</span></span>
+<span><span class="co">#&gt;  [55] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $kmeans_euclidean_d2dtaMEId2dtaMHI$valid</span></span>
 <span><span class="co">#&gt; $kmeans_euclidean_d2dtaMEId2dtaMHI$valid$Purity</span></span>
@@ -387,11 +373,11 @@ results of the clustering method that has obtained the best results.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $kmeans_euclidean_d2dtaMEId2dtaMHI$time</span></span>
-<span><span class="co">#&gt; [1] 0.001803875</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.004937172</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_only_best</span><span class="op">$</span><span class="va">metrics</span></span>
 <span><span class="co">#&gt;                                   Purity Fmeasure RI ARI        Time</span></span>
-<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1   1 0.001803875</span></span></code></pre></div>
+<span><span class="co">#&gt; kmeans_euclidean_d2dtaMEId2dtaMHI      1        1  1   1 0.004937172</span></span></code></pre></div>
 <p>This can be useful if you want to use the function as if it were a
 typical clustering method.</p>
 </div>
@@ -399,7 +385,7 @@ typical clustering method.</p>
 <h3 id="automatic-variable-selection">Automatic variable selection<a class="anchor" aria-label="anchor" href="#automatic-variable-selection"></a>
 </h3>
 <p>When <code>vars_combinations = "auto"</code>, <code>EHyClus</code>
-will automatically select a combination of variables through a
+will automatically select an optimal combination of variables through a
 data-driven approach. This process works is comprised of two main
 steps:</p>
 <p>The first step focuses on identifying variables that show enough
