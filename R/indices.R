@@ -266,12 +266,12 @@ MHI.default <- function(curves, ...) {
 #' @param k Number of basis functions for the B-splines. If equals to 0, the number
 #' of basis functions will be automatically selected.
 #' @param bs A two letter character string indicating the (penalized) smoothing
-#' basis to use. See \code{\link{smooth.terms}}.
+#' basis to use. See \code{\link[mgcv]{smooth.terms}}.
 #' @param indices Set of indices to be applied to the dataset. They should be
 #' any between EI, HI, MEI and MHI.
 #' @param n_cores Number of cores to do parallel computation. 1 by default,
 #' which mean no parallel execution. Must be an integer number greater than 1.
-#' @param ... Additional arguments for tfb. See \code{\link{tf::tfb}}.
+#' @param ... Additional arguments for tfb. See \code{\link[tf]{tfb}}.
 #'
 #' @return A dataframe containing the indices provided in \code{indices} for
 #' original data, first and second derivatives

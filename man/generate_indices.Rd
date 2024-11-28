@@ -25,7 +25,7 @@ the curve, and in the second case, \eqn{q} is the number of dimensions.}
 of basis functions will be automatically selected.}
 
 \item{bs}{A two letter character string indicating the (penalized) smoothing
-basis to use. See \code{\link{smooth.terms}}.}
+basis to use. See \code{\link[mgcv]{smooth.terms}}.}
 
 \item{indices}{Set of indices to be applied to the dataset. They should be
 any between EI, HI, MEI and MHI.}
@@ -33,7 +33,7 @@ any between EI, HI, MEI and MHI.}
 \item{n_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution. Must be an integer number greater than 1.}
 
-\item{...}{Additional arguments for tfb. See \code{\link{tfb}}.}
+\item{...}{Additional arguments for tfb. See \code{\link[tf]{tfb}}.}
 }
 \value{
 A dataframe containing the indices provided in \code{indices} for
@@ -54,7 +54,7 @@ generate_indices(x1, k = 4)
 x2 <- matrix(c(1, 2, 3, 3, 2, 1, 5, 2, 3, 9, 8, 7), nrow = 3, ncol = 4)
 generate_indices(x2, k = 4)
 
-# using additional parameter for tfb
+# using additional parameter for tf::tfb
 curves <- sim_model_ex1(n = 10)
 generate_indices(
   curves = curves,

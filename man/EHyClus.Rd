@@ -43,7 +43,7 @@ of basis functions will be automatically selected.}
 \item{n_clusters}{Number of clusters to generate.}
 
 \item{bs}{A two letter character string indicating the (penalized) smoothing
-basis to use. See \code{\link{smooth.terms}}.}
+basis to use. See \code{\link[mgcv]{smooth.terms}}.}
 
 \item{clustering_methods}{character vector specifying at least one of the following
 clustering methods to be computed: "hierarch", "kmeans", "kkmeans" or "spc".}
@@ -70,7 +70,7 @@ some clustering methods. Defaults to \code{FALSE}.}
 \item{n_cores}{Number of cores to do parallel computation. 1 by default,
 which mean no parallel execution. Must be an integer number greater than 1.}
 
-\item{...}{Additional arguments for tfb. See \code{\link{tfb}}.}
+\item{...}{Additional arguments for tfb. See \code{\link[tf]{tfb}}.}
 }
 \value{
 A \code{list} containing the clustering partition for each method and indices
